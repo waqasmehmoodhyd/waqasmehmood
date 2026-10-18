@@ -1,0 +1,34 @@
+# Root Git Ignore for Waqas Mehmood Platform
+
+# Node & Frontend
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.local
+
+# PHP & Laravel Backend
+vendor/
+**/vendor/
+backend/.env
+**/backend/.env
+backend/.env.backup
+backend/.env.production
+backend/storage/*.key
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+!backend/storage/framework/cache/.gitignore
+!backend/storage/framework/sessions/.gitignore
+!backend/storage/framework/views/.gitignore
+!backend/storage/logs/.gitignore
+backend/bootstrap/cache/*
+!backend/bootstrap/cache/.gitignore
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.sw?
