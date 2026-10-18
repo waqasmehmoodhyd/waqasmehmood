@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /backend/
+
+# Host
+Host: https://waqasmehmood.com
+
+# XML Sitemap
+Sitemap: https://waqasmehmood.com/sitemap.xml

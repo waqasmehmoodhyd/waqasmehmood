@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { 
   Search, Shield, CheckCircle, AlertTriangle, XCircle, ArrowRight, 
   ExternalLink, Code, BarChart2, Globe, Sparkles, Terminal, FileText, 
@@ -12,7 +13,76 @@ const API_BASE = (typeof window !== 'undefined' && (window.location.hostname ===
   ? 'http://127.0.0.1:8000/api'
   : '/api';
 
+// EXACT 4 PILLARS & 25 TOOLS FROM WAQASMEHMOOD.COM (NO EXTRA TOOLS ADDED)
+export const PILLARS_DATA = {
+  onpage: {
+    id: 'onpage',
+    title: 'ONE PAGE SEO',
+    tagline: 'Deep On-Page Signals, Structure & Content',
+    color: 'from-cyan-500 to-blue-600',
+    badgeColor: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+    tools: [
+      { slug: 'website-seo-checker', title: 'Website SEO Checker', desc: 'Website ka overall On-Page SEO audit aur score' },
+      { slug: 'seo-analyzer', title: 'SEO Analyzer', desc: 'SEO errors, warnings aur improvements detection' },
+      { slug: 'keyword-density-checker', title: 'Keyword Density Checker', desc: 'Keyword frequency aur density ratio calculation' },
+      { slug: 'meta-tag-analyzer', title: 'Meta Tag Analyzer', desc: 'Title tag aur meta description length optimization' },
+      { slug: 'serp-snippet-preview', title: 'SERP Snippet Preview', desc: 'Google search Desktop aur Mobile result preview' },
+      { slug: 'word-counter', title: 'Word Counter', desc: 'Total words, characters aur readability metrics' },
+      { slug: 'plagiarism-checker', title: 'Plagiarism Checker', desc: 'Content uniqueness aur originality signals' },
+      { slug: 'image-alt-checker', title: 'Image ALT Text Checker', desc: 'Missing image ALT attributes aur image SEO' },
+      { slug: 'heading-checker', title: 'Heading Checker (H1–H6)', desc: 'Heading hierarchy tree aur single H1 structure' },
+      { slug: 'broken-link-checker', title: 'Broken Link Checker', desc: 'Internal aur outbound broken links verification' },
+    ]
+  },
+  offpage: {
+    id: 'offpage',
+    title: 'OFF PAGE SEO',
+    tagline: 'Authority, Outbound & Brand Presence Signals',
+    color: 'from-indigo-500 to-purple-600',
+    badgeColor: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30',
+    tools: [
+      { slug: 'backlink-checker', title: 'Backlink Checker', desc: 'Backlink readiness aur outbound link signals' },
+      { slug: 'da-pa-checker', title: 'DA & PA Checker', desc: 'Domain & Page Authority signals evaluation' },
+      { slug: 'competitor-backlink-analyzer', title: 'Competitor Backlink Analyzer', desc: 'Compare your page link profile vs competitor' },
+      { slug: 'referring-domains-checker', title: 'Referring Domains Checker', desc: 'External domain diversity aur brand cues' },
+      { slug: 'anchor-text-analyzer', title: 'Anchor Text Analyzer', desc: 'Anchor text distribution aur over-optimization alert' },
+    ]
+  },
+  technical: {
+    id: 'technical',
+    title: 'TECHNICAL SEO',
+    tagline: 'Crawlability, Speed, Sitemaps & Indexation',
+    color: 'from-sky-500 to-cyan-600',
+    badgeColor: 'bg-sky-500/10 text-sky-400 border-sky-500/30',
+    tools: [
+      { slug: 'website-speed-checker', title: 'Website Speed Checker', desc: 'TTFB, page size aur resource weight signals' },
+      { slug: 'tech-broken-link-checker', title: 'Broken Link Checker', desc: 'Find broken redirects aur dead links (technical)' },
+      { slug: 'xml-sitemap-checker', title: 'XML Sitemap Checker', desc: 'Find, parse aur validate XML sitemap structure' },
+      { slug: 'robots-txt-tester', title: 'Robots.txt Tester', desc: 'Fetch aur review robots.txt bot directives' },
+      { slug: 'schema-markup-validator', title: 'Schema Markup Validator', desc: 'JSON-LD structured data validation' },
+    ]
+  },
+  local: {
+    id: 'local',
+    title: 'LOCAL SEO',
+    tagline: 'Google Business Profile, NAP & Geo-Signals',
+    color: 'from-emerald-500 to-teal-600',
+    badgeColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+    tools: [
+      { slug: 'local-rank-checker', title: 'Local Rank Checker', desc: 'Local keywords aur geo-targeted ranking cues' },
+      { slug: 'google-business-profile-checker', title: 'Google Business Profile Checker', desc: 'GBP, Maps links aur local signals on site' },
+      { slug: 'local-citation-checker', title: 'Local Citation Checker', desc: 'Citation-ready NAP data consistency test' },
+      { slug: 'nap-consistency-checker', title: 'NAP Consistency Checker', desc: 'Name, Address, Phone sitewide match check' },
+      { slug: 'local-seo-audit-tool', title: 'Local SEO Audit Tool', desc: 'Full local on-page audit with LocalBusiness schema' },
+    ]
+  }
+};
+
 export default function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pillarsData = PILLARS_DATA;
+
   const [activeTab, setActiveTab] = useState('home'); // 'home' | 'services' | 'about' | 'contact' | 'all-tools' | 'active-tool'
   const [portfolioCategory, setPortfolioCategory] = useState('all');
   const [selectedPillar, setSelectedPillar] = useState('onpage'); // 'onpage' | 'offpage' | 'technical' | 'local'
@@ -55,6 +125,159 @@ export default function App() {
   });
   const [contactSubmitting, setContactSubmitting] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
+
+  // Mapping of 4 pillars to dedicated SEO URLs
+  const pillarSlugMap = {
+    onpage: '/on-page-seo',
+    offpage: '/off-page-seo',
+    technical: '/technical-seo',
+    local: '/local-seo',
+  };
+
+  // Flattened tools list across all 4 pillars for fast lookup
+  const allToolsList = React.useMemo(() => {
+    return Object.entries(PILLARS_DATA).flatMap(([pillarKey, pillar]) =>
+      pillar.tools.map(t => ({ ...t, pillarKey, pillarTitle: pillar.title }))
+    );
+  }, []);
+
+  // Dynamic SEO metadata updater (Title, Meta Description, Canonical Link)
+  const updateSeoMetadata = (title, description, canonicalPath) => {
+    document.title = title;
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.content = description;
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = `https://waqasmehmood.com${canonicalPath}`;
+  };
+
+  // Smooth tab navigation with browser history sync
+  const goToTab = (tab, customPath = null) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (customPath) {
+      navigate(customPath);
+      return;
+    }
+    if (tab === 'home') navigate('/');
+    else if (tab === 'services') navigate('/services');
+    else if (tab === 'about') navigate('/about');
+    else if (tab === 'contact') navigate('/contact');
+    else if (tab === 'all-tools') navigate('/all-tools');
+  };
+
+  // Open specific sub-tool on dedicated URL /tools/:slug
+  const openTool = (tool, autoRun = false) => {
+    setActiveTool(tool);
+    setSelectedPillar(tool.pillarKey || selectedPillar);
+    setActiveTab('active-tool');
+    navigate(`/tools/${tool.slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (autoRun) {
+      runLiveAudit(tool);
+    }
+  };
+
+  // Route Synchronization Effect - Handles direct browser entry, reloads, and back/forward navigation
+  useEffect(() => {
+    const rawPath = location.pathname.toLowerCase();
+    const cleanPath = rawPath.replace(/\/+$/, '') || '/';
+
+    if (cleanPath === '/' || cleanPath === '') {
+      setActiveTab('home');
+      updateSeoMetadata(
+        'Waqas Mehmood | Digital Marketing, SEO Specialist & Web Developer',
+        'Senior Digital Marketing Strategist, SEO Architect & Full-Stack Developer specializing in high-ROAS Google Ads, technical SEO audits, and custom React/Laravel web solutions.',
+        '/'
+      );
+    } else if (cleanPath === '/services') {
+      setActiveTab('services');
+      updateSeoMetadata(
+        'Digital Marketing Services & Portfolio | Waqas Mehmood',
+        'Explore Waqas Mehmood\'s portfolio across 5 core specializations: Graphic Design, Website Development, SMM, Google Ads, and Technical SEO Services.',
+        '/services'
+      );
+    } else if (cleanPath === '/about') {
+      setActiveTab('about');
+      updateSeoMetadata(
+        'About Waqas Mehmood | Full-Stack Marketer & SEO Engineer',
+        'Learn about Waqas Mehmood, a digital marketing strategist with over a decade of experience bridging growth psychology with custom software engineering.',
+        '/about'
+      );
+    } else if (cleanPath === '/contact') {
+      setActiveTab('contact');
+      updateSeoMetadata(
+        'Contact Waqas Mehmood | Hire for SEO, Google Ads & Web Dev',
+        'Get in touch with Waqas Mehmood for custom SEO audits, high-ROAS PPC ad campaigns, or bespoke web application development.',
+        '/contact'
+      );
+    } else if (cleanPath === '/all-tools' || cleanPath === '/tools' || cleanPath === '/digitaltools') {
+      setActiveTab('all-tools');
+      updateSeoMetadata(
+        '25 Free SEO & Digital Marketing Tools | Waqas Mehmood',
+        'Run 25 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, and Local SEO. Zero third-party API dependencies.',
+        '/all-tools'
+      );
+    } else if (cleanPath === '/on-page-seo') {
+      setActiveTab('all-tools');
+      setSelectedPillar('onpage');
+      updateSeoMetadata(
+        'One Page SEO Tools (10 Free Analyzers) | Waqas Mehmood',
+        'Free On-Page SEO tools: Website SEO Checker, Keyword Density, Meta Tag Analyzer, SERP Preview, Word Counter, Heading Hierarchy, and Broken Link Checker.',
+        '/on-page-seo'
+      );
+    } else if (cleanPath === '/off-page-seo') {
+      setActiveTab('all-tools');
+      setSelectedPillar('offpage');
+      updateSeoMetadata(
+        'Off Page SEO & Backlink Tools (5 Free Analyzers) | Waqas Mehmood',
+        'Free Off-Page SEO tools: Backlink Checker, DA & PA Checker, Competitor Backlink Analyzer, Referring Domains, and Anchor Text Analyzer.',
+        '/off-page-seo'
+      );
+    } else if (cleanPath === '/technical-seo') {
+      setActiveTab('all-tools');
+      setSelectedPillar('technical');
+      updateSeoMetadata(
+        'Technical SEO Tools & Schema Validators | Waqas Mehmood',
+        'Free Technical SEO tools: Website Speed Checker, Technical Broken Link Checker, XML Sitemap Validator, Robots.txt Tester, and Schema JSON-LD Validator.',
+        '/technical-seo'
+      );
+    } else if (cleanPath === '/local-seo') {
+      setActiveTab('all-tools');
+      setSelectedPillar('local');
+      updateSeoMetadata(
+        'Local SEO & Google Business Profile Tools | Waqas Mehmood',
+        'Free Local SEO tools: Local Rank Checker, Google Business Profile Audit, Local Citation Checker, NAP Consistency Checker, and Local SEO Audit Tool.',
+        '/local-seo'
+      );
+    } else if (cleanPath.startsWith('/tools/')) {
+      const slug = cleanPath.replace('/tools/', '');
+      const matched = allToolsList.find(t => t.slug === slug);
+      if (matched) {
+        setSelectedPillar(matched.pillarKey);
+        setActiveTool(matched);
+        setActiveTab('active-tool');
+        updateSeoMetadata(
+          `${matched.title} - Free Online SEO Tool | Waqas Mehmood`,
+          `${matched.desc}. Free online ${matched.title} by Waqas Mehmood. Audit, analyze and optimize your website for Google search rankings.`,
+          `/tools/${matched.slug}`
+        );
+      } else {
+        setActiveTab('all-tools');
+      }
+    }
+  }, [location.pathname, allToolsList]);
 
   // Default Waqas Mehmood Portfolio Items (Category-wise across 5 core skills)
   const defaultProjects = [
@@ -353,70 +576,6 @@ export default function App() {
     }
   };
 
-  // EXACT 4 PILLARS & 25 TOOLS FROM WAQASMEHMOOD.COM (NO EXTRA TOOLS ADDED)
-  const pillarsData = {
-    onpage: {
-      id: 'onpage',
-      title: 'ONE PAGE SEO',
-      tagline: 'Deep On-Page Signals, Structure & Content',
-      color: 'from-cyan-500 to-blue-600',
-      badgeColor: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-      tools: [
-        { slug: 'website-seo-checker', title: 'Website SEO Checker', desc: 'Website ka overall On-Page SEO audit aur score' },
-        { slug: 'seo-analyzer', title: 'SEO Analyzer', desc: 'SEO errors, warnings aur improvements detection' },
-        { slug: 'keyword-density-checker', title: 'Keyword Density Checker', desc: 'Keyword frequency aur density ratio calculation' },
-        { slug: 'meta-tag-analyzer', title: 'Meta Tag Analyzer', desc: 'Title tag aur meta description length optimization' },
-        { slug: 'serp-snippet-preview', title: 'SERP Snippet Preview', desc: 'Google search Desktop aur Mobile result preview' },
-        { slug: 'word-counter', title: 'Word Counter', desc: 'Total words, characters aur readability metrics' },
-        { slug: 'plagiarism-checker', title: 'Plagiarism Checker', desc: 'Content uniqueness aur originality signals' },
-        { slug: 'image-alt-checker', title: 'Image ALT Text Checker', desc: 'Missing image ALT attributes aur image SEO' },
-        { slug: 'heading-checker', title: 'Heading Checker (H1–H6)', desc: 'Heading hierarchy tree aur single H1 structure' },
-        { slug: 'broken-link-checker', title: 'Broken Link Checker', desc: 'Internal aur outbound broken links verification' },
-      ]
-    },
-    offpage: {
-      id: 'offpage',
-      title: 'OFF PAGE SEO',
-      tagline: 'Authority, Outbound & Brand Presence Signals',
-      color: 'from-indigo-500 to-purple-600',
-      badgeColor: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30',
-      tools: [
-        { slug: 'backlink-checker', title: 'Backlink Checker', desc: 'Backlink readiness aur outbound link signals' },
-        { slug: 'da-pa-checker', title: 'DA & PA Checker', desc: 'Domain & Page Authority signals evaluation' },
-        { slug: 'competitor-backlink-analyzer', title: 'Competitor Backlink Analyzer', desc: 'Compare your page link profile vs competitor' },
-        { slug: 'referring-domains-checker', title: 'Referring Domains Checker', desc: 'External domain diversity aur brand cues' },
-        { slug: 'anchor-text-analyzer', title: 'Anchor Text Analyzer', desc: 'Anchor text distribution aur over-optimization alert' },
-      ]
-    },
-    technical: {
-      id: 'technical',
-      title: 'TECHNICAL SEO',
-      tagline: 'Crawlability, Speed, Sitemaps & Indexation',
-      color: 'from-sky-500 to-cyan-600',
-      badgeColor: 'bg-sky-500/10 text-sky-400 border-sky-500/30',
-      tools: [
-        { slug: 'website-speed-checker', title: 'Website Speed Checker', desc: 'TTFB, page size aur resource weight signals' },
-        { slug: 'tech-broken-link-checker', title: 'Broken Link Checker', desc: 'Find broken redirects aur dead links (technical)' },
-        { slug: 'xml-sitemap-checker', title: 'XML Sitemap Checker', desc: 'Find, parse aur validate XML sitemap structure' },
-        { slug: 'robots-txt-tester', title: 'Robots.txt Tester', desc: 'Fetch aur review robots.txt bot directives' },
-        { slug: 'schema-markup-validator', title: 'Schema Markup Validator', desc: 'JSON-LD structured data validation' },
-      ]
-    },
-    local: {
-      id: 'local',
-      title: 'LOCAL SEO',
-      tagline: 'Google Business Profile, NAP & Geo-Signals',
-      color: 'from-emerald-500 to-teal-600',
-      badgeColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-      tools: [
-        { slug: 'local-rank-checker', title: 'Local Rank Checker', desc: 'Local keywords aur geo-targeted ranking cues' },
-        { slug: 'google-business-profile-checker', title: 'Google Business Profile Checker', desc: 'GBP, Maps links aur local signals on site' },
-        { slug: 'local-citation-checker', title: 'Local Citation Checker', desc: 'Citation-ready NAP data consistency test' },
-        { slug: 'nap-consistency-checker', title: 'NAP Consistency Checker', desc: 'Name, Address, Phone sitewide match check' },
-        { slug: 'local-seo-audit-tool', title: 'Local SEO Audit Tool', desc: 'Full local on-page audit with LocalBusiness schema' },
-      ]
-    }
-  };
 
   // Run specific sub-tool against Laravel API
   const runLiveAudit = async (tool, url = targetUrl) => {
@@ -425,6 +584,9 @@ export default function App() {
 
     setActiveTool(selectedTool);
     setActiveTab('active-tool');
+    if (location.pathname !== `/tools/${selectedTool.slug}`) {
+      navigate(`/tools/${selectedTool.slug}`);
+    }
     setIsLoading(true);
 
     const payload = {
@@ -698,8 +860,8 @@ export default function App() {
           
           {/* Brand */}
           <button 
-            onClick={() => { setActiveTab('home'); setAuditResult(null); }} 
-            className="flex items-center gap-3 group text-left"
+            onClick={() => { goToTab('home'); setAuditResult(null); }} 
+            className="flex items-center gap-3 group text-left cursor-pointer"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-all">
               W
@@ -717,32 +879,32 @@ export default function App() {
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-1 text-xs font-semibold">
             <button 
-              onClick={() => setActiveTab('home')}
-              className={`px-4 py-2 rounded-xl transition-all ${activeTab === 'home' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              onClick={() => goToTab('home')}
+              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'home' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               HOME
             </button>
             <button 
-              onClick={() => setActiveTab('services')}
-              className={`px-4 py-2 rounded-xl transition-all ${activeTab === 'services' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              onClick={() => goToTab('services')}
+              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'services' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               Services
             </button>
             <button 
-              onClick={() => setActiveTab('about')}
-              className={`px-4 py-2 rounded-xl transition-all ${activeTab === 'about' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              onClick={() => goToTab('about')}
+              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'about' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               About
             </button>
             <button 
-              onClick={() => setActiveTab('contact')}
-              className={`px-4 py-2 rounded-xl transition-all ${activeTab === 'contact' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              onClick={() => goToTab('contact')}
+              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'contact' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               Contact
             </button>
             <button 
-              onClick={() => setActiveTab('all-tools')}
-              className={`px-4 py-2 rounded-xl transition-all flex items-center gap-2 ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              onClick={() => goToTab('all-tools')}
+              className={`px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               <span>All Tools</span>
               <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">25 Free</span>
@@ -811,7 +973,7 @@ export default function App() {
                 </a>
 
                 <button 
-                  onClick={() => setActiveTab('all-tools')}
+                  onClick={() => goToTab('all-tools')}
                   className="px-6 py-3.5 rounded-xl font-semibold text-sm bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <span>Go to All Tools (25 Free)</span>
@@ -970,7 +1132,7 @@ export default function App() {
                 <p className="text-xs text-slate-400">No API key required. Our in-house PHP crawler checks On-Page, Off-Page, Technical and Local SEO signals.</p>
               </div>
               <button 
-                onClick={() => setActiveTab('all-tools')}
+                onClick={() => goToTab('all-tools')}
                 className="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shrink-0 shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
               >
                 Open All Tools (4 Pillars) &rarr;
@@ -1152,7 +1314,7 @@ export default function App() {
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
                 <button 
-                  onClick={() => setActiveTab('all-tools')}
+                  onClick={() => goToTab('all-tools')}
                   className="py-3 px-6 rounded-xl bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Test with 25 In-House Free Tools</span>
@@ -1323,14 +1485,14 @@ export default function App() {
               </p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
                 <button 
-                  onClick={() => setActiveTab('contact')}
+                  onClick={() => goToTab('contact')}
                   className="px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all cursor-pointer flex items-center gap-2"
                 >
                   <Mail className="w-4 h-4" />
                   <span>Send Direct Inquiry</span>
                 </button>
                 <button 
-                  onClick={() => setActiveTab('services')}
+                  onClick={() => goToTab('services')}
                   className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-700 transition-all cursor-pointer"
                 >
                   Explore Complete Services
@@ -1416,7 +1578,7 @@ export default function App() {
               <p className="text-xs text-slate-400">Let's audit your channels and construct a custom roadmap tailored for your business.</p>
             </div>
             <button 
-              onClick={() => setActiveTab('contact')}
+              onClick={() => goToTab('contact')}
               className="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shrink-0 shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
             >
               Contact Waqas Directly &rarr;
@@ -1665,7 +1827,10 @@ export default function App() {
               return (
                 <div 
                   key={k}
-                  onClick={() => setSelectedPillar(k)}
+                  onClick={() => {
+                    setSelectedPillar(k);
+                    navigate(pillarSlugMap[k] || '/all-tools');
+                  }}
                   className={`p-6 rounded-2xl cursor-pointer transition-all border ${isSelected ? 'bg-slate-900 border-cyan-400 shadow-xl shadow-cyan-500/10 -translate-y-1' : 'bg-slate-900/60 border-slate-800 hover:border-slate-700'}`}
                 >
                   <div className="flex items-center justify-between mb-3">
@@ -1714,7 +1879,7 @@ export default function App() {
                   <div className="pt-3 border-t border-slate-900 flex items-center justify-between">
                     <span className="text-[10px] text-emerald-400 font-mono">● READY</span>
                     <button 
-                      onClick={() => runLiveAudit(t)}
+                      onClick={() => openTool(t, false)}
                       className="px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500 text-cyan-300 hover:text-slate-950 text-xs font-bold border border-cyan-500/30 transition-all flex items-center gap-1 cursor-pointer"
                     >
                       <span>Open Tool</span>
@@ -1734,10 +1899,14 @@ export default function App() {
       {/* ======================================================== */}
       {activeTab === 'active-tool' && (
         <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
-            <button onClick={() => setActiveTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+          <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+            <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
             <span>/</span>
-            <button onClick={() => setActiveTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+            <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+            <span>/</span>
+            <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+              {pillarsData[selectedPillar]?.title}
+            </button>
             <span>/</span>
             <span className="text-cyan-400 font-bold">{activeTool?.title || 'SEO Tool'}</span>
           </div>
@@ -1751,8 +1920,8 @@ export default function App() {
                 <p className="text-xs text-slate-400">{activeTool?.desc}</p>
               </div>
               <button 
-                onClick={() => setActiveTab('all-tools')}
-                className="text-xs text-slate-400 hover:text-white cursor-pointer"
+                onClick={() => goToTab('all-tools')}
+                className="text-xs text-slate-400 hover:text-white cursor-pointer px-3 py-1.5 rounded-lg bg-slate-800/60 border border-slate-700 hover:border-cyan-500/40 transition-colors"
               >
                 &larr; Back to All Tools
               </button>
@@ -2384,6 +2553,112 @@ export default function App() {
             </div>
           );
         })()}
+
+          {/* ======================================================== */}
+          {/* SEO EDUCATIONAL GUIDE & TOOL PURPOSE (INDEXING CONTENT)  */}
+          {/* ======================================================== */}
+          <div className="grid md:grid-cols-3 gap-6 pt-6 border-t border-slate-800">
+            <div className="md:col-span-2 space-y-6">
+              
+              <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                <div className="flex items-center gap-2 text-cyan-400 font-bold text-sm">
+                  <BookOpen className="w-4 h-4" />
+                  <h3>About {activeTool?.title} & Google SEO Value</h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  The <strong className="text-white">{activeTool?.title}</strong> is an essential diagnostic utility designed to audit critical search engine performance signals. Whether analyzing on-page keyword balance, technical crawlability directives, or backlink distribution, search engines like Googlebot evaluate these parameters to determine topical authority, user experience, and ranking positions.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-3 pt-2 text-xs text-slate-400">
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+                    <span className="text-cyan-400 font-bold block mb-1">Direct Algorithmic Impact</span>
+                    <span>Fixing warnings identified by this tool helps prevent search penalties, indexation drop-offs, and ranking volatility.</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800/80">
+                    <span className="text-emerald-400 font-bold block mb-1">Zero Third-Party Dependency</span>
+                    <span>100% native in-house crawler engine built by Waqas Mehmood with strict privacy and live DOM verification.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step-by-Step Optimization Protocol */}
+              <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+                <h4 className="text-xs font-bold text-white uppercase tracking-wider">How to Maximize Your Audit Results</h4>
+                <div className="space-y-2 text-xs text-slate-300">
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+                    <span>Enter your exact production webpage URL or paste the raw source text for immediate parsing.</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+                    <span>Review the calculated health score alongside critical errors (red) and warnings (yellow).</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
+                    <span>Apply the recommended code or content adjustments in your CMS (WordPress, React, Shopify, Custom Laravel).</span>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
+                    <span>Re-run the audit until achieving an optimal 90+ health score across all checks.</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Sidebar: Sibling Tools in Same Pillar & Hire Waqas CTA */}
+            <div className="space-y-6">
+              
+              {/* Sibling Pillar Tools */}
+              <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+                    More {pillarsData[selectedPillar]?.title} Tools
+                  </h4>
+                  <span className="text-[10px] font-mono text-cyan-400">
+                    {pillarsData[selectedPillar]?.tools.length} Tools
+                  </span>
+                </div>
+                <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                  {pillarsData[selectedPillar]?.tools
+                    .filter(t => t.slug !== activeTool?.slug)
+                    .map((sibling) => (
+                      <button
+                        key={sibling.slug}
+                        onClick={() => openTool(sibling, false)}
+                        className="w-full text-left p-2.5 rounded-xl bg-slate-950 hover:bg-slate-800/80 border border-slate-800 hover:border-cyan-500/30 transition-all flex items-center justify-between group cursor-pointer"
+                      >
+                        <div>
+                          <div className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
+                            {sibling.title}
+                          </div>
+                          <div className="text-[10px] text-slate-500 truncate max-w-[200px]">
+                            {sibling.desc}
+                          </div>
+                        </div>
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors shrink-0" />
+                      </button>
+                    ))}
+                </div>
+              </div>
+
+              {/* Hire Expert SEO Help Box */}
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-cyan-950/40 to-slate-900 border border-cyan-500/30 space-y-3">
+                <span className="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold uppercase">Need Custom Audit?</span>
+                <h4 className="text-sm font-bold text-white">Hire Waqas Mehmood for Full-Scale SEO Strategy</h4>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  Get a complete technical audit, competitor gap analysis, and high-converting content roadmaps tailored for your business.
+                </p>
+                <button
+                  onClick={() => goToTab('contact')}
+                  className="w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs shadow-md shadow-cyan-500/20 transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Request Full Audit</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
         </section>
       )}
 
@@ -2671,11 +2946,11 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-6">
-            <button onClick={() => setActiveTab('home')} className="hover:text-white cursor-pointer">HOME</button>
-            <button onClick={() => setActiveTab('services')} className="hover:text-white cursor-pointer">Services</button>
-            <button onClick={() => setActiveTab('about')} className="hover:text-white cursor-pointer">About</button>
-            <button onClick={() => setActiveTab('contact')} className="hover:text-white cursor-pointer">Contact</button>
-            <button onClick={() => setActiveTab('all-tools')} className="hover:text-white cursor-pointer">All Tools (25)</button>
+            <button onClick={() => goToTab('home')} className="hover:text-white cursor-pointer">HOME</button>
+            <button onClick={() => goToTab('services')} className="hover:text-white cursor-pointer">Services</button>
+            <button onClick={() => goToTab('about')} className="hover:text-white cursor-pointer">About</button>
+            <button onClick={() => goToTab('contact')} className="hover:text-white cursor-pointer">Contact</button>
+            <button onClick={() => goToTab('all-tools')} className="hover:text-white cursor-pointer">All Tools (25)</button>
             {isAdmin ? (
               <button 
                 onClick={handleAdminLogout}
