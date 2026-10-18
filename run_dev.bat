@@ -7,7 +7,7 @@ echo     WAQAS MEHMOOD PLATFORM - STARTING LOCAL ENVIRONMENT
 echo ===================================================================
 echo.
 
-set PATH=C:\Program Files\nodejs;C:\Users\Admin\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe;%PATH%
+set PATH=C:\Program Files\nodejs;C:\Users\Admin\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\Admin\AppData\Local\Microsoft\WinGet\Packages\Git.MinGit_Microsoft.Winget.Source_8wekyb3d8bbwe\cmd;C:\Users\Admin\AppData\Local\Microsoft\WinGet\Packages\GitHub.cli_Microsoft.Winget.Source_8wekyb3d8bbwe\bin;%PATH%
 
 echo [1/2] Starting Laravel API Backend on http://127.0.0.1:8000 ...
 start "Laravel Backend API" cmd /k "cd /d %~dp0backend && php.exe artisan serve --port=8000"
