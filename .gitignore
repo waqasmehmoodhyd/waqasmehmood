@@ -8,8 +8,6 @@ dist/
 *.local
 
 # PHP & Laravel Backend
-vendor/
-**/vendor/
 backend/.env
 **/backend/.env
 backend/.env.backup

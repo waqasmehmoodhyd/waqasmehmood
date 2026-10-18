@@ -1,3 +1,6 @@
+# Set DirectoryIndex so React index.html takes priority over WordPress index.php
+DirectoryIndex index.html index.php
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
