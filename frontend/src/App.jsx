@@ -8,6 +8,10 @@ import {
   Trash2, Lock, Unlock, Mail, MessageSquare, DollarSign, User, Briefcase
 } from 'lucide-react';
 
+const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+  ? 'http://127.0.0.1:8000/api'
+  : '/api';
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('home'); // 'home' | 'services' | 'about' | 'contact' | 'all-tools' | 'active-tool'
   const [portfolioCategory, setPortfolioCategory] = useState('all');
@@ -134,7 +138,7 @@ export default function App() {
   // Fetch portfolio from Laravel API on load
   const fetchPortfolio = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/portfolio');
+      const res = await fetch(`${API_BASE}/portfolio`);
       if (res.ok) {
         const json = await res.json();
         if (json.data && json.data.length > 0) {
@@ -174,7 +178,7 @@ export default function App() {
     e.preventDefault();
     setAdminError('');
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/admin/login', {
+      const res = await fetch(`${API_BASE}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({ password: adminPassword })
@@ -224,7 +228,7 @@ export default function App() {
 
     try {
       const adminKey = localStorage.getItem('wm_admin_key') || 'waqas2026';
-      await fetch(`http://127.0.0.1:8000/api/portfolio/${id}`, {
+      await fetch(`${API_BASE}/portfolio/${id}`, {
         method: 'DELETE',
         headers: { 'X-Admin-Key': adminKey, 'Accept': 'application/json' }
       });
@@ -272,7 +276,7 @@ export default function App() {
     };
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/portfolio', {
+      const res = await fetch(`${API_BASE}/portfolio`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -324,7 +328,7 @@ export default function App() {
     e.preventDefault();
     setContactSubmitting(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/contact', {
+      const res = await fetch(`${API_BASE}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(contactForm)
@@ -433,7 +437,7 @@ export default function App() {
     };
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/tools/run-subtool', {
+      const res = await fetch(`${API_BASE}/tools/run-subtool`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
