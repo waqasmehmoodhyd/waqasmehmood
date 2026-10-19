@@ -298,7 +298,7 @@ export default function App() {
 
   // Default Waqas Mehmood Portfolio Items (Category-wise across 5 core skills)
   const defaultProjects = [
-    // 1. Graphic Design
+    // 1. Graphic Design (4 Projects)
     {
       id: 1,
       title: 'CrueltyFree_Logo',
@@ -343,32 +343,10 @@ export default function App() {
       image: '/portfolio/BUDS_Cannabies.png',
       projectUrl: 'https://www.upwork.com/freelancers/~0194e2aaf57cdb94e2?p=1322620930029772800',
     },
+
+    // 2. Website Development (2 Projects)
     {
       id: 5,
-      title: 'Nexus Fintech - 3D Brand Identity & Design System',
-      category: 'graphic',
-      categoryLabel: 'Graphic Design',
-      desc: 'Designed complete visual identity, typography system, 3D product illustrations, and design guidelines for a Series-A UK fintech brand.',
-      metrics: 'Global Rebrand • 40+ Assets',
-      tags: ['Figma', 'Brand Identity', '3D Modeling', 'Vector Art', 'Styleguide'],
-      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-    {
-      id: 6,
-      title: 'Aura Luxury Skincare - E-Commerce Packaging & UI/UX',
-      category: 'graphic',
-      categoryLabel: 'Graphic Design',
-      desc: 'Crafted minimalist cosmetic packaging labels, social launch aesthetic kit, and responsive Figma mobile shopping prototypes.',
-      metrics: 'Packaging Suite + 18 Mobile UI Screens',
-      tags: ['UI/UX', 'Packaging Design', 'Adobe Illustrator', 'Luxury Branding'],
-      image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-
-    // 2. Website Development
-    {
-      id: 7,
       title: 'FIGMA design to Responsive WordPress Site',
       category: 'webdev',
       categoryLabel: 'Website Development',
@@ -379,7 +357,7 @@ export default function App() {
       projectUrl: 'https://www.upwork.com/freelancers/~0194e2aaf57cdb94e2?p=1781011197507096576',
     },
     {
-      id: 8,
+      id: 6,
       title: "Building BudsSmoke's Online Store for Cannabis Products",
       category: 'webdev',
       categoryLabel: 'Website Development',
@@ -389,32 +367,10 @@ export default function App() {
       image: '/portfolio/Building-BudsSmokes-Online-Store-for-Cannabis-Products.png',
       projectUrl: 'https://www.upwork.com/freelancers/~0194e2aaf57cdb94e2?p=1781723260418596864',
     },
-    {
-      id: 9,
-      title: 'Waqas Mehmood SEO Engine - Full-Stack React & Laravel 11',
-      category: 'webdev',
-      categoryLabel: 'Website Development',
-      desc: 'Engineered custom high-speed DOM scraping engine with 25 real-time diagnostic tools, Tailwind CSS v4 reactive UI, and sub-second crawl processing.',
-      metrics: '99.8% Lighthouse Speed • 0 API Dependency',
-      tags: ['React.js', 'PHP Laravel 11', 'Tailwind v4', 'DOM Scraper', 'REST API'],
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-    {
-      id: 10,
-      title: 'Apex Logistics - Headless Fleet Management Portal',
-      category: 'webdev',
-      categoryLabel: 'Website Development',
-      desc: 'Custom client management portal with real-time GPS tracking dashboard, automated invoice generation, and client portal access.',
-      metrics: 'Real-Time Dispatching • 10k+ Monthly Bookings',
-      tags: ['Laravel API', 'Vue/React', 'PostgreSQL', 'Tailwind', 'Docker'],
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
 
-    // 3. Social Media Marketing (SMM)
+    // 3. Social Media Marketing (SMM) (5 Projects)
     {
-      id: 11,
+      id: 7,
       title: 'Page / Follow Campaign',
       category: 'smm',
       categoryLabel: 'SMM',
@@ -425,7 +381,7 @@ export default function App() {
       projectUrl: 'https://drive.google.com/file/d/1CY5gYCovm753zI6YZMNm-NryUaoZowXk/view?usp=sharing',
     },
     {
-      id: 12,
+      id: 8,
       title: 'Video View for Brand',
       category: 'smm',
       categoryLabel: 'SMM',
@@ -436,7 +392,7 @@ export default function App() {
       projectUrl: 'https://drive.google.com/file/d/1I48ed5YKJ5_vNhoZkRZ8Zmll_-frmp6S/view?usp=sharing',
     },
     {
-      id: 13,
+      id: 9,
       title: 'WhatsApp / Messenger Messages',
       category: 'smm',
       categoryLabel: 'SMM',
@@ -447,7 +403,7 @@ export default function App() {
       projectUrl: 'https://drive.google.com/file/d/14xr2EquFIOHa9wGHwB4bVeNJbYKvrW9q/view?usp=sharing',
     },
     {
-      id: 14,
+      id: 10,
       title: 'Instagram Profile Visitor',
       category: 'smm',
       categoryLabel: 'SMM',
@@ -458,7 +414,7 @@ export default function App() {
       projectUrl: 'https://drive.google.com/file/d/1sdHCfdGD8-PTDroCANiFqwEDpe-zbkpP/view?usp=sharing',
     },
     {
-      id: 15,
+      id: 11,
       title: 'Page Follow / Page Like',
       category: 'smm',
       categoryLabel: 'SMM',
@@ -468,32 +424,10 @@ export default function App() {
       image: '/portfolio/Page-Follow-Page-Like.png',
       projectUrl: 'https://drive.google.com/file/d/19VL95ChuPI4zU6UbFKTTvqQXHqjbovWh/view?usp=sharing',
     },
-    {
-      id: 16,
-      title: 'Elevate Fitness - Viral Reel Strategy & TikTok Growth',
-      category: 'smm',
-      categoryLabel: 'SMM',
-      desc: 'Developed high-retention video content calendar, hook scripts, and influencer collab campaign resulting in 18x organic engagement.',
-      metrics: '+1.4M Organic Views • 34k Follower Gain',
-      tags: ['Social Strategy', 'Reels / Shorts', 'Community Growth', 'Viral Hook Framework'],
-      image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-    {
-      id: 17,
-      title: 'Zenith SaaS - B2B LinkedIn Thought Leadership Funnel',
-      category: 'smm',
-      categoryLabel: 'SMM',
-      desc: 'Positioned founder as top industry voice through weekly data breakdown carousels, executive copywriting, and targeted outreach.',
-      metrics: '420+ Inbound Sales DMs • $85k Closed Pipeline',
-      tags: ['B2B Marketing', 'LinkedIn Growth', 'Executive Ghostwriting', 'Lead Generation'],
-      image: 'https://images.unsplash.com/photo-1579389083078-4e7018379f7e?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
 
-    // 4. Google Ads (PPC)
+    // 4. Google Ads (PPC) (1 Project)
     {
-      id: 18,
+      id: 12,
       title: 'Google Search Ads / PPC',
       category: 'googleads',
       categoryLabel: 'Google Ads',
@@ -503,32 +437,10 @@ export default function App() {
       image: '/portfolio/Time_series-Google-Ads.png',
       projectUrl: 'https://drive.google.com/file/d/1hO7xSgqdSP2kmhXtySAIED7_qGLAK7Wq/view?usp=sharing',
     },
-    {
-      id: 19,
-      title: 'Nordic Gear E-commerce - Performance Max & Search Scale',
-      category: 'googleads',
-      categoryLabel: 'Google Ads',
-      desc: 'Restructured shopping feed, implemented server-side conversion tracking, and segmented high-intent generic search keywords.',
-      metrics: '5.2x Blended ROAS • $240k Revenue / Month',
-      tags: ['Performance Max', 'Google Search', 'Merchant Center', 'Server-Side GTM'],
-      image: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-    {
-      id: 20,
-      title: 'Dental Care Clinics - Local Call-Only & Geo-Targeted PPC',
-      category: 'googleads',
-      categoryLabel: 'Google Ads',
-      desc: 'Targeted high-intent local dental pain points with radius bid adjustments, negative keyword hygiene, and call extension tracking.',
-      metrics: '$14.20 CPA • 380+ Monthly Emergency Bookings',
-      tags: ['Local PPC', 'Call-Only Ads', 'Negative KW Sculpting', 'Landing Page A/B'],
-      image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
 
-    // 5. SEO Services
+    // 5. SEO Services (2 Projects)
     {
-      id: 21,
+      id: 13,
       title: 'E-Commerce Organic Traffic Scaling (+380%)',
       category: 'seo',
       categoryLabel: 'SEO Services',
@@ -539,29 +451,7 @@ export default function App() {
       projectUrl: 'https://waqasmehmood.com',
     },
     {
-      id: 22,
-      title: 'SaaS Migration & Technical SEO Audit - 250k Page Portal',
-      category: 'seo',
-      categoryLabel: 'SEO Services',
-      desc: 'Led enterprise URL redesign with 1-to-1 regex redirects, solved canonical pagination loops, and deployed automated JSON-LD schema.',
-      metrics: '+320% Organic Traffic • 0 Index Loss',
-      tags: ['Technical Audit', '301 Redirect Mapping', 'Crawl Budget', 'Core Web Vitals'],
-      image: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-    {
-      id: 23,
-      title: 'National Home Services - Local Pack Domination (#1 in 14 Cities)',
-      category: 'seo',
-      categoryLabel: 'SEO Services',
-      desc: 'Built localized city landing pages with localized schema, cleaned up 80+ citation inconsistencies, and automated review generation funnels.',
-      metrics: '#1 Map Pack Rank • +610% Phone Calls',
-      tags: ['Local SEO', 'GBP Optimization', 'NAP Consistency', 'Schema JSON-LD'],
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-      projectUrl: 'https://waqasmehmood.com',
-    },
-    {
-      id: 24,
+      id: 14,
       title: 'Local SEO & Google Business Profile 3-Pack Takeover',
       category: 'seo',
       categoryLabel: 'SEO Services',
@@ -574,18 +464,17 @@ export default function App() {
   ];
 
   const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem('wm_portfolio_projects');
+    // Purge corrupted legacy storage key to remove old duplicates/mockups
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('wm_portfolio_projects');
+      } catch (e) {}
+    }
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('wm_portfolio_v5') : null;
     if (!saved) return defaultProjects;
     try {
       const parsed = JSON.parse(saved);
-      const existingTitles = new Set(parsed.map(p => p.title));
-      const missing = defaultProjects.filter(p => !existingTitles.has(p.title));
-      const titleMap = new Map(defaultProjects.map(p => [p.title, p]));
-      const refreshedParsed = parsed.map(p => {
-        const d = titleMap.get(p.title);
-        return d ? { ...p, category: d.category, categoryLabel: d.categoryLabel, image: d.image || p.image } : p;
-      });
-      return [...missing, ...refreshedParsed];
+      return Array.isArray(parsed) && parsed.length > 0 ? parsed : defaultProjects;
     } catch (e) {
       return defaultProjects;
     }
@@ -627,7 +516,7 @@ export default function App() {
             projectUrl: item.project_url || 'https://waqasmehmood.com'
           }));
           setProjects(formatted);
-          localStorage.setItem('wm_portfolio_projects', JSON.stringify(formatted));
+          localStorage.setItem('wm_portfolio_v5', JSON.stringify(formatted));
         }
       }
     } catch (e) {
@@ -704,7 +593,7 @@ export default function App() {
 
     const updated = projects.filter(p => p.id !== id);
     setProjects(updated);
-    localStorage.setItem('wm_portfolio_projects', JSON.stringify(updated));
+    localStorage.setItem('wm_portfolio_v5', JSON.stringify(updated));
     alert("Project removed from your live portfolio successfully.");
   };
 
@@ -760,7 +649,7 @@ export default function App() {
         };
         const updated = [created, ...projects];
         setProjects(updated);
-        localStorage.setItem('wm_portfolio_projects', JSON.stringify(updated));
+        localStorage.setItem('wm_portfolio_v5', JSON.stringify(updated));
         alert('Project published to your live database successfully!');
       } else {
         throw new Error('API save failed');
@@ -773,7 +662,7 @@ export default function App() {
       };
       const updated = [created, ...projects];
       setProjects(updated);
-      localStorage.setItem('wm_portfolio_projects', JSON.stringify(updated));
+      localStorage.setItem('wm_portfolio_v5', JSON.stringify(updated));
       alert('Project saved to your live portfolio!');
     }
 
