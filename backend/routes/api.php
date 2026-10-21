@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\SeoToolController;
 use App\Http\Controllers\Api\PortfolioController;
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\MathSolverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,6 @@ Route::prefix('tools')->group(function () {
     Route::post('/technical-audit', [SeoToolController::class, 'analyzeTechnical']);
     Route::post('/local-audit', [SeoToolController::class, 'analyzeLocal']);
 });
+
+// 5. Free AI Math Solver Endpoint (Photo OCR + Step-by-Step Solver)
+Route::post('/math/solve', [MathSolverController::class, 'solve']);

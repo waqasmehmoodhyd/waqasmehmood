@@ -833,5 +833,82 @@ export const TOOLS_SEO_DATA = {
         a: 'The most common mistake is failing to implement structured LocalBusiness JSON-LD schema or having conflicting address records between the website footer and the Google Business Profile.'
       }
     ]
+  },
+
+  // =========================================================================
+  // PILLAR 5: AI TOOLS & MULTIMODAL UTILITIES
+  // =========================================================================
+
+  'ai-math-solver': {
+    focusKeyword: 'free ai math solver step by step',
+    secondaryKeywords: [
+      'photo math solver',
+      'solve math equations online',
+      'ai algebra calculator',
+      'step by step math homework solver',
+      'quadratic equation solver',
+      'calculus derivative solver',
+      'photomath online free alternative',
+      'solvely ai free alternative'
+    ],
+    h2Title: 'Free AI Math Solver: Multimodal Vision OCR, Symbolic Algebra & Step-by-Step Pedagogical Solutions',
+    metaTitle: 'Free AI Math Solver - Step-by-Step Problem Solving & Photo Calculator | Waqas Mehmood',
+    metaDesc: 'Solve algebra, calculus, fractions, quadratic equations, and geometry homework instantly with our free AI Math Solver. Get verified step-by-step solutions, formulas, and visual math explanations.',
+    intro: 'The Free AI Math Solver is an advanced computational and pedagogical engine designed to help students, educators, and engineers understand complex mathematics effortlessly. Combining neural vision OCR for scanning handwritten homework notes with deterministic symbolic algebra, this tool delivers immediate, verified answers alongside comprehensive step-by-step proofs, formulas, and self-checking verifications.',
+    googleFactor: 'Educational search algorithms and Google Helpful Content guidelines reward pages that deliver unambiguous mathematical solutions, verified intermediate steps, and pedagogical context. By pairing instant answers with interactive follow-up tutor questions, formula definitions, and structured LaTeX/Unicode math rendering, this tool maximizes dwell time, intent satisfaction, and search ranking signals.',
+    benchmarks: [
+      { label: 'Multimodal Photo OCR', value: 'Instant optical recognition for handwritten notes, textbook screenshots & whiteboard math' },
+      { label: 'Step-by-Step Derivation', value: '100% transparent pedagogical proofs with explicit mathematical laws applied' },
+      { label: 'Deterministic Verification', value: 'Built-in reverse-substitution checks ensuring 100% algebraic precision' },
+      { label: 'LaTeX & Unicode Typography', value: 'Zero-failure visual typography optimized for high-contrast mobile & desktop screens' },
+      { label: 'Free Access Tier', value: '100% free with zero paywalls, no mandatory registration, and zero subscription fees' }
+    ],
+    bestPractices: [
+      'Take clean, well-lit photos with high contrast between ink and paper when scanning handwritten homework.',
+      'Use the 1-click virtual symbol palette to quickly type exponents (^2), square roots (sqrt), fractions, and parentheses.',
+      'Study each numbered step carefully to understand the underlying algebraic properties rather than merely copying the final answer.',
+      'Leverage the built-in self-check verification to verify how the solution satisfies the original equation.',
+      'Use the interactive AI Follow-up Tutor to request simpler explanations or alternative solving techniques for tricky topics.'
+    ],
+    externalReference: {
+      name: 'Wolfram MathWorld - The Web\'s Most Extensive Mathematical Resource',
+      url: 'https://mathworld.wolfram.com/',
+      citation: 'Authoritative mathematical encyclopedia providing formal definitions, proofs, and algebraic properties.'
+    },
+    relatedSlugs: ['word-counter', 'website-seo-checker', 'seo-analyzer'],
+    faqs: [
+      {
+        q: 'Is the Free AI Math Solver completely free to use?',
+        a: 'Yes, 100% free with no hidden paywalls, no daily problem limits, and no mandatory registration. You can solve unlimited algebra, arithmetic, quadratic, fraction, geometry, and calculus problems instantly.'
+      },
+      {
+        q: 'How does this solver compare to Photomath and Solvely.ai?',
+        a: 'While Photomath and Solvely lock detailed step-by-step derivations behind paid monthly subscriptions ($9.99–$19.99/mo), our tool provides complete step-by-step working, formula explanations, and interactive follow-up tutor assistance entirely free.'
+      },
+      {
+        q: 'Can I upload photos of handwritten notes or screenshots?',
+        a: 'Yes! Simply switch to the Photo tab and drag-and-drop an image, browse your device, or press Ctrl+V to paste a screenshot directly from your clipboard. The neural OCR will extract the equation and solve it.'
+      },
+      {
+        q: 'What branches of mathematics are supported?',
+        a: 'Our solver covers 10+ core disciplines: Arithmetic, Linear Algebra, Quadratic Equations, Fractions & Decimals, Percentages & Financial Ratios, Exponents & Powers, Radicals & Surds, Geometry (Area/Perimeter), Statistics (Averages), and Introductory Calculus (Derivatives & Integrals).'
+      },
+      {
+        q: 'Does the solver show the full step-by-step working?',
+        a: 'Yes! Every solution includes a massive, high-contrast final answer card, followed by numbered intermediate steps detailing each operation (such as adding or subtracting terms from both sides, finding common denominators, or applying the quadratic formula).'
+      },
+      {
+        q: 'How does the tool verify that answers are correct?',
+        a: 'The engine performs deterministic algebraic verification: it substitutes the calculated answer back into the original equation to verify that the left-hand side equals the right-hand side (e.g. for 3x + 6 = 18 with x = 4, verifying 3(4) + 6 = 18).'
+      },
+      {
+        q: 'Can I ask follow-up questions if I don\'t understand a step?',
+        a: 'Yes! Below every solution is an interactive AI Math Tutor. You can click 1-click prompts like "Explain in simpler words" or "Show an alternative method", or type your own question to receive tailored explanations.'
+      },
+      {
+        q: 'Does this tool work on mobile devices?',
+        a: 'Yes, the interface is 100% responsive and optimized for smartphones, tablets, laptops, and desktop screens with native touch support and camera photo uploads.'
+      }
+    ]
   }
 };

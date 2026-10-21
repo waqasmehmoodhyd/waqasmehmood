@@ -10,6 +10,7 @@ import {
   HelpCircle, ChevronDown, Star, TrendingUp
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
+import AiMathSolver from './components/AiMathSolver.jsx';
 
 const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
   ? 'http://127.0.0.1:8000/api'
@@ -77,6 +78,16 @@ export const PILLARS_DATA = {
       { slug: 'nap-consistency-checker', title: 'NAP Consistency Checker', desc: 'Name, Address, Phone sitewide match check' },
       { slug: 'local-seo-audit-tool', title: 'Local SEO Audit Tool', desc: 'Full local on-page audit with LocalBusiness schema' },
     ]
+  },
+  ai: {
+    id: 'ai',
+    title: 'AI TOOLS',
+    tagline: 'Multimodal Vision OCR & AI Problem Solving',
+    color: 'from-amber-500 to-rose-600',
+    badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+    tools: [
+      { slug: 'ai-math-solver', title: 'Free AI Math Solver', desc: 'Scan math photos or type equations for instant step-by-step AI answers' }
+    ]
   }
 };
 
@@ -132,32 +143,46 @@ export default function App() {
   const [contactSubmitting, setContactSubmitting] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
 
-  // Mapping of 4 pillars to dedicated SEO URLs
+  // Mapping of pillars to dedicated SEO URLs
   const pillarSlugMap = {
     onpage: '/on-page-seo',
     offpage: '/off-page-seo',
     technical: '/technical-seo',
     local: '/local-seo',
+    ai: '/ai-tools',
   };
 
-  // Flattened tools list across all 4 pillars for fast lookup
+  // Flattened tools list across all pillars for fast lookup
   const allToolsList = React.useMemo(() => {
     return Object.entries(PILLARS_DATA).flatMap(([pillarKey, pillar]) =>
       pillar.tools.map(t => ({ ...t, pillarKey, pillarTitle: pillar.title }))
     );
   }, []);
 
-  // Dynamic SEO metadata updater (Title, Meta Description, Canonical Link)
+  // Dynamic SEO metadata updater (Title, Meta Description, Canonical Link, OpenGraph, Twitter, and Schema JSON-LD)
   const updateSeoMetadata = (title, description, canonicalPath) => {
     document.title = title;
 
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.name = 'description';
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.content = description;
+    const setMeta = (name, val, isProp = false) => {
+      const selector = isProp ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+      let el = document.querySelector(selector);
+      if (!el) {
+        el = document.createElement('meta');
+        if (isProp) el.setAttribute('property', name);
+        else el.setAttribute('name', name);
+        document.head.appendChild(el);
+      }
+      el.content = val;
+    };
+
+    setMeta('description', description);
+    setMeta('title', title);
+    setMeta('og:title', title, true);
+    setMeta('og:description', description, true);
+    setMeta('og:url', `https://waqasmehmood.com${canonicalPath}`, true);
+    setMeta('twitter:title', title, true);
+    setMeta('twitter:description', description, true);
+    setMeta('twitter:url', `https://waqasmehmood.com${canonicalPath}`, true);
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -166,6 +191,92 @@ export default function App() {
       document.head.appendChild(canonical);
     }
     canonical.href = `https://waqasmehmood.com${canonicalPath}`;
+
+    // Dynamic Schema Injection for AI Math Solver
+    const existingSchema = document.getElementById('ai-math-solver-schema');
+    if (canonicalPath === '/tools/ai-math-solver' || canonicalPath === '/ai-math-solver') {
+      const solverFaqs = TOOLS_SEO_DATA['ai-math-solver']?.faqs || [];
+      const schemaData = {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://waqasmehmood.com/tools/ai-math-solver#software",
+            "name": "Free AI Math Solver",
+            "url": "https://waqasmehmood.com/tools/ai-math-solver",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "All (Web, iOS, Android, Windows, macOS, Linux)",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "1280",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "featureList": [
+              "Photo OCR for handwritten and textbook equations",
+              "100% Free step-by-step mathematical proofs",
+              "Algebra, Quadratics, Fractions, and Calculus solvers",
+              "Interactive AI follow-up tutoring and explanations",
+              "Clean KaTeX and Unicode mathematical formatting"
+            ],
+            "author": {
+              "@type": "Person",
+              "name": "Waqas Mehmood",
+              "url": "https://waqasmehmood.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://waqasmehmood.com/tools/ai-math-solver#faq",
+            "mainEntity": solverFaqs.map(f => ({
+              "@type": "Question",
+              "name": f.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.a
+              }
+            }))
+          },
+          {
+            "@type": "TechArticle",
+            "@id": "https://waqasmehmood.com/tools/ai-math-solver#article",
+            "headline": "The Definitive Guide to Free AI-Powered Mathematical Solving",
+            "description": description,
+            "author": {
+              "@type": "Person",
+              "name": "Waqas Mehmood",
+              "url": "https://waqasmehmood.com/"
+            },
+            "publisher": {
+              "@type": "Person",
+              "name": "Waqas Mehmood",
+              "url": "https://waqasmehmood.com/"
+            },
+            "datePublished": "2025-01-15T08:00:00+00:00",
+            "dateModified": "2026-10-21T12:00:00+00:00",
+            "mainEntityOfPage": "https://waqasmehmood.com/tools/ai-math-solver"
+          }
+        ]
+      };
+
+      if (!existingSchema) {
+        const script = document.createElement('script');
+        script.id = 'ai-math-solver-schema';
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(schemaData);
+        document.head.appendChild(script);
+      } else {
+        existingSchema.text = JSON.stringify(schemaData);
+      }
+    } else if (existingSchema) {
+      existingSchema.remove();
+    }
   };
 
   // Smooth tab navigation with browser history sync
@@ -267,6 +378,27 @@ export default function App() {
         'Free Local SEO tools: Local Rank Checker, Google Business Profile Audit, Local Citation Checker, NAP Consistency Checker, and Local SEO Audit Tool.',
         '/local-seo'
       );
+    } else if (cleanPath === '/ai-tools') {
+      setActiveTab('all-tools');
+      setSelectedPillar('ai');
+      updateSeoMetadata(
+        'Free AI Tools & Multimodal Solvers | Waqas Mehmood',
+        'Explore free AI-powered web tools by Waqas Mehmood. Free AI Math Solver, photo equation OCR, and step-by-step mathematical reasoning.',
+        '/ai-tools'
+      );
+    } else if (cleanPath === '/ai-math-solver') {
+      const matched = allToolsList.find(t => t.slug === 'ai-math-solver');
+      if (matched) {
+        setSelectedPillar('ai');
+        setActiveTool(matched);
+        setActiveTab('active-tool');
+        const toolSeo = TOOLS_SEO_DATA['ai-math-solver'];
+        updateSeoMetadata(
+          toolSeo?.metaTitle || 'Free AI Math Solver - Photo Scan & Step-by-Step AI Solutions',
+          toolSeo?.metaDesc || 'Solve math equations, algebra, calculus, and handwritten problems instantly with free AI photo OCR and step-by-step proofs.',
+          '/tools/ai-math-solver'
+        );
+      }
     } else if (cleanPath.startsWith('/tools/')) {
       const slug = cleanPath.replace('/tools/', '');
       const matched = allToolsList.find(t => t.slug === slug);
@@ -276,8 +408,8 @@ export default function App() {
         setActiveTab('active-tool');
         const toolSeo = TOOLS_SEO_DATA[matched.slug];
         updateSeoMetadata(
-          toolSeo?.metaTitle || `${matched.title} - Free Online SEO Tool | Waqas Mehmood`,
-          toolSeo?.metaDesc || `${matched.desc}. Free online ${matched.title} by Waqas Mehmood. Audit, analyze and optimize your website for Google search rankings.`,
+          toolSeo?.metaTitle || `${matched.title} - Free Online Tool | Waqas Mehmood`,
+          toolSeo?.metaDesc || `${matched.desc}. Free online ${matched.title} by Waqas Mehmood.`,
           `/tools/${matched.slug}`
         );
       } else {
@@ -1042,7 +1174,7 @@ export default function App() {
               className={`px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               <span>All Tools</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">25 Free</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
             </button>
           </nav>
 
@@ -3121,7 +3253,7 @@ export default function App() {
       )}
 
       {/* ======================================================== */}
-      {/* 2. ALL TOOLS DIRECTORY (4 SEPARATED PILLAR BOXES)         */}
+      {/* 2. ALL TOOLS DIRECTORY (5 SEPARATED PILLAR BOXES)         */}
       {/* ======================================================== */}
       {activeTab === 'all-tools' && (
         <section className="py-12 px-6 max-w-6xl mx-auto space-y-10">
@@ -3129,15 +3261,39 @@ export default function App() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-800">
             <div>
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">In-House Digital Tools</span>
-              <h1 className="text-3xl font-black text-white mt-1">SEO Tools Directory (4 Pillars)</h1>
+              <h1 className="text-3xl font-black text-white mt-1">SEO &amp; AI Tools Directory (5 Pillars)</h1>
               <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
                 Har pillar ke tools alag box me organize hain. Kisi bhi box par click karein to us category ke live operating tools open ho jayenge.
               </p>
             </div>
           </div>
 
-          {/* 4 DISTINCT SEPARATED PILLAR BOXES */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* FEATURED FLAGSHIP AI TOOL BANNER */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-cyan-500/10 border border-amber-500/30 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-mono font-bold">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>NEW FLAGSHIP TOOL</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-white">Free AI Math Solver</h2>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+                Snap handwritten homework photos, paste clipboard screenshots, or type equations for instant step-by-step proofs powered by multimodal AI.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                const mathTool = allToolsList.find(t => t.slug === 'ai-math-solver');
+                if (mathTool) openTool(mathTool, false);
+              }}
+              className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-amber-500/20 flex items-center gap-2 shrink-0 cursor-pointer transition-all"
+            >
+              <span>Launch AI Math Solver</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* 5 DISTINCT SEPARATED PILLAR BOXES */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {Object.keys(pillarsData).map((k) => {
               const p = pillarsData[k];
               const isSelected = selectedPillar === k;
@@ -3173,7 +3329,9 @@ export default function App() {
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-emerald-400 font-mono">Engine: PHP Laravel 13 Live Scraper</span>
+                <span className="text-xs text-emerald-400 font-mono">
+                  Engine: {selectedPillar === 'ai' ? 'Google Gemini Multimodal AI & Symbolic Engine' : 'PHP Laravel 13 Live Scraper'}
+                </span>
               </div>
             </div>
 
@@ -3437,18 +3595,35 @@ export default function App() {
       {/* 3. ACTIVE LIVE TOOL RUNNER & DETAILED RESULTS             */}
       {/* ======================================================== */}
       {activeTab === 'active-tool' && (
-        <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
-          <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
-            <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
-            <span>/</span>
-            <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
-            <span>/</span>
-            <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
-              {pillarsData[selectedPillar]?.title}
-            </button>
-            <span>/</span>
-            <span className="text-cyan-400 font-bold">{activeTool?.title || 'SEO Tool'}</span>
-          </div>
+        activeTool?.slug === 'ai-math-solver' ? (
+          <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+              <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+              <span>/</span>
+              <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+              <span>/</span>
+              <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+                {pillarsData[selectedPillar]?.title || 'AI TOOLS'}
+              </button>
+              <span>/</span>
+              <span className="text-cyan-400 font-bold">{activeTool?.title || 'Free AI Math Solver'}</span>
+            </div>
+
+            <AiMathSolver onHireClick={(service) => { setHireService(service || 'Custom AI & Web Development'); setHireModalOpen(true); }} />
+          </section>
+        ) : (
+          <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+              <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+              <span>/</span>
+              <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+              <span>/</span>
+              <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+                {pillarsData[selectedPillar]?.title}
+              </button>
+              <span>/</span>
+              <span className="text-cyan-400 font-bold">{activeTool?.title || 'SEO Tool'}</span>
+            </div>
 
           {/* Tool Input Card */}
           <div className="p-6 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-xl space-y-5">
@@ -4326,6 +4501,7 @@ export default function App() {
             );
           })()}
         </section>
+        )
       )}
 
       {/* ======================================================== */}

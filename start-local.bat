@@ -23,6 +23,7 @@ echo - Services:  http://localhost:5173/services
 echo - About:     http://localhost:5173/about
 echo - Contact:   http://localhost:5173/contact
 echo - All Tools: http://localhost:5173/all-tools
+echo - AI Math:   http://localhost:5173/tools/ai-math-solver
 echo - Sub-Tool:  http://localhost:5173/tools/word-counter
 echo - API Check: http://127.0.0.1:8000/api/portfolio
 echo ==============================================================
