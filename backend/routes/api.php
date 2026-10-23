@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PortfolioController;
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\MathSolverController;
+use App\Http\Controllers\Api\SiteCrawlerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,6 @@ Route::prefix('tools')->group(function () {
 
 // 5. Free AI Math Solver Endpoint (Photo OCR + Step-by-Step Solver)
 Route::post('/math/solve', [MathSolverController::class, 'solve']);
+
+// 6. Multi-Page Website Crawler & Site Auditor (Online Screaming Frog Lite)
+Route::get('/crawler/stream', [SiteCrawlerController::class, 'stream']);

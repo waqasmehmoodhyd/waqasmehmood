@@ -670,6 +670,67 @@ export const TOOLS_SEO_DATA = {
     ]
   },
 
+  'website-crawler': {
+    focusKeyword: 'free online website crawler site audit tool',
+    secondaryKeywords: [
+      'screaming frog online alternative',
+      'multi page website audit tool',
+      'find 404 broken links on website',
+      'website crawl depth and title checker',
+      'free site auditor export csv'
+    ],
+    h2Title: 'Free Online Website Crawler: Multi-Page Technical SEO & Site Audit Engine',
+    metaTitle: 'Free AI Website Crawler & Site Auditor - Screaming Frog Lite | Waqas Mehmood',
+    metaDesc: 'Crawl your entire website online. Discover 404 broken links, audit title tags, H1 headings, and page speed in real-time with 1-click CSV export.',
+    intro: 'The Free Online Website Crawler is a high-speed multi-page technical audit engine inspired by Screaming Frog SEO Spider. By traversing internal link structures in real-time via Breadth-First Search (BFS), this tool audits HTTP response codes, flags 404 dead ends, inspects meta titles and H1 hierarchies, and delivers instant, exportable CSV audit sheets.',
+    googleFactor: 'Search engines possess finite crawl budgets. When Googlebot encounters 404 dead links, broken redirects, missing canonicals, or duplicate H1 headings, crawl equity is squandered and indexation delays occur. Regularly crawling your web architecture ensures optimal crawl efficiency and search indexing.',
+    benchmarks: [
+      { label: 'HTTP Status Code Health', value: '100% clean HTTP 200 OK across internal links' },
+      { label: 'Crawl Limit Budget', value: 'Smart 10 to 50 page safe ceiling with zero server load' },
+      { label: 'Broken 404 Links Allowed', value: '0 dead ends (immediate 301 redirect or link update required)' },
+      { label: 'Real-Time Streaming Protocol', value: 'Live Server-Sent Events (SSE) data push without page refresh' },
+      { label: 'Report Exportability', value: '1-Click formatted CSV export for client & agency reporting' }
+    ],
+    bestPractices: [
+      'Run a full multi-page crawl after any major website redesign or CMS migration to detect hidden 404s.',
+      'Check for missing or duplicate H1 headings across secondary service and blog landing pages.',
+      'Audit page titles: keep them between 50 and 60 characters to avoid SERP snippet truncation.',
+      'Export the complete CSV sheet to track and verify technical fixes over time.'
+    ],
+    externalReference: {
+      name: 'Google Search Central - How Crawling & Indexing Works',
+      url: 'https://developers.google.com/search/docs/fundamentals/how-search-works',
+      citation: 'Official Google documentation on web crawling, link discovery, and algorithmic indexation.'
+    },
+    relatedSlugs: ['ai-math-solver', 'tech-broken-link-checker', 'website-speed-checker', 'xml-sitemap-checker'],
+    faqs: [
+      {
+        q: 'How does the free online website crawler discover pages on my site?',
+        a: 'The crawler starts at your seed URL (e.g. your homepage) and parses internal links using Breadth-First Search (BFS). If your website is a JavaScript SPA (like React or Vue) or has few static links, the crawler automatically auto-discovers and ingests your XML sitemap to queue and audit your pages seamlessly.'
+      },
+      {
+        q: 'How does this online crawler compare to desktop Screaming Frog?',
+        a: 'Desktop Screaming Frog requires installation on your computer and consumes heavy CPU and RAM. Our web tool runs directly in your browser, streams data in real-time, and exports clean CSV sheets without any installation.'
+      },
+      {
+        q: 'Why is there a smart 50-page limit per scan?',
+        a: 'The 50-page smart ceiling ensures lightning-fast scans (under 30 seconds) and protects server memory, providing ample sample data to pinpoint sitewide technical errors on business and blog websites.'
+      },
+      {
+        q: 'Can I export the audit report to Excel or Google Sheets?',
+        a: 'Yes! Simply click the "Download CSV" button to download a formatted spreadsheet containing all URLs, status codes, titles, H1s, speed metrics, and detected issues.'
+      },
+      {
+        q: 'How often should I run a multi-page crawl audit on my website?',
+        a: 'We recommend running a crawl audit at least once per month for active commercial blogs, and immediately after any CMS migration, theme revamp, or major content publishing cycle to catch 404 broken links early.'
+      },
+      {
+        q: 'Why are enterprise platforms like Amazon or Daraz blocked from crawling?',
+        a: 'Enterprise e-commerce and social networks contain millions of faceted URLs and aggressive Cloudflare CAPTCHAs that block automated bots. Capping out these domains ensures our free cloud crawler remains fast, reliable, and available for business, agency, and portfolio sites.'
+      }
+    ]
+  },
+
   // =========================================================================
   // PILLAR 4: LOCAL SEO (5 TOOLS)
   // =========================================================================

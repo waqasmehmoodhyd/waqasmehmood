@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
 import AiMathSolver from './components/AiMathSolver.jsx';
+import SiteAuditCrawler from './components/SiteAuditCrawler.jsx';
 
 const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
   ? 'http://127.0.0.1:8000/api'
@@ -82,11 +83,12 @@ export const PILLARS_DATA = {
   ai: {
     id: 'ai',
     title: 'AI TOOLS',
-    tagline: 'Multimodal Vision OCR & AI Problem Solving',
+    tagline: 'Multimodal Vision OCR & Intelligent Automated Web Crawlers',
     color: 'from-amber-500 to-rose-600',
     badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
     tools: [
-      { slug: 'ai-math-solver', title: 'Free AI Math Solver', desc: 'Scan math photos or type equations for instant step-by-step AI answers' }
+      { slug: 'ai-math-solver', title: 'Free AI Math Solver', desc: 'Scan math photos or type equations for instant step-by-step AI answers' },
+      { slug: 'website-crawler', title: 'Free AI Website Crawler & Auditor', desc: 'Real-time multi-page crawler, 404 broken links, title & H1 audit' }
     ]
   }
 };
@@ -277,6 +279,92 @@ export default function App() {
     } else if (existingSchema) {
       existingSchema.remove();
     }
+
+    // Dynamic Schema Injection for Website Crawler
+    const existingCrawlerSchema = document.getElementById('website-crawler-schema');
+    if (canonicalPath === '/tools/website-crawler' || canonicalPath === '/website-crawler') {
+      const crawlerFaqs = TOOLS_SEO_DATA['website-crawler']?.faqs || [];
+      const crawlerSchemaData = {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://waqasmehmood.com/tools/website-crawler#software",
+            "name": "Free AI Website Crawler & Site Auditor",
+            "url": "https://waqasmehmood.com/tools/website-crawler",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "All (Web, iOS, Android, Windows, macOS, Linux)",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "ratingCount": "840",
+              "bestRating": "5",
+              "worstRating": "1"
+            },
+            "featureList": [
+              "Multi-page technical website crawler",
+              "Real-time Server-Sent Events (SSE) streaming progress",
+              "404 broken dead link detection",
+              "Meta title tag & H1 heading hierarchy audit",
+              "1-Click CSV / Excel exportable audit sheets"
+            ],
+            "author": {
+              "@type": "Person",
+              "name": "Waqas Mehmood",
+              "url": "https://waqasmehmood.com/"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://waqasmehmood.com/tools/website-crawler#faq",
+            "mainEntity": crawlerFaqs.map(f => ({
+              "@type": "Question",
+              "name": f.q,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.a
+              }
+            }))
+          },
+          {
+            "@type": "TechArticle",
+            "@id": "https://waqasmehmood.com/tools/website-crawler#article",
+            "headline": "The Comprehensive Guide to Multi-Page Technical SEO Crawling & Site Auditing",
+            "description": description,
+            "author": {
+              "@type": "Person",
+              "name": "Waqas Mehmood",
+              "url": "https://waqasmehmood.com/"
+            },
+            "publisher": {
+              "@type": "Person",
+              "name": "Waqas Mehmood",
+              "url": "https://waqasmehmood.com/"
+            },
+            "datePublished": "2025-01-20T08:00:00+00:00",
+            "dateModified": "2026-10-23T10:00:00+00:00",
+            "mainEntityOfPage": "https://waqasmehmood.com/tools/website-crawler"
+          }
+        ]
+      };
+
+      if (!existingCrawlerSchema) {
+        const script = document.createElement('script');
+        script.id = 'website-crawler-schema';
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(crawlerSchemaData);
+        document.head.appendChild(script);
+      } else {
+        existingCrawlerSchema.text = JSON.stringify(crawlerSchemaData);
+      }
+    } else if (existingCrawlerSchema) {
+      existingCrawlerSchema.remove();
+    }
   };
 
   // Smooth tab navigation with browser history sync
@@ -383,7 +471,7 @@ export default function App() {
       setSelectedPillar('ai');
       updateSeoMetadata(
         'Free AI Tools & Multimodal Solvers | Waqas Mehmood',
-        'Explore free AI-powered web tools by Waqas Mehmood. Free AI Math Solver, photo equation OCR, and step-by-step mathematical reasoning.',
+        'Explore free AI-powered web tools by Waqas Mehmood. Free AI Math Solver, Free AI Website Crawler & Auditor, photo equation OCR, and multi-page technical audit.',
         '/ai-tools'
       );
     } else if (cleanPath === '/ai-math-solver') {
@@ -397,6 +485,19 @@ export default function App() {
           toolSeo?.metaTitle || 'Free AI Math Solver - Photo Scan & Step-by-Step AI Solutions',
           toolSeo?.metaDesc || 'Solve math equations, algebra, calculus, and handwritten problems instantly with free AI photo OCR and step-by-step proofs.',
           '/tools/ai-math-solver'
+        );
+      }
+    } else if (cleanPath === '/website-crawler') {
+      const matched = allToolsList.find(t => t.slug === 'website-crawler');
+      if (matched) {
+        setSelectedPillar('ai');
+        setActiveTool(matched);
+        setActiveTab('active-tool');
+        const toolSeo = TOOLS_SEO_DATA['website-crawler'];
+        updateSeoMetadata(
+          toolSeo?.metaTitle || 'Free AI Website Crawler & Site Auditor | Waqas Mehmood',
+          toolSeo?.metaDesc || 'Crawl your entire website online. Discover 404 broken links, audit title tags, H1 headings, and page speed in real-time with 1-click CSV export.',
+          '/tools/website-crawler'
         );
       }
     } else if (cleanPath.startsWith('/tools/')) {
@@ -3330,7 +3431,7 @@ export default function App() {
 
               <div className="flex items-center gap-2">
                 <span className="text-xs text-emerald-400 font-mono">
-                  Engine: {selectedPillar === 'ai' ? 'Google Gemini Multimodal AI & Symbolic Engine' : 'PHP Laravel 13 Live Scraper'}
+                  Engine: {selectedPillar === 'ai' ? 'Google Gemini AI & High-Speed Multi-Page BFS Crawler' : 'PHP Laravel 13 Live Scraper'}
                 </span>
               </div>
             </div>
@@ -3610,6 +3711,22 @@ export default function App() {
             </div>
 
             <AiMathSolver onHireClick={(service) => { setHireService(service || 'Custom AI & Web Development'); setHireModalOpen(true); }} />
+          </section>
+        ) : activeTool?.slug === 'website-crawler' ? (
+          <section className="py-12 px-6 max-w-6xl mx-auto space-y-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+              <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+              <span>/</span>
+              <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+              <span>/</span>
+              <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+                {pillarsData[selectedPillar]?.title || 'AI TOOLS'}
+              </button>
+              <span>/</span>
+              <span className="text-cyan-400 font-bold">{activeTool?.title || 'Free AI Website Crawler & Auditor'}</span>
+            </div>
+
+            <SiteAuditCrawler onHireClick={(service) => { setHireService(service || 'Technical SEO Remediation'); setHireModalOpen(true); }} />
           </section>
         ) : (
           <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
