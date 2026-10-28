@@ -194,6 +194,15 @@ export default function App() {
     }
     canonical.href = `https://waqasmehmood.com${canonicalPath}`;
 
+    // Send Google Analytics 4 (GA4) Pageview for Single Page Application navigation
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_title: title,
+        page_location: `https://waqasmehmood.com${canonicalPath}`,
+        page_path: canonicalPath,
+      });
+    }
+
     // Dynamic Schema Injection for AI Math Solver
     const existingSchema = document.getElementById('ai-math-solver-schema');
     if (canonicalPath === '/tools/ai-math-solver' || canonicalPath === '/ai-math-solver') {
@@ -389,6 +398,13 @@ export default function App() {
     setActiveTab('active-tool');
     navigate(`/tools/${tool.slug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'select_content', {
+        content_type: 'tool',
+        item_id: tool.slug,
+        item_name: tool.title
+      });
+    }
     if (autoRun) {
       runLiveAudit(tool);
     }
@@ -923,6 +939,13 @@ export default function App() {
       });
       if (res.ok) {
         setContactSuccess(true);
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', {
+            event_category: 'Contact',
+            service_requested: contactForm.service,
+            value: 1
+          });
+        }
         setContactForm({
           name: '',
           email: '',
