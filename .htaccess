@@ -10,16 +10,20 @@ DirectoryIndex index.html index.php
         Deny from all
     </FilesMatch>
 
-    # 2. Route all API requests to the Laravel backend entrypoint
+    # 2. Block and permanently remove legacy casino/gambling spam URLs with HTTP 410 Gone (Fast de-index in Google Search Console)
+    RewriteCond %{REQUEST_URI} (casino|gambling|slots?|baccarat|blackjack|roulette|rummy|betting|1x2gaming|bluberi|push-gaming|thunderkick|merkur|dragon-tiger|fruit-million|wild-spin|5-reel-drive|moon-princess|bonus-codes|free-chips|fire-strike|24k-casino|big-bass|neogames|red-rake|quickfire|playtech|gamesys|random-logic|best-online-game|mobile-phone-bill-new-zealand) [NC]
+    RewriteRule ^ - [G,L]
+
+    # 3. Route all API requests to the Laravel backend entrypoint
     RewriteCond %{REQUEST_URI} ^/api(/.*)?$
     RewriteRule ^api(/.*)?$ backend/public/index.php [L,QSA]
 
-    # 3. Serve actual existing files or directories directly
+    # 4. Serve actual existing files or directories directly
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 4. Fallback to index.html for React SPA client-side routing
+    # 5. Fallback to index.html for React SPA client-side routing
     RewriteRule ^ index.html [L]
 </IfModule>
 

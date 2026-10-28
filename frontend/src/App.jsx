@@ -162,7 +162,7 @@ export default function App() {
   }, []);
 
   // Dynamic SEO metadata updater (Title, Meta Description, Canonical Link, OpenGraph, Twitter, and Schema JSON-LD)
-  const updateSeoMetadata = (title, description, canonicalPath) => {
+  const updateSeoMetadata = (title, description, canonicalPath, isNoIndex = false) => {
     document.title = title;
 
     const setMeta = (name, val, isProp = false) => {
@@ -179,6 +179,7 @@ export default function App() {
 
     setMeta('description', description);
     setMeta('title', title);
+    setMeta('robots', isNoIndex ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMeta('og:title', title, true);
     setMeta('og:description', description, true);
     setMeta('og:url', `https://waqasmehmood.com${canonicalPath}`, true);
@@ -530,7 +531,30 @@ export default function App() {
           `/tools/${matched.slug}`
         );
       } else {
-        setActiveTab('all-tools');
+        setActiveTab('not-found');
+        updateSeoMetadata(
+          '404: Tool Not Found | Waqas Mehmood',
+          'The requested SEO tool could not be found.',
+          cleanPath,
+          true
+        );
+      }
+    } else {
+      // Check if it's a direct tool slug like /nap-consistency-checker or /website-seo-checker
+      const directSlug = cleanPath.replace(/^\//, '');
+      const matchedDirect = allToolsList.find(t => t.slug === directSlug);
+      if (matchedDirect) {
+        // Legitimate tool requested without /tools/ prefix -> Auto redirect to canonical /tools/:slug
+        navigate(`/tools/${matchedDirect.slug}`, { replace: true });
+      } else {
+        // Unknown, legacy, or spam URL -> Set 404 Not Found & noindex
+        setActiveTab('not-found');
+        updateSeoMetadata(
+          '404: Page Not Found | Waqas Mehmood',
+          'The page you are looking for does not exist or has been permanently removed.',
+          cleanPath,
+          true
+        );
       }
     }
   }, [location.pathname, allToolsList]);
@@ -4642,6 +4666,41 @@ export default function App() {
           })()}
         </section>
         )
+      )}
+
+      {/* ======================================================== */}
+      {/* 3.5. 404 NOT FOUND PAGE (PREVENTS SPAM / SOFT 404S)      */}
+      {/* ======================================================== */}
+      {activeTab === 'not-found' && (
+        <section className="min-h-[75vh] flex items-center justify-center px-6 py-20">
+          <div className="max-w-xl w-full text-center space-y-6 p-8 sm:p-12 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-2xl backdrop-blur-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-400 mx-auto">
+              <AlertTriangle className="w-10 h-10" />
+            </div>
+            <div className="space-y-2">
+              <span className="text-xs font-mono text-rose-400 font-bold uppercase tracking-widest">HTTP 404 • Page Not Found</span>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Page Does Not Exist</h1>
+              <p className="text-sm text-slate-400 max-w-md mx-auto">
+                The URL you requested is not part of Waqas Mehmood's website or has been permanently removed.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+              <button
+                onClick={() => goToTab('home')}
+                className="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-cyan-500/20 cursor-pointer flex items-center gap-2"
+              >
+                <span>Back to Home</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => goToTab('all-tools')}
+                className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm border border-slate-700 transition-all cursor-pointer"
+              >
+                Explore 27 Free SEO Tools
+              </button>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* ======================================================== */}
