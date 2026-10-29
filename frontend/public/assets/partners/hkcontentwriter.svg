@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="hk-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <linearGradient id="hk-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#hk-bg)" stroke="#92400e" stroke-width="2"/>
+  <rect x="20" y="20" width="88" height="88" rx="20" fill="url(#hk-accent)" opacity="0.12"/>
+  <!-- Fountain Pen / Quill Writing Icon -->
+  <path d="M46 76 L76 34 C78 31 82 31 84 34 C86 36 86 40 84 42 L54 84 L42 86 Z" fill="none" stroke="url(#hk-accent)" stroke-width="4.5" stroke-linejoin="round"/>
+  <circle cx="58" cy="68" r="2.5" fill="#f59e0b"/>
+  <!-- Writing page line -->
+  <line x1="36" y1="92" x2="92" y2="92" stroke="#fef3c7" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+  <text x="64" y="108" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="800" fill="#fef3c7" letter-spacing="0.8">HK CONTENT WRITER</text>
+</svg>

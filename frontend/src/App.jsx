@@ -4564,6 +4564,43 @@ export default function App() {
                       </div>
                     )}
 
+                    {/* Featured Recommended Industry Resource with 1x1 Thumbnail */}
+                    {toolSeo.partnerResource && (
+                      <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 shadow-xl flex flex-col sm:flex-row items-start sm:items-center gap-4 text-xs">
+                        <div className="shrink-0 p-1 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-inner">
+                          <img
+                            src={toolSeo.partnerResource.thumbnail}
+                            alt={`${toolSeo.partnerResource.niche} - ${toolSeo.partnerResource.domain}`}
+                            className="w-14 h-14 aspect-square rounded-xl object-contain bg-slate-950 p-1"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="space-y-1.5 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold tracking-wide">
+                              Recommended Resource • {toolSeo.partnerResource.niche}
+                            </span>
+                            <span className="text-[11px] font-mono text-slate-500">
+                              {toolSeo.partnerResource.domain}
+                            </span>
+                          </div>
+                          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                            {toolSeo.partnerResource.contentBefore}
+                            <a
+                              href={toolSeo.partnerResource.anchorUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-bold text-cyan-400 hover:text-cyan-300 underline underline-offset-4 inline-flex items-center gap-1 transition-colors"
+                            >
+                              <span>{toolSeo.partnerResource.anchorText}</span>
+                              <ExternalLink className="w-3 h-3 inline shrink-0" />
+                            </a>
+                            {toolSeo.partnerResource.contentAfter}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Tool-Specific FAQs */}
                     {toolSeo.faqs && toolSeo.faqs.length > 0 && (
                       <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">

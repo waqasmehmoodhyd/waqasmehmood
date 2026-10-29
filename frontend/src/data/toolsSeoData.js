@@ -1,3 +1,87 @@
+export const PARTNER_RESOURCES = {
+  seoTools: {
+    niche: 'SEO Tools',
+    domain: 'rankvera.live',
+    thumbnail: '/assets/partners/rankvera.svg',
+    contentBefore: 'Explore useful ',
+    anchorText: 'SEO tools',
+    anchorUrl: 'https://rankvera.live/tools/',
+    contentAfter: ' to analyze websites, improve on-page optimization, and support better search engine visibility.'
+  },
+  blogTools: {
+    niche: 'Blog Tools',
+    domain: 'qrcodex.site',
+    thumbnail: '/assets/partners/qrcodex.svg',
+    contentBefore: 'Discover practical ',
+    anchorText: 'Blogging tools',
+    anchorUrl: 'https://qrcodex.site/blog/',
+    contentAfter: ' to simplify content planning, writing, editing, and publishing.'
+  },
+  compressorTools: {
+    niche: 'Compressor Tools',
+    domain: 'imagesprint.live',
+    thumbnail: '/assets/partners/imagesprint.svg',
+    contentBefore: 'Use ',
+    anchorText: 'online file compression',
+    anchorUrl: 'https://imagesprint.live/all-tools/',
+    contentAfter: ' tools to reduce image and document sizes for easier sharing and faster uploads.'
+  },
+  backgroundRemover: {
+    niche: 'Background Remover',
+    domain: 'imagesprint.live',
+    thumbnail: '/assets/partners/imagesprint.svg',
+    contentBefore: 'Try an ',
+    anchorText: 'online background remover',
+    anchorUrl: 'https://imagesprint.live/all-tools/',
+    contentAfter: ' to create clean product images and professional graphics.'
+  },
+  formatConverter: {
+    niche: 'Format Converter',
+    domain: 'imagesprint.live',
+    thumbnail: '/assets/partners/imagesprint.svg',
+    contentBefore: 'Use ',
+    anchorText: 'online file format',
+    anchorUrl: 'https://imagesprint.live/all-tools/',
+    contentAfter: ' converters to convert images and documents into formats that suit your needs.'
+  },
+  contentWriter: {
+    niche: 'Content Writer',
+    domain: 'hkcontentwriter.site',
+    thumbnail: '/assets/partners/hkcontentwriter.svg',
+    contentBefore: 'Find ',
+    anchorText: 'professional content writing',
+    anchorUrl: 'https://hkcontentwriter.site/blogs/',
+    contentAfter: ' services for website content, blog posts, and digital marketing campaigns.'
+  },
+  freelancing: {
+    niche: 'Freelancing',
+    domain: 'hkcontentwriter.site',
+    thumbnail: '/assets/partners/hkcontentwriter.svg',
+    contentBefore: 'Explore ',
+    anchorText: 'helpful freelancing resources',
+    anchorUrl: 'https://hkcontentwriter.site/blogs/',
+    contentAfter: ' to improve your skills, find opportunities, and grow your online business.'
+  },
+  seoServices: {
+    niche: 'SEO Services',
+    domain: 'rankvera.live',
+    thumbnail: '/assets/partners/rankvera.svg',
+    contentBefore: 'Learn ',
+    anchorText: 'how professional SEO',
+    anchorUrl: 'https://rankvera.live/tools/',
+    contentAfter: ' services can improve website structure, content relevance, and organic search visibility.'
+  },
+  smallBusiness: {
+    niche: 'Small Business',
+    domain: 'hkcontentwriter.site',
+    thumbnail: '/assets/partners/hkcontentwriter.svg',
+    contentBefore: 'Discover ',
+    anchorText: 'practical digital marketing',
+    anchorUrl: 'https://hkcontentwriter.site/blogs/',
+    contentAfter: ' solutions for small businesses to strengthen your online presence and reach more customers.'
+  }
+};
+
 // In-Depth On-Page SEO Educational Knowledge Base for All 25 In-House Tools
 // Authored for Maximum Google Search Indexing, Topical Authority & User Value
 
@@ -31,6 +115,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide',
       citation: 'Official Google documentation on structuring pages, organizing headings, and optimizing metadata for search crawlers.'
     },
+    partnerResource: PARTNER_RESOURCES.seoTools,
     relatedSlugs: ['seo-analyzer', 'meta-tag-analyzer', 'heading-checker', 'broken-link-checker'],
     faqs: [
       {
@@ -68,6 +153,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/fundamentals/how-search-works',
       citation: 'Learn how Googlebot discovers, parses, and indexes web content across the global web.'
     },
+    partnerResource: PARTNER_RESOURCES.seoServices,
     relatedSlugs: ['website-seo-checker', 'meta-tag-analyzer', 'tech-broken-link-checker'],
     faqs: [
       {
@@ -101,6 +187,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/essentials/spam-policies#keyword-stuffing',
       citation: 'Official guidelines outlining algorithmic penalties for artificially loading web pages with search keywords.'
     },
+    partnerResource: PARTNER_RESOURCES.contentWriter,
     relatedSlugs: ['word-counter', 'plagiarism-checker', 'meta-tag-analyzer', 'heading-checker'],
     faqs: [
       {
@@ -134,6 +221,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/appearance/title-link',
       citation: 'Guidance on how Google generates snippet titles and best practices for webmasters.'
     },
+    partnerResource: PARTNER_RESOURCES.seoTools,
     relatedSlugs: ['serp-snippet-preview', 'website-seo-checker', 'keyword-density-checker'],
     faqs: [
       {
@@ -167,6 +255,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/appearance/snippet',
       citation: 'Learn how to control text snippets and search appearance using meta tags and data-nosnippet attributes.'
     },
+    partnerResource: PARTNER_RESOURCES.smallBusiness,
     relatedSlugs: ['meta-tag-analyzer', 'website-seo-checker', 'word-counter'],
     faqs: [
       {
@@ -200,6 +289,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/fundamentals/creating-helpful-content',
       citation: 'Official guidelines on producing comprehensive, people-first content that search engines reward.'
     },
+    partnerResource: PARTNER_RESOURCES.blogTools,
     relatedSlugs: ['keyword-density-checker', 'plagiarism-checker', 'heading-checker'],
     faqs: [
       {
@@ -232,6 +322,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/essentials/spam-policies#scraped-content',
       citation: 'Official policy on scraped and low-value duplicate text across the Google index.'
     },
+    partnerResource: PARTNER_RESOURCES.contentWriter,
     relatedSlugs: ['word-counter', 'keyword-density-checker', 'website-seo-checker'],
     faqs: [
       {
@@ -264,6 +355,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/appearance/google-images',
       citation: 'Google official documentation for image optimization, alt text guidelines, and responsive asset delivery.'
     },
+    partnerResource: PARTNER_RESOURCES.backgroundRemover,
     relatedSlugs: ['website-seo-checker', 'website-speed-checker', 'seo-analyzer'],
     faqs: [
       {
@@ -297,6 +389,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://www.w3.org/WAI/tutorials/page-structure/headings/',
       citation: 'Official W3C web standards for heading markup, screen reader accessibility, and document structure.'
     },
+    partnerResource: PARTNER_RESOURCES.blogTools,
     relatedSlugs: ['website-seo-checker', 'keyword-density-checker', 'word-counter'],
     faqs: [
       {
@@ -329,6 +422,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/crawling-indexing/301-redirects',
       citation: 'Learn how Google handles 301 permanent redirects, link equity preservation, and canonicalization.'
     },
+    partnerResource: PARTNER_RESOURCES.seoTools,
     relatedSlugs: ['tech-broken-link-checker', 'website-seo-checker', 'xml-sitemap-checker'],
     faqs: [
       {
@@ -365,6 +459,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/essentials/spam-policies#link-spam',
       citation: 'Official guidelines prohibiting link manipulation, automated link schemes, and paid PageRank passes.'
     },
+    partnerResource: PARTNER_RESOURCES.seoServices,
     relatedSlugs: ['da-pa-checker', 'competitor-backlink-analyzer', 'anchor-text-analyzer'],
     faqs: [
       {
@@ -397,6 +492,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/appearance/ranking-systems-guide',
       citation: 'Overview of Google core ranking systems, including PageRank, freshness, and helpful content signals.'
     },
+    partnerResource: PARTNER_RESOURCES.freelancing,
     relatedSlugs: ['backlink-checker', 'competitor-backlink-analyzer', 'referring-domains-checker'],
     faqs: [
       {
@@ -429,6 +525,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/blog/2011/05/more-guidance-on-building-high-quality',
       citation: 'Google official guidance on how authoritative, original sites earn natural user references.'
     },
+    partnerResource: PARTNER_RESOURCES.freelancing,
     relatedSlugs: ['backlink-checker', 'referring-domains-checker', 'anchor-text-analyzer'],
     faqs: [
       {
@@ -461,6 +558,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/crawling-indexing/links-crawlable',
       citation: 'Guidance on how search engines discover and crawl links across independent internet domains.'
     },
+    partnerResource: PARTNER_RESOURCES.seoServices,
     relatedSlugs: ['backlink-checker', 'da-pa-checker', 'anchor-text-analyzer'],
     faqs: [
       {
@@ -494,6 +592,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/fundamentals/seo-starter-guide#use-text-for-links',
       citation: 'Official guidelines on writing descriptive, helpful anchor text for web hyperlinks.'
     },
+    partnerResource: PARTNER_RESOURCES.seoTools,
     relatedSlugs: ['backlink-checker', 'competitor-backlink-analyzer', 'da-pa-checker'],
     faqs: [
       {
@@ -531,6 +630,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://web.dev/explore/metrics',
       citation: 'Comprehensive technical documentation on Core Web Vitals, LCP, INP, and CLS performance metrics.'
     },
+    partnerResource: PARTNER_RESOURCES.compressorTools,
     relatedSlugs: ['tech-broken-link-checker', 'robots-txt-tester', 'schema-markup-validator'],
     faqs: [
       {
@@ -563,6 +663,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/crawling-indexing/large-site-managing-crawl-budget',
       citation: 'Guidance for webmasters on managing crawl budget and resolving redirect waste.'
     },
+    partnerResource: PARTNER_RESOURCES.formatConverter,
     relatedSlugs: ['broken-link-checker', 'website-speed-checker', 'xml-sitemap-checker'],
     faqs: [
       {
@@ -596,6 +697,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://www.sitemaps.org/protocol.html',
       citation: 'The universal technical specification supported by Google, Microsoft Bing, and major search engines.'
     },
+    partnerResource: PARTNER_RESOURCES.seoServices,
     relatedSlugs: ['robots-txt-tester', 'website-seo-checker', 'tech-broken-link-checker'],
     faqs: [
       {
@@ -629,6 +731,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/crawling-indexing/robots/intro',
       citation: 'Official Google documentation outlining supported robots.txt directives and syntax rules.'
     },
+    partnerResource: PARTNER_RESOURCES.seoTools,
     relatedSlugs: ['xml-sitemap-checker', 'website-speed-checker', 'schema-markup-validator'],
     faqs: [
       {
@@ -661,6 +764,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://schema.org/',
       citation: 'The collaborative community activity with a mission to create, maintain, and promote schemas for structured data on the Internet.'
     },
+    partnerResource: PARTNER_RESOURCES.smallBusiness,
     relatedSlugs: ['website-seo-checker', 'meta-tag-analyzer', 'local-seo-audit-tool'],
     faqs: [
       {
@@ -702,6 +806,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/fundamentals/how-search-works',
       citation: 'Official Google documentation on web crawling, link discovery, and algorithmic indexation.'
     },
+    partnerResource: PARTNER_RESOURCES.formatConverter,
     relatedSlugs: ['ai-math-solver', 'tech-broken-link-checker', 'website-speed-checker', 'xml-sitemap-checker'],
     faqs: [
       {
@@ -758,6 +863,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://support.google.com/business/answer/7091',
       citation: 'Official guidelines on how Google determines local ranking based on relevance, distance, and prominence.'
     },
+    partnerResource: PARTNER_RESOURCES.smallBusiness,
     relatedSlugs: ['google-business-profile-checker', 'nap-consistency-checker', 'local-seo-audit-tool'],
     faqs: [
       {
@@ -790,6 +896,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://support.google.com/business/answer/3038177',
       citation: 'Official Google policies and operational standards for managing local business listings.'
     },
+    partnerResource: PARTNER_RESOURCES.smallBusiness,
     relatedSlugs: ['local-rank-checker', 'nap-consistency-checker', 'local-citation-checker'],
     faqs: [
       {
@@ -822,6 +929,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://support.google.com/business/answer/7091',
       citation: 'Official strategies for maintaining prominent local directory citations and business visibility.'
     },
+    partnerResource: PARTNER_RESOURCES.freelancing,
     relatedSlugs: ['nap-consistency-checker', 'google-business-profile-checker', 'local-seo-audit-tool'],
     faqs: [
       {
@@ -854,6 +962,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://www.w3.org/TR/html52/links.html#link-type-tel',
       citation: 'Web accessibility and structural standards for telephone and contact information.'
     },
+    partnerResource: PARTNER_RESOURCES.smallBusiness,
     relatedSlugs: ['local-citation-checker', 'google-business-profile-checker', 'local-seo-audit-tool'],
     faqs: [
       {
@@ -887,6 +996,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://developers.google.com/search/docs/appearance/structured-data/local-business',
       citation: 'Official guidelines on implementing LocalBusiness structured data for rich search results.'
     },
+    partnerResource: PARTNER_RESOURCES.smallBusiness,
     relatedSlugs: ['local-rank-checker', 'google-business-profile-checker', 'schema-markup-validator'],
     faqs: [
       {
@@ -936,6 +1046,7 @@ export const TOOLS_SEO_DATA = {
       url: 'https://mathworld.wolfram.com/',
       citation: 'Authoritative mathematical encyclopedia providing formal definitions, proofs, and algebraic properties.'
     },
+    partnerResource: PARTNER_RESOURCES.blogTools,
     relatedSlugs: ['word-counter', 'website-seo-checker', 'seo-analyzer'],
     faqs: [
       {

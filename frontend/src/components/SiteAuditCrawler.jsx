@@ -1067,6 +1067,39 @@ export default function SiteAuditCrawler({ onHireClick }) {
               </div>
             </a>
           </div>
+
+          {/* Featured Recommended Industry Resource with 1x1 Thumbnail */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 shadow-xl flex flex-col sm:flex-row items-start sm:items-center gap-4 text-xs mt-3">
+            <div className="shrink-0 p-1 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-inner">
+              <img
+                src="/assets/partners/imagesprint.svg"
+                alt="Format Converter - imagesprint.live"
+                className="w-14 h-14 aspect-square rounded-xl object-contain bg-slate-950 p-1"
+                loading="lazy"
+              />
+            </div>
+            <div className="space-y-1.5 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-bold tracking-wide">
+                  Recommended Resource • Format Converter
+                </span>
+                <span className="text-[11px] font-mono text-slate-500">
+                  imagesprint.live
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                Use <a
+                  href="https://imagesprint.live/all-tools/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-cyan-400 hover:text-cyan-300 underline underline-offset-4 inline-flex items-center gap-1 transition-colors"
+                >
+                  <span>online file format</span>
+                  <ExternalLink className="w-3 h-3 inline shrink-0" />
+                </a> converters to convert images and documents into formats that suit your needs.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Section 6: Related Technical SEO Tools (Internal Link Mesh) */}
