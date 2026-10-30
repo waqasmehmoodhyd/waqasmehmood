@@ -7,11 +7,13 @@ import {
   Palette, Laptop, Share2, Target, Plus, Eye, Send, Filter, Check, Award,
   Copy, Smartphone, Monitor, Image, ListTree, Link2, MapPin, Hash, BookOpen,
   Trash2, Lock, Unlock, Mail, MessageSquare, DollarSign, User, Briefcase,
-  HelpCircle, ChevronDown, Star, TrendingUp
+  HelpCircle, ChevronDown, Star, TrendingUp, Key
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
+import { CITIES_DATA } from './data/citiesData.js';
 import AiMathSolver from './components/AiMathSolver.jsx';
 import SiteAuditCrawler from './components/SiteAuditCrawler.jsx';
+import CityLocationView from './components/CityLocationView.jsx';
 
 const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
   ? 'http://127.0.0.1:8000/api'
@@ -98,7 +100,10 @@ export default function App() {
   const navigate = useNavigate();
   const pillarsData = PILLARS_DATA;
 
-  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'services' | 'about' | 'contact' | 'all-tools' | 'active-tool'
+  const [activeTab, setActiveTab] = useState('home'); // 'home' | 'services' | 'about' | 'contact' | 'all-tools' | 'active-tool' | 'location'
+  const [selectedCity, setSelectedCity] = useState('hyderabad');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [portfolioCategory, setPortfolioCategory] = useState('all');
   const [selectedPillar, setSelectedPillar] = useState('onpage'); // 'onpage' | 'offpage' | 'technical' | 'local'
   const [activeTool, setActiveTool] = useState(null);
@@ -132,6 +137,37 @@ export default function App() {
   const [hireModalOpen, setHireModalOpen] = useState(false);
   const [hireService, setHireService] = useState('SEO Services');
   const [addProjectModalOpen, setAddProjectModalOpen] = useState(false);
+
+  // Method 1: Web3Forms Direct Email Delivery State
+  const [web3FormsKey, setWeb3FormsKey] = useState(() => {
+    return localStorage.getItem('wm_web3forms_key') || '';
+  });
+  const [web3ModalOpen, setWeb3ModalOpen] = useState(false);
+  const [tempWeb3Key, setTempWeb3Key] = useState('');
+  const [keyTestSending, setKeyTestSending] = useState(false);
+  const [keyTestResult, setKeyTestResult] = useState(null);
+  const [lastSubmittedLead, setLastSubmittedLead] = useState(null);
+
+  // Hire Waqas Modal Form State
+  const [hireForm, setHireForm] = useState({
+    name: '',
+    contact: '',
+    service: 'SEO Services',
+    message: ''
+  });
+  const [hireSubmitting, setHireSubmitting] = useState(false);
+  const [hireSuccess, setHireSuccess] = useState(false);
+  const [lastHireLead, setLastHireLead] = useState(null);
+
+  // Local Inquiries Log (Owner View)
+  const [inquiriesList, setInquiriesList] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('wm_inquiries_local') || '[]');
+    } catch {
+      return [];
+    }
+  });
+  const [inquiriesModalOpen, setInquiriesModalOpen] = useState(false);
 
   // Contact Form State
   const [contactForm, setContactForm] = useState({
@@ -375,6 +411,78 @@ export default function App() {
     } else if (existingCrawlerSchema) {
       existingCrawlerSchema.remove();
     }
+
+    // Dynamic Schema Injection for Location City Pages (LocalBusiness & ProfessionalService)
+    const existingLocationSchema = document.getElementById('location-city-schema');
+    if (canonicalPath.startsWith('/locations/')) {
+      const citySlug = canonicalPath.replace('/locations/', '');
+      const city = CITIES_DATA[citySlug];
+      if (city) {
+        const locationSchemaData = {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": ["ProfessionalService", "LocalBusiness"],
+              "@id": `https://waqasmehmood.com/locations/${city.slug}#localbusiness`,
+              "name": `Waqas Mehmood - ${city.primaryKeyword}`,
+              "url": `https://waqasmehmood.com/locations/${city.slug}`,
+              "image": "https://waqasmehmood.com/favicon.svg",
+              "description": city.metaDesc,
+              "telephone": "+92 303 3111126",
+              "priceRange": "$$",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": city.cityName,
+                "addressRegion": city.province,
+                "postalCode": city.postalCode,
+                "addressCountry": "PK"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": city.geo.lat,
+                "longitude": city.geo.lng
+              },
+              "areaServed": city.localAreas.map(a => `${a}, ${city.cityName}`),
+              "knowsAbout": [
+                city.primaryKeyword,
+                city.secondaryKeyword,
+                "Best SEO Expert",
+                "SEO Specialist",
+                "Best SEO Services",
+                "SEO Management",
+                "Local SEO Services",
+                "Technical SEO Audits",
+                "Google Business Profile 3-Pack"
+              ]
+            },
+            {
+              "@type": "FAQPage",
+              "@id": `https://waqasmehmood.com/locations/${city.slug}#faq`,
+              "mainEntity": city.faqs.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": f.a
+                }
+              }))
+            }
+          ]
+        };
+
+        if (!existingLocationSchema) {
+          const script = document.createElement('script');
+          script.id = 'location-city-schema';
+          script.type = 'application/ld+json';
+          script.text = JSON.stringify(locationSchemaData);
+          document.head.appendChild(script);
+        } else {
+          existingLocationSchema.text = JSON.stringify(locationSchemaData);
+        }
+      }
+    } else if (existingLocationSchema) {
+      existingLocationSchema.remove();
+    }
   };
 
   // Smooth tab navigation with browser history sync
@@ -390,6 +498,14 @@ export default function App() {
     else if (tab === 'about') navigate('/about');
     else if (tab === 'contact') navigate('/contact');
     else if (tab === 'all-tools') navigate('/all-tools');
+    else if (tab === 'location') navigate(`/locations/${selectedCity}`);
+  };
+
+  const handleSwitchCity = (citySlug) => {
+    setSelectedCity(citySlug);
+    setActiveTab('location');
+    navigate(`/locations/${citySlug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Open specific sub-tool on dedicated URL /tools/:slug
@@ -411,6 +527,196 @@ export default function App() {
     }
   };
 
+  // Comprehensive Searchable Index across all 27 Tools, 5 Services, Cities & Key Pages
+  const searchableItems = useMemo(() => {
+    const list = [];
+
+    // 1. All 27 In-House Tools
+    allToolsList.forEach(tool => {
+      list.push({
+        id: `tool-${tool.slug}`,
+        category: 'SEO Tools',
+        categoryIcon: Search,
+        title: tool.title,
+        desc: tool.desc,
+        badge: tool.pillarTitle,
+        badgeColor: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+        keywords: `${tool.title} ${tool.desc} ${tool.pillarTitle} ${tool.slug} tool checker audit analyzer calculator`,
+        onSelect: () => {
+          setSearchOpen(false);
+          openTool(tool);
+        }
+      });
+    });
+
+    // 2. Core Services
+    const services = [
+      {
+        title: 'Best SEO Services & Management',
+        desc: 'Dedicated SEO manager retainers, technical audits, Core Web Vitals, and Local SEO',
+        keywords: 'seo best seo services management specialist expert retainer audit core web vitals ranking',
+        badge: 'SEO Services',
+        badgeColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+        onSelect: () => {
+          setSearchOpen(false);
+          goToTab('services');
+        }
+      },
+      {
+        title: 'Full-Stack Website Development',
+        desc: 'Custom React.js, Tailwind CSS, and secure PHP Laravel REST APIs',
+        keywords: 'website development react laravel developer code full stack backend frontend',
+        badge: 'Development',
+        badgeColor: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
+        onSelect: () => {
+          setSearchOpen(false);
+          goToTab('services');
+        }
+      },
+      {
+        title: 'High-ROAS Google Ads (PPC)',
+        desc: 'Performance Max, Search ads, negative keyword matrices & 4.8x average ROAS',
+        keywords: 'google ads ppc sem pay per click search ads performance max shopping ads',
+        badge: 'Google Ads',
+        badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+        onSelect: () => {
+          setSearchOpen(false);
+          goToTab('services');
+        }
+      },
+      {
+        title: 'Graphic Design & UI/UX',
+        desc: 'Figma responsive mobile/web UI, vector logos, and high-CTR brand creative',
+        keywords: 'graphic design figma ui ux interface logo branding identity mockups',
+        badge: 'Design',
+        badgeColor: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+        onSelect: () => {
+          setSearchOpen(false);
+          goToTab('services');
+        }
+      },
+      {
+        title: 'Social Media Marketing (SMM)',
+        desc: 'Viral organic content distribution and high-converting paid social funnels',
+        keywords: 'smm social media marketing facebook instagram tiktok paid ads lead generation',
+        badge: 'SMM',
+        badgeColor: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
+        onSelect: () => {
+          setSearchOpen(false);
+          goToTab('services');
+        }
+      }
+    ];
+
+    services.forEach((s, idx) => {
+      list.push({
+        id: `service-${idx}`,
+        category: 'Services',
+        categoryIcon: Briefcase,
+        title: s.title,
+        desc: s.desc,
+        badge: s.badge,
+        badgeColor: s.badgeColor,
+        keywords: s.keywords,
+        onSelect: s.onSelect
+      });
+    });
+
+    // 3. Local SEO Cities (Locations)
+    Object.values(CITIES_DATA).forEach(city => {
+      list.push({
+        id: `city-${city.slug}`,
+        category: 'Locations',
+        categoryIcon: MapPin,
+        title: `${city.primaryKeyword} (${city.cityName}, ${city.province})`,
+        desc: `LocalBusiness schema, Google Maps 3-Pack, ${city.localAreas.slice(0, 4).join(', ')}`,
+        badge: city.cityName,
+        badgeColor: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+        keywords: `${city.primaryKeyword} ${city.secondaryKeyword} ${city.cityName} ${city.province} ${city.localAreas.join(' ')} local seo map pack`,
+        onSelect: () => {
+          setSearchOpen(false);
+          handleSwitchCity(city.slug);
+        }
+      });
+    });
+
+    // 4. Important Site Pages
+    list.push({
+      id: 'page-home',
+      category: 'Pages',
+      categoryIcon: Globe,
+      title: 'Homepage (Best SEO Expert & Growth Engineer)',
+      desc: 'Waqas Mehmood authority overview, performance metrics & core pillars',
+      badge: 'Home',
+      badgeColor: 'bg-slate-800 text-slate-300 border-slate-700',
+      keywords: 'home homepage waqas mehmood best seo expert specialist growth engineer',
+      onSelect: () => {
+        setSearchOpen(false);
+        goToTab('home');
+      }
+    });
+
+    list.push({
+      id: 'page-contact',
+      category: 'Pages',
+      categoryIcon: Mail,
+      title: 'Contact Waqas Mehmood (Audit Inquiry)',
+      desc: 'Request a custom SEO audit, PPC consultation, or web development quote',
+      badge: 'Contact',
+      badgeColor: 'bg-slate-800 text-slate-300 border-slate-700',
+      keywords: 'contact hire inquiry consultation audit quote email phone message',
+      onSelect: () => {
+        setSearchOpen(false);
+        goToTab('contact');
+      }
+    });
+
+    list.push({
+      id: 'page-about',
+      category: 'Pages',
+      categoryIcon: User,
+      title: 'About Waqas Mehmood',
+      desc: 'Full-stack growth engineer background, 10+ years experience & track record',
+      badge: 'About',
+      badgeColor: 'bg-slate-800 text-slate-300 border-slate-700',
+      keywords: 'about biography experience history engineer strategist profile',
+      onSelect: () => {
+        setSearchOpen(false);
+        goToTab('about');
+      }
+    });
+
+    return list;
+  }, [allToolsList]);
+
+  // Filtered live search results
+  const filteredSearchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) {
+      return searchableItems.slice(0, 8);
+    }
+    return searchableItems.filter(item => 
+      item.title.toLowerCase().includes(q) ||
+      item.desc.toLowerCase().includes(q) ||
+      item.keywords.toLowerCase().includes(q) ||
+      item.category.toLowerCase().includes(q)
+    );
+  }, [searchQuery, searchableItems]);
+
+  // Global Ctrl+K / Cmd+K listener
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen(prev => !prev);
+      } else if (e.key === 'Escape') {
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Route Synchronization Effect - Handles direct browser entry, reloads, and back/forward navigation
   useEffect(() => {
     const rawPath = location.pathname.toLowerCase();
@@ -419,36 +725,48 @@ export default function App() {
     if (cleanPath === '/' || cleanPath === '') {
       setActiveTab('home');
       updateSeoMetadata(
-        'Waqas Mehmood | Digital Marketing, SEO Specialist & Web Developer',
-        'Senior Digital Marketing Strategist, SEO Architect & Full-Stack Developer specializing in high-ROAS Google Ads, technical SEO audits, and custom React/Laravel web solutions.',
+        'Waqas Mehmood | Best SEO Expert, Specialist & SEO Services',
+        'Looking for the best SEO expert and specialist? Waqas Mehmood provides full-funnel SEO services, complete SEO management, technical audits, and organic revenue scaling.',
         '/'
       );
     } else if (cleanPath === '/services') {
       setActiveTab('services');
       updateSeoMetadata(
-        'Digital Marketing Services & Portfolio | Waqas Mehmood',
-        'Explore Waqas Mehmood\'s portfolio across 5 core specializations: Graphic Design, Website Development, SMM, Google Ads, and Technical SEO Services.',
+        'Best SEO Services & Dedicated SEO Management | Waqas Mehmood',
+        'Comprehensive SEO management and best SEO services. Monthly retainers, dedicated SEO manager, technical audits, and high-ROAS digital growth.',
         '/services'
       );
+    } else if (cleanPath.startsWith('/locations/') || cleanPath === '/locations') {
+      let slug = cleanPath.replace('/locations/', '').replace('/locations', '');
+      if (!slug || !CITIES_DATA[slug]) slug = 'hyderabad';
+      setSelectedCity(slug);
+      setActiveTab('location');
+      const city = CITIES_DATA[slug];
+      updateSeoMetadata(city.metaTitle, city.metaDesc, `/locations/${city.slug}`);
+    } else if (cleanPath === '/seo-expert-in-hyderabad' || cleanPath === '/seo-expert-in-hyderabad-sindh') {
+      setSelectedCity('hyderabad');
+      setActiveTab('location');
+      const city = CITIES_DATA['hyderabad'];
+      updateSeoMetadata(city.metaTitle, city.metaDesc, '/locations/hyderabad');
     } else if (cleanPath === '/about') {
       setActiveTab('about');
       updateSeoMetadata(
-        'About Waqas Mehmood | Full-Stack Marketer & SEO Engineer',
-        'Learn about Waqas Mehmood, a digital marketing strategist with over a decade of experience bridging growth psychology with custom software engineering.',
+        'About Waqas Mehmood | Best SEO Expert, Specialist & Growth Engineer',
+        'Learn about Waqas Mehmood, the best SEO expert and senior specialist delivering full-funnel SEO services, complete SEO management, technical audits, and organic revenue scaling.',
         '/about'
       );
     } else if (cleanPath === '/contact') {
       setActiveTab('contact');
       updateSeoMetadata(
-        'Contact Waqas Mehmood | Hire for SEO, Google Ads & Web Dev',
-        'Get in touch with Waqas Mehmood for custom SEO audits, high-ROAS PPC ad campaigns, or bespoke web application development.',
+        'Contact Waqas Mehmood | Hire Best SEO Expert & Request Audit',
+        'Get in touch with Waqas Mehmood for custom SEO audits, best SEO services, high-ROAS PPC ad campaigns, or full-stack web application development.',
         '/contact'
       );
     } else if (cleanPath === '/all-tools' || cleanPath === '/tools' || cleanPath === '/digitaltools') {
       setActiveTab('all-tools');
       updateSeoMetadata(
-        '25 Free SEO & Digital Marketing Tools | Waqas Mehmood',
-        'Run 25 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, and Local SEO. Zero third-party API dependencies.',
+        '27 Free SEO & Digital Marketing Tools | Waqas Mehmood',
+        'Run 27 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. Zero third-party API dependencies.',
         '/all-tools'
       );
     } else if (cleanPath === '/on-page-seo') {
@@ -951,41 +1269,233 @@ export default function App() {
     });
   };
 
-  // Contact Form Submission Handler
+  // Generate high-converting pre-filled WhatsApp lead URL
+  const generateWhatsAppInquiryUrl = (lead) => {
+    if (!lead) return 'https://wa.me/923033111126';
+    const text = `Assalam-o-Alaikum Waqas,\n\nI just submitted an inquiry on waqasmehmood.com:\n\n👤 Name: ${lead.name || 'Client'}\n📧 Contact/Email: ${lead.email || lead.contact || 'N/A'}\n📱 Phone: ${lead.phone || 'N/A'}\n💼 Service Needed: ${lead.service || 'SEO Services'}\n💰 Budget Scope: ${lead.budget || 'Custom Quote'}\n📝 Project Details:\n"${lead.message || 'Need strategic digital growth'}"\n\nLooking forward to hearing from you!`;
+    return `https://wa.me/923033111126?text=${encodeURIComponent(text)}`;
+  };
+
+  // Web3Forms Test Key Sender (Method 1 Verification)
+  const handleTestWeb3Key = async (keyToTest) => {
+    const testKey = (keyToTest || tempWeb3Key || web3FormsKey || '').trim();
+    if (!testKey) {
+      alert('Please enter a Web3Forms Access Key first.');
+      return;
+    }
+    setKeyTestSending(true);
+    setKeyTestResult(null);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: testKey,
+          subject: 'Test Email Verification - waqasmehmood.com',
+          from_name: 'Waqas Mehmood Lead System (Test)',
+          to_email: 'waqasmehmoodhyd@gmail.com',
+          name: 'Method 1 Verifier',
+          email: 'test@waqasmehmood.com',
+          message: 'Mubarak! Your Web3Forms key is verified and operational. All future client inquiries from waqasmehmood.com will land directly in this inbox (waqasmehmoodhyd@gmail.com).'
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setKeyTestResult({ success: true, message: 'Success! Test email delivered to waqasmehmoodhyd@gmail.com. Please check your inbox / spam folder.' });
+        setWeb3FormsKey(testKey);
+        localStorage.setItem('wm_web3forms_key', testKey);
+      } else {
+        setKeyTestResult({ success: false, message: data.message || 'Key verification failed. Please check the access key from your email.' });
+      }
+    } catch (err) {
+      setKeyTestResult({ success: false, message: 'Network request error: ' + err.message });
+    } finally {
+      setKeyTestSending(false);
+    }
+  };
+
+  // Save Web3Forms Key
+  const handleSaveWeb3Key = (key) => {
+    const trimmed = (key || tempWeb3Key).trim();
+    setWeb3FormsKey(trimmed);
+    localStorage.setItem('wm_web3forms_key', trimmed);
+    alert('Web3Forms Access Key successfully saved! Inquiries will now forward to waqasmehmoodhyd@gmail.com.');
+  };
+
+  // Contact Form Submission Handler (Method 1: Direct Web3Forms + Local SQLite redundancy)
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     setContactSubmitting(true);
+
+    const leadData = {
+      id: Date.now(),
+      name: contactForm.name,
+      email: contactForm.email,
+      phone: contactForm.phone || 'Not provided',
+      service: contactForm.service || 'SEO Services',
+      budget: contactForm.budget || 'Not specified',
+      message: contactForm.message,
+      submitted_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' }),
+      source: 'Contact Page Inquiry Form'
+    };
+
+    let web3Status = 'not_configured';
+
+    // Method 1: Web3Forms direct browser submission to waqasmehmoodhyd@gmail.com
+    if (web3FormsKey) {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: web3FormsKey,
+            subject: `New Lead: ${leadData.service} from ${leadData.name}`,
+            from_name: `${leadData.name} (waqasmehmood.com)`,
+            to_email: 'waqasmehmoodhyd@gmail.com',
+            name: leadData.name,
+            email: leadData.email,
+            phone: leadData.phone,
+            service: leadData.service,
+            budget: leadData.budget,
+            message: leadData.message,
+            source_url: window.location.href
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          web3Status = 'sent';
+        } else {
+          web3Status = 'failed: ' + (data.message || 'Verification issue');
+        }
+      } catch (err) {
+        web3Status = 'network_error: ' + err.message;
+      }
+    }
+
+    // Redundancy 1: Store in local inquiries state & localStorage
     try {
-      const res = await fetch(`${API_BASE}/contact`, {
+      const updated = [leadData, ...inquiriesList].slice(0, 50);
+      setInquiriesList(updated);
+      localStorage.setItem('wm_inquiries_local', JSON.stringify(updated));
+    } catch (err) {
+      console.warn('Local storage inquiry save note:', err);
+    }
+
+    // Redundancy 2: Send to backend /api/contact (SQLite logging)
+    try {
+      await fetch(`${API_BASE}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(contactForm)
       });
-      if (res.ok) {
-        setContactSuccess(true);
-        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-          window.gtag('event', 'generate_lead', {
-            event_category: 'Contact',
-            service_requested: contactForm.service,
-            value: 1
-          });
-        }
-        setContactForm({
-          name: '',
-          email: '',
-          phone: '',
-          service: 'Full-Stack Digital Marketing',
-          budget: '$1,000 - $5,000',
-          message: ''
-        });
-      } else {
-        setContactSuccess(true);
-      }
     } catch (err) {
-      setContactSuccess(true);
-    } finally {
-      setContactSubmitting(false);
+      console.warn('Backend SQLite sync note:', err);
     }
+
+    // Google Analytics Event
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'Contact',
+        service_requested: contactForm.service,
+        value: 1
+      });
+    }
+
+    setLastSubmittedLead({
+      ...leadData,
+      web3Status
+    });
+    setContactSuccess(true);
+    setContactSubmitting(false);
+
+    setContactForm({
+      name: '',
+      email: '',
+      phone: '',
+      service: 'Full-Stack Digital Marketing',
+      budget: '$1,000 - $5,000',
+      message: ''
+    });
+  };
+
+  // Hire Waqas Modal Submission Handler
+  const handleHireModalSubmit = async (e) => {
+    e.preventDefault();
+    setHireSubmitting(true);
+
+    const leadData = {
+      id: Date.now(),
+      name: hireForm.name,
+      contact: hireForm.contact,
+      service: hireService || hireForm.service,
+      message: hireForm.message || 'Direct hire consultation request',
+      submitted_at: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' }),
+      source: 'Hire Waqas Modal'
+    };
+
+    let web3Status = 'not_configured';
+
+    if (web3FormsKey) {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: web3FormsKey,
+            subject: `Hire Inquiry: ${leadData.service} from ${leadData.name}`,
+            from_name: `${leadData.name} (Direct Hire Modal)`,
+            to_email: 'waqasmehmoodhyd@gmail.com',
+            name: leadData.name,
+            contact_info: leadData.contact,
+            service: leadData.service,
+            message: leadData.message,
+            source_url: window.location.href
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          web3Status = 'sent';
+        } else {
+          web3Status = 'failed: ' + (data.message || 'Verification issue');
+        }
+      } catch (err) {
+        web3Status = 'network_error: ' + err.message;
+      }
+    }
+
+    // Store locally
+    try {
+      const updated = [leadData, ...inquiriesList].slice(0, 50);
+      setInquiriesList(updated);
+      localStorage.setItem('wm_inquiries_local', JSON.stringify(updated));
+    } catch (err) {
+      console.warn('Local storage inquiry save note:', err);
+    }
+
+    // Send to backend
+    try {
+      await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: leadData.name,
+          email: leadData.contact.includes('@') ? leadData.contact : 'whatsapp-lead@waqasmehmood.com',
+          phone: !leadData.contact.includes('@') ? leadData.contact : '',
+          service: leadData.service,
+          budget: 'Direct Hire Request',
+          message: leadData.message
+        })
+      });
+    } catch (err) {
+      console.warn('Backend SQLite sync note:', err);
+    }
+
+    setLastHireLead({
+      ...leadData,
+      web3Status
+    });
+    setHireSuccess(true);
+    setHireSubmitting(false);
   };
 
 
@@ -1324,20 +1834,75 @@ export default function App() {
               <span>All Tools</span>
               <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
             </button>
+            <button 
+              onClick={() => handleSwitchCity('hyderabad')}
+              className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'location' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+            >
+              <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Locations</span>
+            </button>
+
+            {/* Quick Live Search Bar in Nav */}
+            <button 
+              onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
+              className="px-3.5 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/40 text-slate-300 hover:text-white transition-all flex items-center gap-2 cursor-pointer shadow-inner group ml-1"
+              title="Quick Search 27 Tools, Services & Locations (Ctrl+K)"
+            >
+              <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+              <span className="hidden xl:inline text-slate-400 font-normal">Search tools, services...</span>
+              <span className="inline xl:hidden text-slate-400 font-normal">Search</span>
+              <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-slate-950 text-[10px] font-mono text-cyan-300 border border-slate-800">
+                Ctrl K
+              </kbd>
+            </button>
           </nav>
 
           {/* Action CTAs & Admin Indicator */}
           <div className="flex items-center gap-3">
+            {/* Mobile Search Icon Button */}
+            <button
+              onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
+              className="md:hidden w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
+              title="Search tools & services"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+            {/* Localhost / Dev Email Delivery Tester Quick Button */}
+            {(typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) && (
+              <button
+                onClick={() => { setTempWeb3Key(web3FormsKey); setWeb3ModalOpen(true); }}
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/50 text-[11px] text-slate-300 hover:text-cyan-300 font-medium transition-colors cursor-pointer"
+                title="Configure or test Method 1 Email Forwarding"
+              >
+                <span className={`w-2 h-2 rounded-full ${web3FormsKey ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`}></span>
+                <span>Email Forwarding</span>
+              </button>
+            )}
+
             {isAdmin ? (
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
                 <Unlock className="w-3.5 h-3.5 text-amber-400" />
-                <span>Admin Mode (Waqas)</span>
+                <span className="hidden sm:inline">Admin Mode</span>
+                <button 
+                  onClick={() => setInquiriesModalOpen(true)}
+                  className="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[10px] font-bold cursor-pointer"
+                  title="View all client leads"
+                >
+                  Leads ({inquiriesList.length})
+                </button>
+                <button 
+                  onClick={() => { setTempWeb3Key(web3FormsKey); setWeb3ModalOpen(true); }}
+                  className="px-2 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 text-[10px] font-bold cursor-pointer"
+                  title="Web3Forms Email Settings"
+                >
+                  Email Key
+                </button>
                 <button 
                   onClick={handleAdminLogout} 
                   title="Exit Admin Mode"
                   className="ml-1 text-[10px] text-slate-400 hover:text-white underline cursor-pointer"
                 >
-                  Sign Out
+                  Exit
                 </button>
               </div>
             ) : null}
@@ -1364,18 +1929,18 @@ export default function App() {
               
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700 text-xs font-semibold text-cyan-300">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                Senior Digital Marketing Strategist & Full-Stack Developer
+                Best SEO Expert & Specialist • Full-Funnel Growth Engineer
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto">
-                Scaling Organic Search & Revenue Through <br />
+                Scaling Organic Revenue with the <br />
                 <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
-                  Design, Development, Ads & SEO
+                  Best SEO Expert & Full-Funnel SEO Services
                 </span>
               </h1>
 
               <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                Assalam-o-Alaikum! I'm <strong className="text-white font-semibold">Waqas Mehmood</strong>, a performance digital marketer and full-stack engineer. I bridge consumer growth psychology with hardcore software engineering — structuring high-converting <strong className="text-cyan-300">Google Ads</strong>, engineering modern <strong className="text-cyan-300">React & Laravel</strong> web applications, and executing technical <strong className="text-cyan-300">SEO architectures</strong> that dominate competitive search results.
+                Assalam-o-Alaikum! I'm <strong className="text-white font-semibold">Waqas Mehmood</strong>, an established <strong className="text-cyan-300 font-semibold">Best SEO Expert</strong> and senior <strong className="text-cyan-300 font-semibold">SEO Specialist</strong>. I provide end-to-end <strong className="text-cyan-300 font-semibold">SEO Services</strong> and dedicated <strong className="text-cyan-300 font-semibold">SEO Management</strong> for high-growth brands — combining deep technical SEO architectures, <strong className="text-cyan-300 font-semibold">Local SEO</strong>, and high-ROAS Google Ads to dominate competitive search results.
               </p>
 
               <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
@@ -1391,7 +1956,7 @@ export default function App() {
                   onClick={() => goToTab('all-tools')}
                   className="px-6 py-3.5 rounded-xl font-semibold text-xs sm:text-sm bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span>Run Free In-House SEO Tools (25)</span>
+                  <span>Run Free In-House SEO Tools (27)</span>
                   <ExternalLink className="w-4 h-4 text-cyan-400" />
                 </button>
 
@@ -1407,11 +1972,11 @@ export default function App() {
               {/* 5 Core Skills Highlights Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-6 max-w-5xl mx-auto text-xs">
                 {[
-                  { name: 'Graphic Design', icon: Palette, count: 'Branding & UI' },
+                  { name: 'Best SEO Services', icon: Search, count: '27 Tools & Retainers' },
                   { name: 'Website Dev', icon: Laptop, count: 'React & Laravel' },
-                  { name: 'SMM', icon: Share2, count: 'Viral Funnels' },
                   { name: 'Google Ads', icon: Target, count: '4.8x ROAS Avg' },
-                  { name: 'SEO Services', icon: Search, count: '25 Free Tools' }
+                  { name: 'Local SEO', icon: MapPin, count: 'Map Pack 3-Pack' },
+                  { name: 'Graphic Design', icon: Palette, count: 'Branding & UI' }
                 ].map((sk, idx) => (
                   <div key={idx} className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center space-y-1 hover:border-cyan-500/30 transition-colors">
                     <sk.icon className="w-4 h-4 mx-auto text-cyan-400" />
@@ -1424,16 +1989,16 @@ export default function App() {
               {/* Real Performance Metrics Counter */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 max-w-4xl mx-auto">
                 <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-cyan-400">$10M+</div>
+                  <div className="text-2xl font-black text-cyan-400">$8K+</div>
                   <div className="text-[11px] text-slate-400 mt-0.5">Ad Spend Scaled</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-emerald-400">500+</div>
+                  <div className="text-2xl font-black text-emerald-400">20+</div>
                   <div className="text-[11px] text-slate-400 mt-0.5">Website SEO Audits</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-indigo-400">25</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Native SEO Tools</div>
+                  <div className="text-2xl font-black text-indigo-400">27</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">Native SEO & AI Tools</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
                   <div className="text-2xl font-black text-amber-400">4.8x</div>
@@ -1468,12 +2033,12 @@ export default function App() {
                     <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
                       <Search className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg font-bold text-white">Search Engine Optimization (SEO)</h3>
+                    <h3 className="text-lg font-bold text-white">Best SEO Services & Management</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">
-                      Deep technical audits, Core Web Vitals optimization, JSON-LD Schema siloing, keyword density tuning, and Google Business Profile 3-Pack domination designed for top organic rankings.
+                      Deep technical audits, dedicated SEO manager retainers, Core Web Vitals, JSON-LD Schema siloing, keyword density tuning, and Local SEO Google Maps 3-Pack domination designed for top organic rankings.
                     </p>
                     <div className="flex flex-wrap gap-1.5 pt-1">
-                      {['Technical SEO', 'On-Page Audits', 'Schema JSON-LD', 'Local 3-Pack', 'Backlink Signals'].map((tag, i) => (
+                      {['Best SEO Expert', 'SEO Specialist', 'SEO Management', 'Local SEO', 'Technical Audits'].map((tag, i) => (
                         <span key={i} className="px-2 py-0.5 rounded bg-slate-950 text-[10px] font-mono text-cyan-300 border border-slate-800">
                           {tag}
                         </span>
@@ -1485,7 +2050,7 @@ export default function App() {
                       onClick={() => goToTab('all-tools')}
                       className="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer"
                     >
-                      <span>Test with 25 Tools</span>
+                      <span>Test with 27 Tools</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                     <button 
@@ -1553,7 +2118,7 @@ export default function App() {
                       <span>View Ad Performance</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
-                    <span className="text-[10px] text-amber-400 font-mono font-bold">$10M+ Managed</span>
+                    <span className="text-[10px] text-amber-400 font-mono font-bold">$8K+ Scaled</span>
                   </div>
                 </div>
 
@@ -2193,14 +2758,13 @@ export default function App() {
               <span>Full-Funnel Digital Services • 5 Core Specializations</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-              End-to-End Digital Services <br />
+              Best SEO Services & SEO Management <br />
               <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
                 Engineered for Compounding Growth
               </span>
             </h1>
             <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-              I don't just build isolated websites or run disconnected ads. I design integrated digital engines where 
-              <strong> Visual Design, High-Converting Code, Performance PPC, Viral SMM, and Technical SEO</strong> work in unison.
+              I don't just build isolated websites or run disconnected ads. As an established <strong>Best SEO Expert</strong> and full-stack engineer, I provide end-to-end <strong>SEO Management, Local SEO, and High-ROAS Google Ads</strong> that work in compounding unison.
             </p>
           </div>
 
@@ -2331,31 +2895,31 @@ export default function App() {
                 </div>
                 <div>
                   <span className="text-[10px] font-mono uppercase text-emerald-400 font-bold tracking-wider">Skill #5</span>
-                  <h3 className="text-xl font-bold text-white mt-1">SEO Services (Technical, On-Page & Local)</h3>
+                  <h3 className="text-xl font-bold text-white mt-1">Best SEO Services & Complete SEO Management</h3>
                   <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                    Comprehensive 4-pillar SEO architecture: deep DOM On-Page optimization, technical crawl budget fixes, high-authority link acquisition, and Google Business Profile #1 Map Pack takeovers.
+                    Comprehensive 4-pillar SEO architecture & monthly retainers: deep technical crawl audits, dedicated SEO manager support, high-authority backlink signals, and Google Business Profile Local 3-Pack takeovers.
                   </p>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-2 pt-2 border-t border-slate-800 text-xs text-slate-300">
                   <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> Deep Technical SEO & Crawl Audits</div>
                   <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> Local 3-Pack & GBP Optimization</div>
-                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> Content Siloing & Keyword Cannibalization Fix</div>
+                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> Dedicated SEO Manager & Retainers</div>
                   <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-400" /> JSON-LD Structured Data Schema Markup</div>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button 
-                  onClick={() => { setHireService('SEO Services'); setHireModalOpen(true); }}
+                  onClick={() => { setHireService('SEO Management & Services'); setHireModalOpen(true); }}
                   className="flex-1 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Hire for SEO Services</span>
+                  <span>Hire for Best SEO Services</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
                 <button 
                   onClick={() => goToTab('all-tools')}
                   className="py-3 px-6 rounded-xl bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Test with 25 In-House Free Tools</span>
+                  <span>Test with 27 Free Tools</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -2702,6 +3266,27 @@ export default function App() {
       )}
 
       {/* ======================================================== */}
+      {/* 2.5 CITY-WISE LOCAL SEO LANDING PAGE (HYDERABAD, ETC.)    */}
+      {/* ======================================================== */}
+      {activeTab === 'location' && (
+        <CityLocationView 
+          citySlug={selectedCity}
+          onNavigateHome={() => goToTab('home')}
+          onNavigateTools={() => goToTab('all-tools')}
+          onNavigateTool={(toolSlug) => {
+            const tool = allToolsList.find(t => t.slug === toolSlug);
+            if (tool) openTool(tool);
+            else goToTab('all-tools');
+          }}
+          onOpenHire={(serviceName) => {
+            setHireService(serviceName || 'Local SEO Services');
+            setHireModalOpen(true);
+          }}
+          onSwitchCity={handleSwitchCity}
+        />
+      )}
+
+      {/* ======================================================== */}
       {/* 3. ABOUT PAGE: SENIOR ARCHITECT BIO & TRACK RECORD       */}
       {/* ======================================================== */}
       {activeTab === 'about' && (
@@ -2725,17 +3310,17 @@ export default function App() {
 
             <div className="space-y-4 text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-300">
-                Senior Digital Marketing Strategist & Full-Stack Engineer
+                <Award className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Best SEO Expert & Senior Specialist • Full-Stack Growth Engineer</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
-                Where Creative Marketing Psychology <br />
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
+                About the Best SEO Expert & <br />
                 <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">
-                  Meets Hardcore Software Engineering
+                  Full-Stack Growth Engineer
                 </span>
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-                Assalam-o-Alaikum! Most agencies fail because marketers don't understand code, and software developers fail to scale because they don't understand consumer psychology. Over the last decade, I built my career solving that exact bottleneck. 
-                Whether building custom PHP/Laravel scraping engines, architecting high-converting React apps, or scaling high-budget Google Ads funnels, my goal is always compounding revenue.
+                Assalam-o-Alaikum! I'm <strong className="text-white font-semibold">Waqas Mehmood</strong>, an established <strong className="text-cyan-300 font-semibold">Best SEO Expert</strong> and senior <strong className="text-cyan-300 font-semibold">SEO Specialist</strong>. Most marketing agencies fail because marketers don't understand code, and software developers fail to rank because they don't understand search intent and Google algorithms. Over the last decade, I built my career solving that exact bottleneck — providing end-to-end <strong className="text-cyan-300 font-semibold">Best SEO Services</strong>, dedicated <strong className="text-cyan-300 font-semibold">SEO Management</strong> retainers, <strong className="text-cyan-300 font-semibold">Local SEO</strong>, and high-converting React/Laravel architectures that dominate Page 1.
               </p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
                 <button 
@@ -2758,9 +3343,9 @@ export default function App() {
           {/* Quantifiable Track Record Metrics */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
-              { num: '$10M+', label: 'Client Ad Spend Scaled', sub: 'Google Ads & Meta' },
-              { num: '500+', label: 'Website SEO Audits', sub: 'Technical & On-Page' },
-              { num: '25', label: 'In-House SEO Tools', sub: 'Zero API Dependency' },
+              { num: '$8K+', label: 'Client Ad Spend Scaled', sub: 'Google Ads & Meta' },
+              { num: '20+', label: 'Website SEO Audits', sub: 'Technical & On-Page' },
+              { num: '27', label: 'In-House SEO & AI Tools', sub: 'Zero API Dependency' },
               { num: '14+', label: 'Cities Ranked #1', sub: 'Google Local 3-Pack' },
               { num: '99.4%', label: 'Client Satisfaction', sub: 'Long-Term Retention' },
             ].map((st, i) => (
@@ -2776,7 +3361,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="text-center max-w-xl mx-auto space-y-2">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Working Philosophy</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">How I Approach Growth Engineering</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">How My SEO Services & Growth Engineering Process Works</h2>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -2787,7 +3372,7 @@ export default function App() {
                 },
                 {
                   title: '2. Zero-API Independence',
-                  desc: 'I write internal algorithms and scrapers (like my 25 in-house tools) that extract real DOM signals directly, saving thousands in recurring third-party API fees.'
+                  desc: 'I write internal algorithms and scrapers (like my 27 in-house tools) that extract real DOM signals directly, saving thousands in recurring third-party API fees.'
                 },
                 {
                   title: '3. Speed is Pure Conversion',
@@ -2809,7 +3394,7 @@ export default function App() {
           {/* Technical & Marketing Arsenal Badges */}
           <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 space-y-6">
             <h3 className="text-base font-bold text-white uppercase tracking-wider text-center">
-              Core Technical & Strategic Arsenal
+              Core Technical & Strategic Arsenal (Best SEO Services, PPC & Full-Stack Development)
             </h3>
             <div className="flex flex-wrap items-center justify-center gap-2 max-w-3xl mx-auto">
               {[
@@ -2829,7 +3414,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="text-center max-w-2xl mx-auto space-y-2">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Proven Track Record</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">10+ Years Growth Engineering Timeline (2014 – 2026)</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">10+ Years Growth Engineering & SEO Track Record (2014 – 2026)</h2>
               <p className="text-xs sm:text-sm text-slate-400">
                 A relentless progression from foundational web coding and DOM scrapers to multi-million dollar performance advertising and enterprise technical SEO.
               </p>
@@ -2846,20 +3431,20 @@ export default function App() {
                 {
                   period: '2018 – 2020',
                   badge: 'Performance Advertising',
-                  title: 'Scaling Multi-Million Dollar PPC & Meta Funnels',
-                  desc: 'Managed and scaled $10M+ in cumulative ad spend across Google Ads (Search, Display, Shopping) and Meta Ads. Discovered the profound connection between server response times, landing page UX, and Google Ads Quality Score.'
+                  title: 'Scaling Targeted PPC & Meta Funnels',
+                  desc: 'Managed and scaled $8K+ in cumulative ad spend across Google Ads (Search, Display, Shopping) and Meta Ads. Discovered the profound connection between server response times, landing page UX, and Google Ads Quality Score.'
                 },
                 {
                   period: '2021 – 2023',
                   badge: 'Technical SEO Authority',
                   title: 'Enterprise Technical Audits & Schema Siloing',
-                  desc: 'Executed over 500 deep technical website audits. Specialized in Schema JSON-LD structured entity graphs, Core Web Vitals remediation, crawl budget optimization, and resolving catastrophic algorithmic Google penalties.'
+                  desc: 'Executed over 20+ deep technical website audits. Specialized in Schema JSON-LD structured entity graphs, Core Web Vitals remediation, crawl budget optimization, and resolving algorithmic Google penalties.'
                 },
                 {
                   period: '2024 – 2026',
                   badge: 'Autonomous Systems & In-House Suite',
                   title: 'Zero-API Tooling & Global Growth Advisory',
-                  desc: 'Engineered 25 proprietary in-house SEO tools with zero third-party API dependencies. Consulted with enterprise and fast-growing brands across the United States, United Kingdom, United Arab Emirates, and Pakistan.'
+                  desc: 'Engineered 27 proprietary in-house SEO tools with zero third-party API dependencies. Consulted with enterprise and fast-growing brands across the United States, United Kingdom, United Arab Emirates, and Pakistan.'
                 }
               ].map((milestone, idx) => (
                 <div key={idx} className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 relative hover:border-cyan-500/40 transition-all">
@@ -2939,7 +3524,7 @@ export default function App() {
           <div className="p-8 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-6">
             <div className="text-center max-w-2xl mx-auto space-y-2">
               <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Transparency & Insight</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Frequently Asked Questions About Waqas Mehmood</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Frequently Asked Questions About Waqas Mehmood's SEO Services</h2>
               <p className="text-xs text-slate-400">
                 Key questions clients ask before collaborating on marketing growth and web engineering projects.
               </p>
@@ -2949,7 +3534,7 @@ export default function App() {
               {[
                 {
                   q: "Who is Waqas Mehmood and what is his professional background?",
-                  a: "Waqas Mehmood is a Senior Digital Marketing Strategist and Full-Stack Software Engineer with over 10 years of hands-on experience. He specializes in bridging technical web engineering (PHP Laravel, React.js, Tailwind CSS) with high-return digital growth channels (Google Ads, Meta Ads, and Technical SEO Audits). Over his career, he has managed more than $10M in client ad spend and conducted over 500 comprehensive website audits."
+                  a: "Waqas Mehmood is a Senior Digital Marketing Strategist and Full-Stack Software Engineer with over 10 years of hands-on experience. He specializes in bridging technical web engineering (PHP Laravel, React.js, Tailwind CSS) with high-return digital growth channels (Google Ads, Meta Ads, and Technical SEO Audits). Over his career, he has managed more than $8K+ in client ad spend and conducted over 20+ comprehensive website audits."
                 },
                 {
                   q: "How does having a software engineering background provide an advantage in SEO?",
@@ -2960,8 +3545,8 @@ export default function App() {
                   a: "Yes. Waqas has partnered with businesses and growth-focused founders across the United States, United Kingdom, Canada, United Arab Emirates, Saudi Arabia, and Pakistan. He adapts to international time zones, provides transparent Slack/WhatsApp communication, and bills through secure international payment methods."
                 },
                 {
-                  q: "What is the philosophy behind waqasmehmood.com's 25 in-house SEO tools?",
-                  a: "Most commercial SEO tools charge hundreds of dollars per month while acting as simple rate-limited wrappers around external databases. Waqas engineered all 25 tools natively in PHP Laravel to run real-time DOM parsing directly against any target URL with zero API dependencies. They are 100% free and open for public use to demonstrate technical competency and give back to the webmaster community."
+                  q: "What is the philosophy behind waqasmehmood.com's 27 in-house SEO tools?",
+                  a: "Most commercial SEO tools charge hundreds of dollars per month while acting as simple rate-limited wrappers around external databases. Waqas engineered all 27 tools natively in PHP Laravel and modern React to run real-time DOM parsing directly against any target URL with zero API dependencies. They are 100% free and open for public use to demonstrate technical competency and give back to the webmaster community."
                 },
                 {
                   q: "What types of engagements does Waqas Mehmood accept?",
@@ -3040,8 +3625,8 @@ export default function App() {
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-mono block">Official Email</span>
-                      <a href="mailto:waqas@waqasmehmood.com" className="text-white hover:text-cyan-400 font-semibold transition-colors">
-                        waqas@waqasmehmood.com
+                      <a href="mailto:waqasmehmoodhyd@gmail.com" className="text-white hover:text-cyan-400 font-semibold transition-colors">
+                        waqasmehmoodhyd@gmail.com
                       </a>
                     </div>
                   </div>
@@ -3052,8 +3637,8 @@ export default function App() {
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-mono block">WhatsApp / Phone</span>
-                      <a href="https://wa.me/923001234567" target="_blank" rel="noreferrer" className="text-white hover:text-emerald-400 font-semibold transition-colors">
-                        +92 300 1234567
+                      <a href="https://wa.me/923033111126" target="_blank" rel="noreferrer" className="text-white hover:text-emerald-400 font-semibold transition-colors">
+                        +92 303 3111126
                       </a>
                     </div>
                   </div>
@@ -3064,7 +3649,7 @@ export default function App() {
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-mono block">Location</span>
-                      <span className="text-white font-semibold">Lahore, Pakistan • Worldwide Clients</span>
+                      <span className="text-white font-semibold">Sindh, Pakistan • Worldwide Clients</span>
                     </div>
                   </div>
                 </div>
@@ -3072,7 +3657,7 @@ export default function App() {
                 {/* Instant WhatsApp Action Button */}
                 <div className="pt-2">
                   <a 
-                    href="https://wa.me/923001234567?text=Assalam-o-Alaikum%20Waqas,%20I%20am%20interested%20in%20your%20services." 
+                    href="https://wa.me/923033111126?text=Assalam-o-Alaikum%20Waqas,%20I%20am%20interested%20in%20your%20services." 
                     target="_blank" 
                     rel="noreferrer"
                     className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all cursor-pointer"
@@ -3100,21 +3685,102 @@ export default function App() {
             <div className="md:col-span-3">
               <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl relative">
                 
+                {/* Method 1 Live Forwarding Bar */}
+                <div className="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-slate-800/80">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2.5 h-2.5 rounded-full ${web3FormsKey ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`}></span>
+                    <span className="text-[11px] text-slate-300 font-medium">
+                      Direct Email Forwarding: <strong className="text-cyan-400">waqasmehmoodhyd@gmail.com</strong>
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { setTempWeb3Key(web3FormsKey); setWeb3ModalOpen(true); }}
+                    className="text-[11px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 cursor-pointer bg-cyan-950/40 hover:bg-cyan-900/40 px-2.5 py-1 rounded-lg border border-cyan-800/50 transition-colors"
+                  >
+                    <Settings className="w-3 h-3" />
+                    <span>{web3FormsKey ? 'Key Configured (Active)' : 'Connect Email Key'}</span>
+                  </button>
+                </div>
+
                 {contactSuccess ? (
-                  <div className="text-center py-12 space-y-4">
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-400 mx-auto flex items-center justify-center">
+                  <div className="text-center py-6 space-y-4">
+                    <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-400 mx-auto flex items-center justify-center shadow-lg shadow-emerald-500/10">
                       <CheckCircle className="w-8 h-8" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white">Shukriya! Message Sent</h3>
-                    <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed">
-                      Your inquiry has been delivered directly to Waqas Mehmood's inbox. I will review your requirements and get in touch within 12 hours.
-                    </p>
-                    <button 
-                      onClick={() => setContactSuccess(false)}
-                      className="px-6 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold mt-4 cursor-pointer"
-                    >
-                      Send Another Message
-                    </button>
+                    
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">Shukriya! Message Sent</h3>
+                      <p className="text-xs text-slate-300 max-w-md mx-auto leading-relaxed mt-1">
+                        Your inquiry has been successfully captured and routed to Waqas Mehmood.
+                      </p>
+                    </div>
+
+                    {/* Delivery Status Badges */}
+                    <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] pt-1">
+                      <span className="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5 font-medium">
+                        <Check className="w-3 h-3 text-emerald-400" /> Logged in SQLite Database
+                      </span>
+                      {lastSubmittedLead?.web3Status === 'sent' ? (
+                        <span className="px-2.5 py-1 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 font-medium">
+                          <Send className="w-3 h-3 text-cyan-400" /> Dispatched to waqasmehmoodhyd@gmail.com
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 font-medium">
+                          <AlertTriangle className="w-3 h-3 text-amber-400" /> Local Mode (Add Web3Forms key for Gmail dispatch)
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Lead Receipt Summary */}
+                    {lastSubmittedLead && (
+                      <div className="max-w-md mx-auto p-4 rounded-2xl bg-slate-950 border border-slate-800 text-left text-xs space-y-2 shadow-inner">
+                        <div className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider flex items-center justify-between border-b border-slate-800/80 pb-1.5">
+                          <span>Inquiry Receipt Summary</span>
+                          <span className="text-slate-500">{lastSubmittedLead.submitted_at}</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-slate-300 pt-0.5">
+                          <div><span className="text-slate-500">Client:</span> <span className="font-semibold text-white">{lastSubmittedLead.name}</span></div>
+                          <div><span className="text-slate-500">Email:</span> <span className="font-semibold text-white">{lastSubmittedLead.email}</span></div>
+                          <div><span className="text-slate-500">Phone:</span> <span className="font-semibold text-white">{lastSubmittedLead.phone || 'N/A'}</span></div>
+                          <div><span className="text-slate-500">Service:</span> <span className="font-semibold text-cyan-300">{lastSubmittedLead.service}</span></div>
+                        </div>
+                        <div className="text-slate-300 pt-1 border-t border-slate-800/80">
+                          <span className="text-slate-500">Budget Scope:</span> <span className="font-semibold text-white">{lastSubmittedLead.budget}</span>
+                        </div>
+                        <div className="text-slate-300 pt-1 border-t border-slate-800/80">
+                          <span className="text-slate-500">Project Details:</span>
+                          <p className="italic text-slate-300 mt-0.5 bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+                            "{lastSubmittedLead.message}"
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Instant WhatsApp Action Button */}
+                    <div className="space-y-2 pt-2">
+                      <a
+                        href={generateWhatsAppInquiryUrl(lastSubmittedLead)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition-all cursor-pointer"
+                      >
+                        <MessageSquare className="w-4 h-4" />
+                        <span>Send Instant Copy via WhatsApp (+92 303 3111126)</span>
+                      </a>
+                      <p className="text-[11px] text-slate-400">
+                        Urgent inquiry? Click above to instantly open WhatsApp chat with your details pre-formatted.
+                      </p>
+                    </div>
+
+                    <div className="pt-2">
+                      <button 
+                        onClick={() => { setContactSuccess(false); setLastSubmittedLead(null); }}
+                        className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold cursor-pointer transition-colors"
+                      >
+                        Send Another Message
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <form onSubmit={handleContactSubmit} className="space-y-4 text-xs">
@@ -4858,7 +5524,7 @@ export default function App() {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-700 w-full max-w-md rounded-3xl p-6 shadow-2xl relative space-y-4">
             <button 
-              onClick={() => setHireModalOpen(false)}
+              onClick={() => { setHireModalOpen(false); setHireSuccess(false); }}
               className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
             >
               ✕
@@ -4870,72 +5536,352 @@ export default function App() {
               <p className="text-xs text-slate-400 mt-1">Get custom quotes and strategic roadmaps for your digital channels.</p>
             </div>
 
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              alert(`Shukriya! Inquiry for "${hireService}" received. Waqas Mehmood will reach out via WhatsApp/Email within 12 hours.`);
-              setHireModalOpen(false);
-            }} className="space-y-3 text-xs">
+            {hireSuccess ? (
+              <div className="text-center py-4 space-y-4">
+                <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-400 mx-auto flex items-center justify-center shadow-lg">
+                  <CheckCircle className="w-7 h-7" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-white">Shukriya! Inquiry Delivered</h4>
+                  <p className="text-xs text-slate-300 mt-1">
+                    Your request for <strong>{lastHireLead?.service}</strong> has been received.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-2 text-[10px]">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex items-center gap-1 font-medium">
+                    <Check className="w-3 h-3 text-emerald-400" /> Logged to Database
+                  </span>
+                  {lastHireLead?.web3Status === 'sent' ? (
+                    <span className="px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 flex items-center gap-1 font-medium">
+                      <Send className="w-3 h-3 text-cyan-400" /> Dispatched to waqasmehmoodhyd@gmail.com
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1 font-medium">
+                      <AlertTriangle className="w-3 h-3 text-amber-400" /> Local Mode Active
+                    </span>
+                  )}
+                </div>
+
+                <div className="pt-2">
+                  <a
+                    href={generateWhatsAppInquiryUrl(lastHireLead)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition-all cursor-pointer"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Send Instant Copy via WhatsApp</span>
+                  </a>
+                </div>
+
+                <div className="flex justify-center gap-3 pt-2 text-xs">
+                  <button 
+                    onClick={() => {
+                      setHireSuccess(false);
+                      setHireForm({ name: '', contact: '', service: hireService, message: '' });
+                    }}
+                    className="text-slate-400 hover:text-white cursor-pointer underline"
+                  >
+                    Send Another
+                  </button>
+                  <button 
+                    onClick={() => setHireModalOpen(false)}
+                    className="px-4 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleHireModalSubmit} className="space-y-3 text-xs">
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Your Full Name *</label>
+                  <input 
+                    type="text" 
+                    required
+                    value={hireForm.name}
+                    onChange={(e) => setHireForm({ ...hireForm, name: e.target.value })}
+                    placeholder="e.g. John Doe / Ali Khan" 
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" 
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Email or WhatsApp Number *</label>
+                  <input 
+                    type="text" 
+                    required
+                    value={hireForm.contact}
+                    onChange={(e) => setHireForm({ ...hireForm, contact: e.target.value })}
+                    placeholder="name@company.com or +92 300 1234567" 
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" 
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Interested Skill / Service *</label>
+                  <select 
+                    value={hireService}
+                    onChange={(e) => {
+                      setHireService(e.target.value);
+                      setHireForm({ ...hireForm, service: e.target.value });
+                    }}
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-400"
+                  >
+                    <option value="Graphic Design">Graphic Design & UI/UX</option>
+                    <option value="Website Development">Website Development (React / Laravel)</option>
+                    <option value="SMM">Social Media Marketing (SMM)</option>
+                    <option value="Google Ads">Google Ads (PPC Campaigns)</option>
+                    <option value="SEO Services">SEO Services & Audits</option>
+                    <option value="Full-Stack Digital Marketing">Complete 360° Digital Growth</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-semibold mb-1">Website URL or Project Details</label>
+                  <textarea 
+                    rows={3}
+                    value={hireForm.message}
+                    onChange={(e) => setHireForm({ ...hireForm, message: e.target.value })}
+                    placeholder="Tell me about your business goals and timeline..." 
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" 
+                  />
+                </div>
+
+                <div className="pt-2 flex justify-end gap-3">
+                  <button 
+                    type="button" 
+                    onClick={() => setHireModalOpen(false)}
+                    className="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl hover:text-white cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    disabled={hireSubmitting}
+                    className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold rounded-xl shadow-md cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+                  >
+                    {hireSubmitting ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                    <span>{hireSubmitting ? 'Sending...' : 'Send Inquiry'}</span>
+                  </button>
+                </div>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* 8. MODAL: WEB3FORMS EMAIL DELIVERY CONFIGURATION          */}
+      {/* ======================================================== */}
+      {web3ModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-cyan-500/40 w-full max-w-lg rounded-3xl p-6 shadow-2xl relative space-y-5">
+            <button 
+              onClick={() => { setWeb3ModalOpen(false); setKeyTestResult(null); }}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
+                <Mail className="w-5 h-5" />
+              </div>
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Your Full Name *</label>
+                <span className="text-[10px] uppercase font-bold text-cyan-400 font-mono">Method 1 Configuration</span>
+                <h3 className="text-xl font-bold text-white">Direct Email Forwarding Setup</h3>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+              <div className="flex items-center justify-between text-slate-300">
+                <span>Forwarding Target:</span>
+                <strong className="text-cyan-400 font-mono">waqasmehmoodhyd@gmail.com</strong>
+              </div>
+              <div className="flex items-center justify-between text-slate-300">
+                <span>Backup WhatsApp:</span>
+                <strong className="text-emerald-400 font-mono">+92 303 3111126</strong>
+              </div>
+              <div className="flex items-center justify-between text-slate-300">
+                <span>Current Status:</span>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${web3FormsKey ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}`}>
+                  {web3FormsKey ? `Active (${web3FormsKey.slice(0, 8)}...)` : 'Not Configured (Local DB Only)'}
+                </span>
+              </div>
+            </div>
+
+            {/* Quick 3-step Instructions */}
+            <div className="p-3.5 rounded-2xl bg-cyan-500/5 border border-cyan-500/20 text-xs text-slate-300 space-y-1.5">
+              <p className="font-bold text-cyan-300 text-[11px] uppercase tracking-wider">How to get your free key in 10 seconds:</p>
+              <ol className="list-decimal list-inside space-y-1 text-slate-400 text-[11px]">
+                <li>Open <a href="https://web3forms.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 underline font-semibold">web3forms.com</a> in your browser.</li>
+                <li>Enter <strong className="text-white">waqasmehmoodhyd@gmail.com</strong> and click "Create Access Key".</li>
+                <li>Check your Gmail inbox, copy the key, and paste it below.</li>
+              </ol>
+            </div>
+
+            {/* Key Input */}
+            <div className="space-y-2">
+              <label className="block text-xs text-slate-300 font-semibold">
+                Web3Forms Access Key
+              </label>
+              <div className="flex gap-2">
                 <input 
                   type="text" 
-                  required
-                  placeholder="e.g. John Doe / Ali Khan" 
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" 
+                  value={tempWeb3Key}
+                  onChange={(e) => setTempWeb3Key(e.target.value)}
+                  placeholder="e.g. 12345678-abcd-1234-ef01-123456789abc"
+                  className="w-full px-3 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-white font-mono text-xs focus:outline-none focus:border-cyan-400"
                 />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Email or WhatsApp Number *</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="name@company.com or +92 300 1234567" 
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" 
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Interested Skill / Service *</label>
-                <select 
-                  value={hireService}
-                  onChange={(e) => setHireService(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-400"
+                <button
+                  type="button"
+                  onClick={() => handleSaveWeb3Key(tempWeb3Key)}
+                  className="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl shadow-md transition-colors cursor-pointer shrink-0"
                 >
-                  <option value="Graphic Design">Graphic Design & UI/UX</option>
-                  <option value="Website Development">Website Development (React / Laravel)</option>
-                  <option value="SMM">Social Media Marketing (SMM)</option>
-                  <option value="Google Ads">Google Ads (PPC Campaigns)</option>
-                  <option value="SEO Services">SEO Services & Audits</option>
-                  <option value="Full-Stack Digital Marketing">Complete 360° Digital Growth</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-semibold mb-1">Website URL or Project Details</label>
-                <textarea 
-                  rows={3}
-                  placeholder="Tell me about your business goals and timeline..." 
-                  className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400" 
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-3">
-                <button 
-                  type="button" 
-                  onClick={() => setHireModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl hover:text-white cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="px-5 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold rounded-xl shadow-md cursor-pointer"
-                >
-                  Send Inquiry
+                  Save Key
                 </button>
               </div>
-            </form>
+            </div>
+
+            {/* Test Send Feedback */}
+            {keyTestResult && (
+              <div className={`p-3 rounded-xl text-xs flex items-center gap-2 border ${keyTestResult.success ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' : 'bg-rose-500/10 text-rose-300 border-rose-500/30'}`}>
+                {keyTestResult.success ? <CheckCircle className="w-4 h-4 shrink-0 text-emerald-400" /> : <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />}
+                <span>{keyTestResult.message}</span>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => handleTestWeb3Key(tempWeb3Key || web3FormsKey)}
+                disabled={keyTestSending || (!tempWeb3Key && !web3FormsKey)}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 font-bold text-xs border border-cyan-500/30 flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-40"
+              >
+                {keyTestSending ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                <span>{keyTestSending ? 'Testing...' : 'Send Test Email to Gmail'}</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                {web3FormsKey && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setWeb3FormsKey('');
+                      setTempWeb3Key('');
+                      localStorage.removeItem('wm_web3forms_key');
+                      alert('Web3Forms key removed.');
+                    }}
+                    className="text-xs text-rose-400 hover:text-rose-300 underline cursor-pointer"
+                  >
+                    Clear Key
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => { setWeb3ModalOpen(false); setKeyTestResult(null); }}
+                  className="px-4 py-2 bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* 9. MODAL: INQUIRIES & LEADS VIEWER (LOCAL & SERVER LOG)  */}
+      {/* ======================================================== */}
+      {inquiriesModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative space-y-4 max-h-[85vh] flex flex-col">
+            <button 
+              onClick={() => setInquiriesModalOpen(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3 pr-8">
+              <div>
+                <span className="text-[10px] uppercase font-bold text-cyan-400 font-mono">Owner Leads Portal</span>
+                <h3 className="text-xl font-bold text-white mt-0.5">Captured Inquiries ({inquiriesList.length})</h3>
+              </div>
+              {inquiriesList.length > 0 && (
+                <button
+                  onClick={() => {
+                    if (window.confirm('Are you sure you want to clear local lead history?')) {
+                      setInquiriesList([]);
+                      localStorage.removeItem('wm_inquiries_local');
+                    }
+                  }}
+                  className="text-[11px] text-rose-400 hover:text-rose-300 underline cursor-pointer"
+                >
+                  Clear History
+                </button>
+              )}
+            </div>
+
+            <div className="overflow-y-auto space-y-3 pr-1 flex-1">
+              {inquiriesList.length === 0 ? (
+                <div className="text-center py-12 text-slate-400 text-xs space-y-2">
+                  <Mail className="w-8 h-8 text-slate-600 mx-auto" />
+                  <p>No inquiries captured yet in this local session.</p>
+                  <p className="text-[11px] text-slate-500">
+                    Submit the contact form or hire form on localhost to see inquiries appear here instantly.
+                  </p>
+                </div>
+              ) : (
+                inquiriesList.map((inq, idx) => (
+                  <div key={idx} className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+                    <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                      <span className="font-bold text-white text-sm">{inq.name}</span>
+                      <span className="font-mono text-slate-500">{inq.submitted_at}</span>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-2 text-slate-300">
+                      <div><span className="text-slate-500">Contact/Email:</span> <span className="font-semibold text-cyan-300">{inq.email || inq.contact}</span></div>
+                      <div><span className="text-slate-500">Phone:</span> <span className="font-semibold text-white">{inq.phone || 'N/A'}</span></div>
+                      <div><span className="text-slate-500">Service:</span> <span className="font-semibold text-white">{inq.service}</span></div>
+                      <div><span className="text-slate-500">Budget:</span> <span className="font-semibold text-white">{inq.budget || 'Custom'}</span></div>
+                    </div>
+
+                    <div className="pt-1 border-t border-slate-900 text-slate-300">
+                      <span className="text-slate-500">Message:</span>
+                      <p className="italic mt-0.5 bg-slate-900/60 p-2 rounded-lg border border-slate-800/80">"{inq.message}"</p>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <span className="text-[10px] text-slate-500">Source: {inq.source || 'Website Form'}</span>
+                      <a
+                        href={generateWhatsAppInquiryUrl(inq)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/30 text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer"
+                      >
+                        <MessageSquare className="w-3 h-3" />
+                        <span>Reply on WhatsApp</span>
+                      </a>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="flex justify-end pt-2 border-t border-slate-800">
+              <button
+                onClick={() => setInquiriesModalOpen(false)}
+                className="px-4 py-2 bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -5009,42 +5955,190 @@ export default function App() {
       )}
 
       {/* ======================================================== */}
-      {/* FOOTER                                                   */}
+      {/* 7. SPOTLIGHT SEARCH MODAL (LIVE SEARCH TOOLS & SERVICES) */}
       {/* ======================================================== */}
-      <footer className="py-12 px-6 border-t border-slate-800/80 bg-slate-950 text-xs text-slate-400">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-cyan-500 text-slate-950 font-black flex items-center justify-center text-sm">
-              W
+      {searchOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-start justify-center pt-16 sm:pt-24 px-4 overflow-y-auto"
+          onClick={() => setSearchOpen(false)}
+        >
+          <div 
+            className="bg-slate-900 border border-slate-700/80 w-full max-w-2xl rounded-3xl shadow-2xl shadow-cyan-500/10 overflow-hidden relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Search Input Bar */}
+            <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center gap-3 bg-slate-950/80">
+              <Search className="w-5 h-5 text-cyan-400 shrink-0" />
+              <input 
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search 27 tools, services, locations... (e.g. crawler, speed, hyderabad)"
+                className="w-full bg-transparent text-white placeholder-slate-500 text-sm sm:text-base focus:outline-none"
+                autoFocus
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="text-xs text-slate-400 hover:text-white px-2 py-1 rounded bg-slate-800 cursor-pointer"
+                >
+                  Clear
+                </button>
+              )}
+              <button 
+                onClick={() => setSearchOpen(false)}
+                className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
+                title="Close (Esc)"
+              >
+                ✕
+              </button>
             </div>
-            <div>
-              <span className="font-bold text-white block">Waqas Mehmood</span>
-              <span className="text-[10px] text-slate-500">© 2026 waqasmehmood.com • All Rights Reserved.</span>
+
+            {/* Results Count Bar */}
+            <div className="px-5 py-2.5 bg-slate-950/40 border-b border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+              <span>{filteredSearchResults.length} results available</span>
+              <span className="font-mono text-cyan-400">Press ESC to exit</span>
+            </div>
+
+            {/* Results List */}
+            <div className="max-h-[60vh] overflow-y-auto p-2 sm:p-3 divide-y divide-slate-800/40">
+              {filteredSearchResults.length > 0 ? (
+                filteredSearchResults.map((item) => {
+                  const Icon = item.categoryIcon || Search;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={item.onSelect}
+                      className="w-full text-left p-3 sm:p-3.5 rounded-2xl hover:bg-slate-800/80 transition-all flex items-center justify-between gap-3 group cursor-pointer"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-slate-950 border border-slate-800 group-hover:border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0 transition-colors">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-sm text-white group-hover:text-cyan-300 transition-colors">
+                              {item.title}
+                            </span>
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-mono border ${item.badgeColor}`}>
+                              {item.badge}
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-400 line-clamp-1">
+                            {item.desc}
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all shrink-0" />
+                    </button>
+                  );
+                })
+              ) : (
+                <div className="p-10 text-center space-y-2">
+                  <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto" />
+                  <p className="text-sm font-semibold text-white">No results matching "{searchQuery}"</p>
+                  <p className="text-xs text-slate-400">
+                    Try searching for "crawler", "speed", "hyderabad", "google ads", or "schema".
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Bottom Helper */}
+            <div className="p-3 bg-slate-950 border-t border-slate-800 text-[11px] text-slate-500 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1"><kbd className="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-400">↑↓</kbd> to navigate</span>
+                <span className="flex items-center gap-1"><kbd className="px-1.5 py-0.5 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-400">↵</kbd> to select</span>
+              </div>
+              <span className="text-cyan-400 font-medium">Instant Live Search</span>
             </div>
           </div>
+        </div>
+      )}
 
-          <div className="flex items-center gap-6">
-            <button onClick={() => goToTab('home')} className="hover:text-white cursor-pointer">HOME</button>
-            <button onClick={() => goToTab('services')} className="hover:text-white cursor-pointer">Services</button>
-            <button onClick={() => goToTab('about')} className="hover:text-white cursor-pointer">About</button>
-            <button onClick={() => goToTab('contact')} className="hover:text-white cursor-pointer">Contact</button>
-            <button onClick={() => goToTab('all-tools')} className="hover:text-white cursor-pointer">All Tools (25)</button>
-            {isAdmin ? (
-              <button 
-                onClick={handleAdminLogout}
-                className="text-amber-400 hover:text-amber-300 font-mono text-[11px] flex items-center gap-1 cursor-pointer bg-amber-400/10 px-2 py-1 rounded border border-amber-400/20"
-              >
-                <Unlock className="w-3 h-3" /> Logout Waqas
-              </button>
-            ) : (
-              <button 
-                onClick={() => setAdminModalOpen(true)}
-                className="text-slate-500 hover:text-amber-400 font-mono text-[11px] flex items-center gap-1 cursor-pointer transition-colors"
-                title="Waqas Mehmood Owner Access"
-              >
-                <Lock className="w-3 h-3" /> Owner Portal
-              </button>
-            )}
+      {/* ======================================================== */}
+      {/* FOOTER: MULTI-COLUMN INTERNAL LINKING ARCHITECTURE        */}
+      {/* ======================================================== */}
+      <footer className="py-14 px-6 border-t border-slate-800/80 bg-slate-950 text-xs text-slate-400">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            
+            {/* Column 1: Brand & Bio */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-slate-950 font-black flex items-center justify-center text-base shadow-lg shadow-cyan-500/20">
+                  W
+                </div>
+                <div>
+                  <span className="font-extrabold text-white text-sm block">Waqas Mehmood</span>
+                  <span className="text-[10px] text-cyan-400 font-mono tracking-wider uppercase block">Best SEO Expert & Engineer</span>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Full-funnel digital marketing, dedicated SEO management, and enterprise technical architectures designed for sustainable Google rankings.
+              </p>
+            </div>
+
+            {/* Column 2: Navigation & Services */}
+            <div className="space-y-3">
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Core Navigation</h4>
+              <ul className="space-y-2">
+                <li><button onClick={() => goToTab('home')} className="hover:text-white transition-colors cursor-pointer">Best SEO Expert Home</button></li>
+                <li><button onClick={() => goToTab('services')} className="hover:text-white transition-colors cursor-pointer">Best SEO Services & Management</button></li>
+                <li><button onClick={() => goToTab('all-tools')} className="hover:text-white transition-colors cursor-pointer">27 Free Native Tools</button></li>
+                <li><button onClick={() => goToTab('about')} className="hover:text-white transition-colors cursor-pointer">About Waqas Mehmood</button></li>
+                <li><button onClick={() => goToTab('contact')} className="hover:text-white transition-colors cursor-pointer">Contact & Audit Inquiry</button></li>
+              </ul>
+            </div>
+
+            {/* Column 3: Local SEO Locations */}
+            <div className="space-y-3">
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Locations (Local SEO)</h4>
+              <ul className="space-y-2">
+                <li><button onClick={() => handleSwitchCity('hyderabad')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Hyderabad, Sindh</button></li>
+                <li><button onClick={() => handleSwitchCity('karachi')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Karachi</button></li>
+                <li><button onClick={() => handleSwitchCity('lahore')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Specialist in Lahore</button></li>
+                <li><button onClick={() => handleSwitchCity('islamabad')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Consultant in Islamabad</button></li>
+              </ul>
+            </div>
+
+            {/* Column 4: Free Diagnostic Tools */}
+            <div className="space-y-3">
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Featured SEO Tools</h4>
+              <ul className="space-y-2">
+                <li><button onClick={() => goToTab('all-tools', '/local-seo')} className="hover:text-white transition-colors cursor-pointer">Local SEO Audit Tools</button></li>
+                <li><button onClick={() => goToTab('all-tools', '/technical-seo')} className="hover:text-white transition-colors cursor-pointer">Technical SEO Speed & Schema</button></li>
+                <li><button onClick={() => goToTab('active-tool', '/tools/website-crawler')} className="hover:text-white transition-colors cursor-pointer">Free AI Website Crawler</button></li>
+                <li><button onClick={() => goToTab('active-tool', '/tools/ai-math-solver')} className="hover:text-white transition-colors cursor-pointer">Free AI Math Solver</button></li>
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+            <div>
+              <span className="text-slate-400">© 2026 waqasmehmood.com • All Rights Reserved.</span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {isAdmin ? (
+                <button 
+                  onClick={handleAdminLogout}
+                  className="text-amber-400 hover:text-amber-300 font-mono text-[11px] flex items-center gap-1 cursor-pointer bg-amber-400/10 px-2 py-1 rounded border border-amber-400/20"
+                >
+                  <Unlock className="w-3 h-3" /> Logout Waqas
+                </button>
+              ) : (
+                <button 
+                  onClick={() => setAdminModalOpen(true)}
+                  className="text-slate-500 hover:text-amber-400 font-mono text-[11px] flex items-center gap-1 cursor-pointer transition-colors"
+                  title="Waqas Mehmood Owner Access"
+                >
+                  <Lock className="w-3 h-3" /> Owner Portal
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </footer>

@@ -22,8 +22,9 @@ Route::delete('/portfolio/{id}', [PortfolioController::class, 'destroy']);
 Route::post('/admin/login', [AdminAuthController::class, 'login']);
 Route::get('/admin/verify', [AdminAuthController::class, 'verify']);
 
-// 3. Contact Form Submission
+// 3. Contact Form Submission & Inquiries
 Route::post('/contact', [ContactController::class, 'store']);
+Route::get('/admin/inquiries', [ContactController::class, 'index']);
 
 // 4. No-API SEO 4-Pillar & Subtools Endpoints (from waqasmehmood.com)
 Route::prefix('tools')->group(function () {
