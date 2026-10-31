@@ -7,7 +7,7 @@ import {
   Palette, Laptop, Share2, Target, Plus, Eye, Send, Filter, Check, Award,
   Copy, Smartphone, Monitor, Image, ListTree, Link2, MapPin, Hash, BookOpen,
   Trash2, Lock, Unlock, Mail, MessageSquare, DollarSign, User, Briefcase,
-  HelpCircle, ChevronDown, Star, TrendingUp, Key
+  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
 import { CITIES_DATA } from './data/citiesData.js';
@@ -137,6 +137,50 @@ export default function App() {
   const [hireModalOpen, setHireModalOpen] = useState(false);
   const [hireService, setHireService] = useState('SEO Services');
   const [addProjectModalOpen, setAddProjectModalOpen] = useState(false);
+
+  // Professional Multi-Theme System ('dark' | 'light' | 'oled' | 'system')
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('wm_theme_preference') || 'dark';
+    }
+    return 'dark';
+  });
+  const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+
+  const THEME_OPTIONS = [
+    {
+      id: 'dark',
+      label: 'Dark Mode',
+      subtitle: 'Cyber Midnight',
+      icon: Moon,
+      color: 'text-indigo-400',
+      badge: 'Default'
+    },
+    {
+      id: 'light',
+      label: 'Light Mode',
+      subtitle: 'Executive Clean',
+      icon: Sun,
+      color: 'text-amber-400',
+      badge: 'Daylight'
+    },
+    {
+      id: 'oled',
+      label: 'OLED Black',
+      subtitle: 'Pitch Dark',
+      icon: Contrast,
+      color: 'text-cyan-400',
+      badge: 'AMOLED'
+    },
+    {
+      id: 'system',
+      label: 'System Auto',
+      subtitle: 'Device Match',
+      icon: Monitor,
+      color: 'text-slate-400',
+      badge: 'Auto'
+    }
+  ];
 
   // Method 1: Web3Forms Direct Email Delivery State
   const [web3FormsKey, setWeb3FormsKey] = useState(() => {
@@ -703,6 +747,38 @@ export default function App() {
     );
   }, [searchQuery, searchableItems]);
 
+  // Apply visual theme to documentElement with smooth transition
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const applyTheme = (themeName) => {
+      document.documentElement.classList.add('theme-transitioning');
+
+      let resolved = themeName;
+      if (themeName === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        resolved = prefersDark ? 'dark' : 'light';
+      }
+
+      document.documentElement.setAttribute('data-theme', resolved);
+      localStorage.setItem('wm_theme_preference', themeName);
+
+      const timer = setTimeout(() => {
+        document.documentElement.classList.remove('theme-transitioning');
+      }, 300);
+      return () => clearTimeout(timer);
+    };
+
+    applyTheme(theme);
+
+    if (theme === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleSystemChange = () => applyTheme('system');
+      mediaQuery.addEventListener('change', handleSystemChange);
+      return () => mediaQuery.removeEventListener('change', handleSystemChange);
+    }
+  }, [theme]);
+
   // Global Ctrl+K / Cmd+K listener
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -725,14 +801,14 @@ export default function App() {
     if (cleanPath === '/' || cleanPath === '') {
       setActiveTab('home');
       updateSeoMetadata(
-        'Waqas Mehmood | Best SEO Expert, Specialist & SEO Services',
-        'Looking for the best SEO expert and specialist? Waqas Mehmood provides full-funnel SEO services, complete SEO management, technical audits, and organic revenue scaling.',
+        'Waqas Mehmood | Best SEO Expert & SEO Specialist',
+        'Hire Waqas Mehmood - Best SEO expert & specialist offering top SEO services, local SEO management, technical audits & web development.',
         '/'
       );
     } else if (cleanPath === '/services') {
       setActiveTab('services');
       updateSeoMetadata(
-        'Best SEO Services & Dedicated SEO Management | Waqas Mehmood',
+        'Best SEO Services & SEO Management | Waqas Mehmood',
         'Comprehensive SEO management and best SEO services. Monthly retainers, dedicated SEO manager, technical audits, and high-ROAS digital growth.',
         '/services'
       );
@@ -751,21 +827,21 @@ export default function App() {
     } else if (cleanPath === '/about') {
       setActiveTab('about');
       updateSeoMetadata(
-        'About Waqas Mehmood | Best SEO Expert, Specialist & Growth Engineer',
-        'Learn about Waqas Mehmood, the best SEO expert and senior specialist delivering full-funnel SEO services, complete SEO management, technical audits, and organic revenue scaling.',
+        'About Waqas Mehmood | Best SEO Expert & Specialist',
+        'Learn about Waqas Mehmood, senior SEO specialist & engineer delivering full-funnel SEO services, technical audits, and organic revenue scaling.',
         '/about'
       );
     } else if (cleanPath === '/contact') {
       setActiveTab('contact');
       updateSeoMetadata(
-        'Contact Waqas Mehmood | Hire Best SEO Expert & Request Audit',
+        'Contact Waqas Mehmood | Hire Best SEO Expert',
         'Get in touch with Waqas Mehmood for custom SEO audits, best SEO services, high-ROAS PPC ad campaigns, or full-stack web application development.',
         '/contact'
       );
     } else if (cleanPath === '/all-tools' || cleanPath === '/tools' || cleanPath === '/digitaltools') {
       setActiveTab('all-tools');
       updateSeoMetadata(
-        '27 Free SEO & Digital Marketing Tools | Waqas Mehmood',
+        '27 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
         'Run 27 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. Zero third-party API dependencies.',
         '/all-tools'
       );
@@ -773,7 +849,7 @@ export default function App() {
       setActiveTab('all-tools');
       setSelectedPillar('onpage');
       updateSeoMetadata(
-        'One Page SEO Tools (10 Free Analyzers) | Waqas Mehmood',
+        'One Page SEO Tools - 10 Free Analyzers | Waqas',
         'Free On-Page SEO tools: Website SEO Checker, Keyword Density, Meta Tag Analyzer, SERP Preview, Word Counter, Heading Hierarchy, and Broken Link Checker.',
         '/on-page-seo'
       );
@@ -781,7 +857,7 @@ export default function App() {
       setActiveTab('all-tools');
       setSelectedPillar('offpage');
       updateSeoMetadata(
-        'Off Page SEO & Backlink Tools (5 Free Analyzers) | Waqas Mehmood',
+        'Off Page SEO Tools & Backlink Analyzers | Waqas',
         'Free Off-Page SEO tools: Backlink Checker, DA & PA Checker, Competitor Backlink Analyzer, Referring Domains, and Anchor Text Analyzer.',
         '/off-page-seo'
       );
@@ -1804,39 +1880,33 @@ export default function App() {
           {/* Navigation */}
           <nav className="hidden md:flex items-center gap-1 text-xs font-semibold">
             <button 
-              onClick={() => goToTab('home')}
-              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'home' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
-            >
-              HOME
-            </button>
-            <button 
               onClick={() => goToTab('services')}
-              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'services' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'services' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               Services
             </button>
             <button 
-              onClick={() => goToTab('about')}
-              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'about' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
-            >
-              About
-            </button>
-            <button 
-              onClick={() => goToTab('contact')}
-              className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'contact' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
-            >
-              Contact
-            </button>
-            <button 
               onClick={() => goToTab('all-tools')}
-              className={`px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               <span>All Tools</span>
               <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
             </button>
             <button 
+              onClick={() => goToTab('about')}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'about' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+            >
+              About
+            </button>
+            <button 
+              onClick={() => goToTab('contact')}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'contact' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+            >
+              Contact
+            </button>
+            <button 
               onClick={() => handleSwitchCity('hyderabad')}
-              className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'location' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'location' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               <MapPin className="w-3.5 h-3.5 text-cyan-400" />
               <span>Locations</span>
@@ -1845,11 +1915,11 @@ export default function App() {
             {/* Quick Live Search Bar in Nav */}
             <button 
               onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
-              className="px-3.5 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/40 text-slate-300 hover:text-white transition-all flex items-center gap-2 cursor-pointer shadow-inner group ml-1"
+              className="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/40 text-slate-300 hover:text-white transition-all flex items-center gap-2 cursor-pointer shadow-inner group ml-1"
               title="Quick Search 27 Tools, Services & Locations (Ctrl+K)"
             >
               <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
-              <span className="hidden xl:inline text-slate-400 font-normal">Search tools, services...</span>
+              <span className="hidden xl:inline text-slate-400 font-normal">Search tools...</span>
               <span className="inline xl:hidden text-slate-400 font-normal">Search</span>
               <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-slate-950 text-[10px] font-mono text-cyan-300 border border-slate-800">
                 Ctrl K
@@ -1858,7 +1928,7 @@ export default function App() {
           </nav>
 
           {/* Action CTAs & Admin Indicator */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* Mobile Search Icon Button */}
             <button
               onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
@@ -1871,18 +1941,18 @@ export default function App() {
             {(typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) && (
               <button
                 onClick={() => { setTempWeb3Key(web3FormsKey); setWeb3ModalOpen(true); }}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/50 text-[11px] text-slate-300 hover:text-cyan-300 font-medium transition-colors cursor-pointer"
+                className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/50 text-[11px] text-slate-300 hover:text-cyan-300 font-medium transition-colors cursor-pointer"
                 title="Configure or test Method 1 Email Forwarding"
               >
                 <span className={`w-2 h-2 rounded-full ${web3FormsKey ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`}></span>
-                <span>Email Forwarding</span>
+                <span>Mail Setup</span>
               </button>
             )}
 
             {isAdmin ? (
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
                 <Unlock className="w-3.5 h-3.5 text-amber-400" />
-                <span className="hidden sm:inline">Admin Mode</span>
+                <span className="hidden sm:inline">Admin</span>
                 <button 
                   onClick={() => setInquiriesModalOpen(true)}
                   className="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[10px] font-bold cursor-pointer"
@@ -1906,6 +1976,79 @@ export default function App() {
                 </button>
               </div>
             ) : null}
+
+            {/* Professional Multi-Theme Switcher (Icon-Only Compact Pill) */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
+                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/50 text-slate-300 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                title={`Theme: ${theme.toUpperCase()} (Click to change)`}
+                aria-label="Toggle Visual Theme"
+              >
+                {theme === 'light' ? (
+                  <Sun className="w-4 h-4 text-amber-400" />
+                ) : theme === 'oled' ? (
+                  <Contrast className="w-4 h-4 text-cyan-400" />
+                ) : theme === 'system' ? (
+                  <Monitor className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <Moon className="w-4 h-4 text-indigo-400" />
+                )}
+              </button>
+
+              {/* Theme Selection Micro Dropdown */}
+              {themeDropdownOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => setThemeDropdownOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl p-1.5 z-50 space-y-1 text-xs">
+                    <div className="px-2.5 py-1 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 flex items-center justify-between">
+                      <span>Visual Theme</span>
+                      <span className="text-cyan-400 font-mono text-[9px] uppercase">{theme}</span>
+                    </div>
+                    {THEME_OPTIONS.map((opt) => {
+                      const IconComp = opt.icon;
+                      const isActive = theme === opt.id;
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => {
+                            setTheme(opt.id);
+                            setThemeDropdownOpen(false);
+                          }}
+                          className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl transition-all cursor-pointer text-left ${
+                            isActive 
+                              ? 'bg-cyan-500/15 text-white font-semibold border border-cyan-500/30' 
+                              : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center bg-slate-950 border border-slate-800 ${opt.color}`}>
+                              <IconComp className="w-3.5 h-3.5" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-semibold leading-tight">{opt.label}</div>
+                              <div className="text-[10px] text-slate-400">{opt.subtitle}</div>
+                            </div>
+                          </div>
+                          {isActive ? (
+                            <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                          ) : (
+                            <span className="text-[9px] font-mono text-slate-500 px-1.5 py-0.5 rounded bg-slate-950">
+                              {opt.badge}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
 
             <button 
               onClick={() => { setHireService('Full-Stack Digital Marketing'); setHireModalOpen(true); }}

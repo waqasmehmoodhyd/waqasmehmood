@@ -93,7 +93,7 @@ export const TOOLS_SEO_DATA = {
   'website-seo-checker': {
     focusKeyword: 'website seo checker audit tool',
     h2Title: 'Complete Website SEO Health Audit & On-Page Optimization Guide',
-    metaTitle: 'Website SEO Checker - Free Comprehensive On-Page Audit | Waqas Mehmood',
+    metaTitle: 'Website SEO Checker - Free Audit | Waqas Mehmood',
     metaDesc: 'Run a deep on-page website SEO audit. Analyze meta tags, headings, image alt attributes, page structure, and crawlability signals in seconds.',
     intro: 'A website SEO checker evaluates your web page against hundreds of Google search ranking factors. From meta tag lengths and heading structure to mobile responsiveness and Core Web Vitals readiness, a holistic on-page audit reveals critical bottleneck errors that prevent your pages from climbing to top SERP positions.',
     googleFactor: 'Google algorithms use automated web crawlers (Googlebot) to render HTML, parse DOM structures, and evaluate content quality according to the Helpful Content system and Core Web Vitals thresholds. Pages with clear metadata, hierarchical headings, and zero crawl errors receive preferential indexing and higher click-through rates (CTR).',
@@ -132,7 +132,7 @@ export const TOOLS_SEO_DATA = {
   'seo-analyzer': {
     focusKeyword: 'seo analyzer and error detector',
     h2Title: 'In-Depth SEO Analyzer: Diagnosing Technical & Content Warnings',
-    metaTitle: 'SEO Analyzer - Detect SEO Errors, Warnings & Improvements | Waqas Mehmood',
+    metaTitle: 'SEO Analyzer - Free SEO Error Audit | Waqas Mehmood',
     metaDesc: 'Identify critical SEO errors, warnings, and missing ranking factors on any live webpage with our native in-house SEO analyzer engine.',
     intro: 'The SEO Analyzer breaks down page architecture into granular diagnostic categories: critical errors (red), cautionary warnings (yellow), and passed standards (green). By prioritizing high-impact technical fixes, webmasters can rapidly resolve crawl friction before search engine algorithmic updates impact organic traffic.',
     googleFactor: 'Search engine bots possess finite crawl budgets. When crawlers encounter redirect loops, missing canonical headers, malformed markup, or slow-loading assets, they reduce crawl frequency, delaying the indexation of new and updated content.',
@@ -166,7 +166,7 @@ export const TOOLS_SEO_DATA = {
   'keyword-density-checker': {
     focusKeyword: 'keyword density checker tool',
     h2Title: 'Optimizing Keyword Density & Topical Relevance Without Stuffing',
-    metaTitle: 'Keyword Density Checker - Frequency & Ratio Analyzer | Waqas Mehmood',
+    metaTitle: 'Keyword Density Checker - Word Ratio | Waqas Mehmood',
     metaDesc: 'Analyze keyword frequency, percentage density, and word distribution on any live URL or text. Avoid Google keyword stuffing penalties.',
     intro: 'Keyword density is the percentage of times a target keyword or phrase appears within a block of text relative to the total word count. While search algorithms have evolved beyond rigid keyword counting, maintaining natural, balanced keyword presence remains foundational for establishing topical authority and search intent alignment.',
     googleFactor: 'Modern Google search algorithms like RankBrain, BERT, and Gemini utilize Natural Language Processing (NLP) to evaluate topical context. Over-optimizing with repetitive keywords triggers automated webspam algorithms (such as the Google SpamBrain system), resulting in ranking suppression.',
@@ -200,7 +200,7 @@ export const TOOLS_SEO_DATA = {
   'meta-tag-analyzer': {
     focusKeyword: 'meta tag analyzer tool online',
     h2Title: 'Meta Title & Description Optimization for Maximum Organic CTR',
-    metaTitle: 'Meta Tag Analyzer - Title & Description Length Checker | Waqas Mehmood',
+    metaTitle: 'Meta Tag Analyzer - Title & Snippet | Waqas Mehmood',
     metaDesc: 'Audit meta title and description lengths, pixel widths, OpenGraph tags, and snippet formatting to maximize click-through rate on Google.',
     intro: 'Meta tags serve as your website\'s digital billboard on search engine results pages (SERPs). The `<title>` tag and `<meta name="description">` provide searchers and crawlers with a concise preview of your page\'s content, directly impacting search impressions and organic click-through rate (CTR).',
     googleFactor: 'While meta descriptions are not a direct algorithmic ranking factor, they profoundly influence user CTR. Google frequently rewrites meta snippets if the provided description is missing, spammy, or fails to answer the user search query accurately.',
@@ -234,7 +234,7 @@ export const TOOLS_SEO_DATA = {
   'serp-snippet-preview': {
     focusKeyword: 'serp snippet preview generator',
     h2Title: 'Google SERP Snippet Preview: Desktop & Mobile Search Simulation',
-    metaTitle: 'SERP Snippet Preview - Google Desktop & Mobile Visualizer | Waqas Mehmood',
+    metaTitle: 'SERP Snippet Preview - SERP Visualizer | Waqas',
     metaDesc: 'Preview exactly how your webpage title, URL slug, and meta description look on Google Desktop and Mobile search results before publishing.',
     intro: 'The SERP Snippet Preview tool visualizes your webpage\'s organic search appearance on both desktop and mobile Google interfaces. By simulating character truncation points, breadcrumb paths, and favicon displays, you can craft pixel-perfect snippets that win clicks over competitors.',
     googleFactor: 'Higher click-through rate (CTR) is a strong positive user engagement signal. Snippets that clearly communicate search intent with professional formatting and rich breadcrumbs consistently capture higher conversion rates from organic impressions.',
@@ -268,7 +268,7 @@ export const TOOLS_SEO_DATA = {
   'word-counter': {
     focusKeyword: 'online word counter reading time analyzer',
     h2Title: 'Word Counter, Character Metrics & Readability for Content SEO',
-    metaTitle: 'Word Counter - Words, Characters & Readability Metrics | Waqas Mehmood',
+    metaTitle: 'Word Counter - Words & Readability | Waqas Mehmood',
     metaDesc: 'Free online word counter. Calculate total words, character counts, sentence structure, reading time, and speaking time for blog articles and web pages.',
     intro: 'Content length and comprehensive topical coverage are integral components of high-ranking content. The Word Counter analyzes total words, characters with and without whitespace, sentence complexity, and estimated reading times to ensure your articles satisfy both user search intent and Google content depth expectations.',
     googleFactor: 'While word count is not an isolated ranking factor, comprehensive long-form content that answers user questions thoroughly ranks higher because it naturally covers semantic subtopics, FAQs, and secondary queries without thin content signals.',
@@ -302,7 +302,7 @@ export const TOOLS_SEO_DATA = {
   'plagiarism-checker': {
     focusKeyword: 'plagiarism checker and content originality',
     h2Title: 'Originality Signals & Duplicate Content Prevention in SEO',
-    metaTitle: 'Plagiarism Checker - Content Originality & Uniqueness | Waqas Mehmood',
+    metaTitle: 'Plagiarism Checker - Originality Tool | Waqas',
     metaDesc: 'Check content uniqueness and originality signals. Identify duplicate text blocks and ensure your content complies with Google original reporting standards.',
     intro: 'Originality is at the heart of Google\'s search mission. The Plagiarism Checker verifies content uniqueness by analyzing phrase originality patterns, duplicated paragraphs, and syndicated blocks to safeguard your site against duplicate content filters and scraping penalties.',
     googleFactor: 'Google\'s Helpful Content System and Spam policies actively downgrade websites that republish scraped, aggregated, or spun content without adding substantial original value, unique data, or expert commentary.',
@@ -335,7 +335,7 @@ export const TOOLS_SEO_DATA = {
   'image-alt-checker': {
     focusKeyword: 'image alt text checker tool',
     h2Title: 'Image ALT Attributes, Accessibility & Image Search Optimization',
-    metaTitle: 'Image ALT Text Checker - Find Missing ALT Attributes | Waqas Mehmood',
+    metaTitle: 'Image ALT Checker - Missing ALT Audit | Waqas',
     metaDesc: 'Scan live webpages for missing image ALT attributes. Improve web accessibility (WCAG), image SEO rankings, and Google Images visibility.',
     intro: 'The Image ALT Text Checker scans live webpages for images missing the crucial `alt` attribute. Alternative text is essential for web accessibility (WCAG compliance for screen readers), image indexing on Google Images, and contextual relevance signals for on-page SEO.',
     googleFactor: 'Googlebot cannot "see" images the way humans do; it relies heavily on the `alt` attribute, surrounding captions, image file names, and Schema.org image markup to understand visual content and rank it in Google Images and Universal Search.',
@@ -368,7 +368,7 @@ export const TOOLS_SEO_DATA = {
   'heading-checker': {
     focusKeyword: 'heading tags hierarchy checker h1 h6',
     h2Title: 'Heading Hierarchy Checker (H1–H6): Structuring Logical SEO Silos',
-    metaTitle: 'Heading Checker (H1-H6) - Hierarchy & Structure Audit | Waqas Mehmood',
+    metaTitle: 'Heading Checker - H1-H6 Hierarchy | Waqas Mehmood',
     metaDesc: 'Audit H1, H2, H3, H4, H5, and H6 heading structure. Verify single H1 compliance, semantic nesting, and logical topical content siloing.',
     intro: 'Headings establish the structural backbone of every web page. The Heading Checker parses HTML heading tags (H1 through H6) to verify that your document tree follows strict semantic hierarchy, features exactly one primary H1 topic heading, and organizes subtopics logically for search engines.',
     googleFactor: 'Google uses heading tags to understand the core themes and subtopics of a document. An accurate heading tree directly powers Google\'s passage ranking and automated Featured Snippets, allowing searchers to jump directly to specific sections of your page.',
@@ -402,7 +402,7 @@ export const TOOLS_SEO_DATA = {
   'broken-link-checker': {
     focusKeyword: 'broken link checker online free',
     h2Title: 'Broken Link Checker: Eliminating HTTP 404 Errors & Preserving Link Equity',
-    metaTitle: 'Broken Link Checker - Find Dead Internal & External Links | Waqas Mehmood',
+    metaTitle: 'Broken Link Checker - Dead URL Audit | Waqas',
     metaDesc: 'Scan web pages for dead internal and external links. Fix 404 errors, conserve Google crawl budget, and protect user experience.',
     intro: 'Broken links (HTTP 404 Not Found) damage user trust and waste valuable search engine crawl budget. The Broken Link Checker inspects all `href` hyperlinks on a page to identify dead internal anchors, broken external citations, and circular redirects before they harm your site\'s authority.',
     googleFactor: 'Google allocates a finite crawl budget to every domain. When Googlebot encounters broken URLs, it wastes resources that could have been spent discovering and indexing fresh commercial pages. High numbers of broken links also signal neglected site maintenance.',
@@ -439,7 +439,7 @@ export const TOOLS_SEO_DATA = {
   'backlink-checker': {
     focusKeyword: 'backlink checker tool free',
     h2Title: 'Backlink Readiness & Outbound Link Profile Evaluation',
-    metaTitle: 'Backlink Checker - Analyze Outbound Signals & Backlink Profile | Waqas Mehmood',
+    metaTitle: 'Backlink Checker - Link Profile Tool | Waqas',
     metaDesc: 'Analyze webpage backlink readiness, outbound link ratios, anchor diversity, and authoritative reference cues with our native SEO engine.',
     intro: 'Backlinks are the foundational currency of the web. Search engines treat external links pointing to your domain as digital votes of confidence. The Backlink Checker inspects outbound linking patterns, external authority anchors, and backlink readiness signals to optimize your page for link acquisition campaigns.',
     googleFactor: 'Google\'s original PageRank algorithm established that links from authoritative, contextually relevant websites transfer link equity (PageRank). Backlinks from trusted domains remain one of the top three organic search ranking signals.',
@@ -472,7 +472,7 @@ export const TOOLS_SEO_DATA = {
   'da-pa-checker': {
     focusKeyword: 'domain authority and page authority checker',
     h2Title: 'Domain Authority & Page Authority: Demystifying SEO Power Signals',
-    metaTitle: 'DA & PA Checker - Domain & Page Authority Signals | Waqas Mehmood',
+    metaTitle: 'DA & PA Checker - Authority Analyzer | Waqas',
     metaDesc: 'Evaluate domain and page authority signals, outbound link counts, and search trust metrics to guide your competitive link building strategy.',
     intro: 'Domain Authority (DA) and Page Authority (PA) are industry comparative metrics designed to predict how likely a website is to outrank competitors on SERPs. The DA & PA Checker evaluates key algorithmic trust signals, outbound link volume, and domain stability indicators.',
     googleFactor: 'While Google does not use third-party "Domain Authority" scores directly, it uses its own internal PageRank algorithms and Seed Site trust models to determine domain authority and crawl prioritization across the internet.',
@@ -505,7 +505,7 @@ export const TOOLS_SEO_DATA = {
   'competitor-backlink-analyzer': {
     focusKeyword: 'competitor backlink analyzer tool',
     h2Title: 'Competitor Backlink Analysis: Finding High-Value Link Gap Opportunities',
-    metaTitle: 'Competitor Backlink Analyzer - Compare Link Profiles | Waqas Mehmood',
+    metaTitle: 'Competitor Backlink Analyzer Tool | Waqas Mehmood',
     metaDesc: 'Compare your website link profile against top organic competitors. Uncover link gap opportunities and replicate winning backlink strategies.',
     intro: 'Competitor Backlink Analysis is the fastest shortcut to ranking success. By comparing your URL\'s link profile against the current top-ranking competitors in your niche, you identify exactly where they get their editorial citations, guest posts, and industry directory links.',
     googleFactor: 'Google ranks pages relatively. If all top 3 competitors for a search keyword hold 20 to 50 quality referring domains from relevant niche blogs, Google expects your page to demonstrate comparable authority to compete for position #1.',
@@ -538,7 +538,7 @@ export const TOOLS_SEO_DATA = {
   'referring-domains-checker': {
     focusKeyword: 'referring domains checker diversity',
     h2Title: 'Referring Domains Diversity: Why Root Domain Variety Outranks Volume',
-    metaTitle: 'Referring Domains Checker - External Domain Diversity | Waqas Mehmood',
+    metaTitle: 'Referring Domains Checker - Link Tool | Waqas',
     metaDesc: 'Analyze referring root domain diversity and brand cues. Discover how unique referring domains power Google organic ranking algorithms.',
     intro: 'In off-page SEO, 100 backlinks from 100 distinct referring domains are vastly more valuable than 1,000 backlinks from a single domain. The Referring Domains Checker audits domain diversity signals, helping you build a broad, resilient backlink network.',
     googleFactor: 'Google applies diminishing returns to multiple links originating from the same IP or root domain. The first editorial link from a unique domain transfers substantial PageRank equity, while subsequent links from the same domain carry progressively less weight.',
@@ -571,7 +571,7 @@ export const TOOLS_SEO_DATA = {
   'anchor-text-analyzer': {
     focusKeyword: 'anchor text distribution analyzer',
     h2Title: 'Anchor Text Optimization: Balancing Exact Match & Natural Branded Profiles',
-    metaTitle: 'Anchor Text Analyzer - Distribution & Over-Optimization Alert | Waqas Mehmood',
+    metaTitle: 'Anchor Text Analyzer - Anchor Audit | Waqas',
     metaDesc: 'Audit anchor text distribution. Detect keyword over-optimization, prevent Google Penguin link penalties, and balance branded vs exact match anchors.',
     intro: 'Anchor text is the clickable text snippet within a hyperlink. The Anchor Text Analyzer parses your link anchors to categorize them into branded, exact-match, partial-match, generic, and naked URL types, safeguarding your site from algorithmic link penalties.',
     googleFactor: 'Following the historic Google Penguin update, search algorithms penalize websites with unnaturally high percentages of exact-match commercial anchor text. A natural, healthy backlink profile is dominated by branded names, URLs, and contextual phrases.',
@@ -609,7 +609,7 @@ export const TOOLS_SEO_DATA = {
   'website-speed-checker': {
     focusKeyword: 'website speed checker core web vitals',
     h2Title: 'Website Speed, TTFB & Core Web Vitals Optimization',
-    metaTitle: 'Website Speed Checker - TTFB & Page Performance | Waqas Mehmood',
+    metaTitle: 'Website Speed Checker - TTFB Audit | Waqas Mehmood',
     metaDesc: 'Measure website speed, Time to First Byte (TTFB), total page weight, and Core Web Vitals signals. Maximize mobile Google rankings.',
     intro: 'Page speed is a confirmed Google search ranking factor and the single biggest driver of e-commerce conversion rates. The Website Speed Checker audits initial server response time (TTFB), HTML transfer sizes, and resource payload signals to keep your site blazingly fast.',
     googleFactor: 'Google uses the Core Web Vitals metric suite (Largest Contentful Paint, Interaction to Next Paint, Cumulative Layout Shift) as a direct page experience ranking signal. Slow websites experience higher bounce rates, reduced crawl frequencies, and ranking demotions on mobile search.',
@@ -643,7 +643,7 @@ export const TOOLS_SEO_DATA = {
   'tech-broken-link-checker': {
     focusKeyword: 'technical broken link checker redirects',
     h2Title: 'Technical Broken Link Audit: Redirect Chains, 404s & Crawl Budget',
-    metaTitle: 'Technical Broken Link Checker - Redirects & Dead URLs | Waqas Mehmood',
+    metaTitle: 'Technical Broken Link Checker | Waqas Mehmood',
     metaDesc: 'Detect technical broken redirects, 404 dead ends, and redirect loops. Conserve Google crawl budget and protect server resources.',
     intro: 'Technical broken links and redirect chains waste valuable server bandwidth and disrupt search crawler pipelines. The Technical Broken Link Checker audits HTTP response codes, redirect chains (301 -> 302 -> 404), and protocol mismatches (HTTP vs HTTPS) across your technical infrastructure.',
     googleFactor: 'Search engine bots limit how many redirect hops they will follow (typically capping out at 5 hops). Lengthy redirect chains cause Googlebot to abort crawling, leaving downstream destination pages unindexed.',
@@ -676,7 +676,7 @@ export const TOOLS_SEO_DATA = {
   'xml-sitemap-checker': {
     focusKeyword: 'xml sitemap checker validator tool',
     h2Title: 'XML Sitemap Validation: Streamlining Search Engine Discovery',
-    metaTitle: 'XML Sitemap Checker - Validate XML Sitemap Structure | Waqas Mehmood',
+    metaTitle: 'XML Sitemap Checker - Sitemap Audit | Waqas',
     metaDesc: 'Find, parse, and validate XML sitemap files. Ensure all canonical URLs are discoverable, error-free, and properly submitted to Google Search Console.',
     intro: 'An XML sitemap is a structured roadmap of your website that tells search engines exactly which URLs to crawl and index. The XML Sitemap Checker parses sitemap files, verifies correct XML syntax, ensures canonical URLs match live responses, and checks for prohibited 404 or redirected entries.',
     googleFactor: 'Googlebot uses XML sitemaps to discover newly published pages, understand site architecture, and track modification timestamps (`<lastmod>`). An accurate sitemap ensures your deepest, high-value pages get crawled rapidly.',
@@ -710,7 +710,7 @@ export const TOOLS_SEO_DATA = {
   'robots-txt-tester': {
     focusKeyword: 'robots txt tester validator online',
     h2Title: 'Robots.txt Directives: Managing Crawler Access & Preventing Accidental De-Indexing',
-    metaTitle: 'Robots.txt Tester - Validate Bot Directives & Disallow Rules | Waqas Mehmood',
+    metaTitle: 'Robots.txt Tester - Bot Directives | Waqas Mehmood',
     metaDesc: 'Fetch, parse, and review robots.txt directives. Test Googlebot access rules, verify Sitemap declarations, and prevent accidental indexation blocks.',
     intro: 'The `robots.txt` file is the gatekeeper of your domain. Located at the root of your site, it instructs web search bots which directories they can and cannot crawl. The Robots.txt Tester parses directive syntax, checks for accidental blocking of vital CSS/JS assets, and validates Sitemap declarations.',
     googleFactor: 'If your robots.txt file contains an accidental `Disallow: /`, Googlebot will immediately cease crawling your website, resulting in total organic de-indexation. Furthermore, blocking CSS or JS files prevents Googlebot from rendering pages properly, harming mobile usability scores.',
@@ -744,7 +744,7 @@ export const TOOLS_SEO_DATA = {
   'schema-markup-validator': {
     focusKeyword: 'schema markup validator json ld',
     h2Title: 'JSON-LD Schema Markup Validation: Unlocking Google Rich Snippets',
-    metaTitle: 'Schema Markup Validator - Test JSON-LD Structured Data | Waqas Mehmood',
+    metaTitle: 'Schema Markup Validator - Test JSON-LD | Waqas',
     metaDesc: 'Validate Schema.org JSON-LD structured data. Test WebSite, Person, Organization, FAQ, Article, and LocalBusiness rich snippets for Google SERPs.',
     intro: 'Schema markup (structured data) provides search engines with explicit semantic clues about the meaning of your content. The Schema Markup Validator extracts and validates JSON-LD code blocks against official Schema.org standards, helping your pages qualify for high-CTR Google Rich Snippets.',
     googleFactor: 'Google uses structured data to power rich search features such as FAQ accordions, star review ratings, recipe cards, breadcrumbs, and knowledge panels. Pages with rich snippets capture up to 30% higher click-through rates than standard blue links.',
@@ -784,7 +784,7 @@ export const TOOLS_SEO_DATA = {
       'free site auditor export csv'
     ],
     h2Title: 'Free Online Website Crawler: Multi-Page Technical SEO & Site Audit Engine',
-    metaTitle: 'Free AI Website Crawler & Site Auditor - Screaming Frog Lite | Waqas Mehmood',
+    metaTitle: 'Free AI Website Crawler & Site Auditor | Waqas',
     metaDesc: 'Crawl your entire website online. Discover 404 broken links, audit title tags, H1 headings, and page speed in real-time with 1-click CSV export.',
     intro: 'The Free Online Website Crawler is a high-speed multi-page technical audit engine inspired by Screaming Frog SEO Spider. By traversing internal link structures in real-time via Breadth-First Search (BFS), this tool audits HTTP response codes, flags 404 dead ends, inspects meta titles and H1 hierarchies, and delivers instant, exportable CSV audit sheets.',
     googleFactor: 'Search engines possess finite crawl budgets. When Googlebot encounters 404 dead links, broken redirects, missing canonicals, or duplicate H1 headings, crawl equity is squandered and indexation delays occur. Regularly crawling your web architecture ensures optimal crawl efficiency and search indexing.',
@@ -843,7 +843,7 @@ export const TOOLS_SEO_DATA = {
   'local-rank-checker': {
     focusKeyword: 'local rank checker geo search tool',
     h2Title: 'Local Rank Tracking: Geo-Targeted Search Engine Visibility',
-    metaTitle: 'Local Rank Checker - Geo-Targeted Ranking Signals | Waqas Mehmood',
+    metaTitle: 'Local Rank Checker - Geo Ranking Tool | Waqas',
     metaDesc: 'Analyze local search ranking signals, regional keyword optimization, and geo-targeted landing page relevance for city-specific searches.',
     intro: 'Over 46% of all Google searches have local intent (e.g. "SEO services in Lahore", "web developer near me"). The Local Rank Checker evaluates geo-targeted keyword density, city-specific landing page signals, and regional ranking cues to ensure your business dominates local search results.',
     googleFactor: 'Google uses a distinct local search algorithm that weighs Proximity, Prominence, and Relevance. Geo-targeted landing pages featuring local address schemas, localized case studies, and localized H1 headings rank higher in location-filtered queries.',
@@ -876,7 +876,7 @@ export const TOOLS_SEO_DATA = {
   'google-business-profile-checker': {
     focusKeyword: 'google business profile checker gbp audit',
     h2Title: 'Google Business Profile (GBP) Signals & Local 3-Pack Optimization',
-    metaTitle: 'Google Business Profile Checker - GBP & Map Pack Signals | Waqas Mehmood',
+    metaTitle: 'Google Business Profile Checker | Waqas Mehmood',
     metaDesc: 'Audit Google Business Profile (GBP) integration, Google Maps links, and local on-page signals to dominate the Google Local 3-Pack.',
     intro: 'Your Google Business Profile (formerly Google My Business) is the single most powerful asset for capturing high-intent local phone calls and direction requests. The Google Business Profile Checker audits on-site GBP connections, Google Maps link anchors, and review velocity signals.',
     googleFactor: 'The Google Local 3-Pack appears above standard organic search results for local queries. Google cross-references your on-page website content with your Google Business Profile to verify category consistency, phone numbers, and operational hours.',
@@ -909,7 +909,7 @@ export const TOOLS_SEO_DATA = {
   'local-citation-checker': {
     focusKeyword: 'local citation checker nap audit',
     h2Title: 'Local Citations: Building Directory Trust & Eliminating Conflicting Records',
-    metaTitle: 'Local Citation Checker - NAP Consistency Across Directories | Waqas Mehmood',
+    metaTitle: 'Local Citation Checker - NAP Audit | Waqas Mehmood',
     metaDesc: 'Audit local citation readiness. Check Name, Address, and Phone formatting across high-authority business directories and data aggregators.',
     intro: 'A local citation is any online mention of your business Name, Address, and Phone number (NAP). The Local Citation Checker audits citation-ready formatting on your website to ensure consistent, error-free directory submissions across platforms like Yelp, YellowPages, Bing Places, and industry registries.',
     googleFactor: 'Google uses web directories and data aggregators to cross-verify the legitimacy of local businesses. Conflicting addresses, disconnected phone numbers, or outdated business names erode algorithmic trust, dropping your local rankings.',
@@ -942,7 +942,7 @@ export const TOOLS_SEO_DATA = {
   'nap-consistency-checker': {
     focusKeyword: 'nap consistency checker tool online',
     h2Title: 'NAP Consistency (Name, Address, Phone): Sitewide Alignment',
-    metaTitle: 'NAP Consistency Checker - Sitewide Name, Address & Phone Match | Waqas Mehmood',
+    metaTitle: 'NAP Consistency Checker - Sitewide | Waqas Mehmood',
     metaDesc: 'Audit sitewide NAP consistency. Verify Name, Address, and Phone number match across headers, footers, contact pages, and schema code.',
     intro: 'NAP (Name, Address, Phone number) is the foundational triad of local SEO. The NAP Consistency Checker crawls your website to verify that your business name, physical street address, and contact numbers match 100% across your header, footer, contact page, and JSON-LD structured data.',
     googleFactor: 'If search engine crawlers detect multiple conflicting phone numbers or address variations across different pages of your website, they lose confidence in your primary physical location, which directly suppresses your Google Maps rankings.',
@@ -975,7 +975,7 @@ export const TOOLS_SEO_DATA = {
   'local-seo-audit-tool': {
     focusKeyword: 'local seo audit tool full analysis',
     h2Title: 'Full-Scale Local SEO Audit: Mastering Geo-Signals & LocalBusiness Schema',
-    metaTitle: 'Local SEO Audit Tool - Complete On-Page & Schema Analysis | Waqas Mehmood',
+    metaTitle: 'Local SEO Audit Tool - GBP & Schema | Waqas',
     metaDesc: 'Complete Local SEO audit tool. Scan webpages for LocalBusiness schema, geo-meta tags, local keyword density, and Google Maps integration.',
     intro: 'The Local SEO Audit Tool is an all-in-one diagnostic utility that consolidates local on-page factors, geo-coordinates, LocalBusiness JSON-LD markup, city landing page keyword optimization, and Google Maps integration into a single actionable health score.',
     googleFactor: 'Local search results are highly competitive and hyper-targeted. Websites that combine comprehensive LocalBusiness schema (with geo-coordinates, price ranges, and opening hours) with fast mobile performance and active customer reviews consistently win the top 3-Pack spots.',
@@ -1023,8 +1023,8 @@ export const TOOLS_SEO_DATA = {
       'solvely ai free alternative'
     ],
     h2Title: 'Free AI Math Solver: Multimodal Vision OCR, Symbolic Algebra & Step-by-Step Pedagogical Solutions',
-    metaTitle: 'Free AI Math Solver - Step-by-Step Problem Solving & Photo Calculator | Waqas Mehmood',
-    metaDesc: 'Solve algebra, calculus, fractions, quadratic equations, and geometry homework instantly with our free AI Math Solver. Get verified step-by-step solutions, formulas, and visual math explanations.',
+    metaTitle: 'Free AI Math Solver - Step-by-Step Problem Solver',
+    metaDesc: 'Solve algebra, calculus, geometry, and equations instantly with our free AI Math Solver. Step-by-step solutions, formulas, and visual math explanations.',
     intro: 'The Free AI Math Solver is an advanced computational and pedagogical engine designed to help students, educators, and engineers understand complex mathematics effortlessly. Combining neural vision OCR for scanning handwritten homework notes with deterministic symbolic algebra, this tool delivers immediate, verified answers alongside comprehensive step-by-step proofs, formulas, and self-checking verifications.',
     googleFactor: 'Educational search algorithms and Google Helpful Content guidelines reward pages that deliver unambiguous mathematical solutions, verified intermediate steps, and pedagogical context. By pairing instant answers with interactive follow-up tutor questions, formula definitions, and structured LaTeX/Unicode math rendering, this tool maximizes dwell time, intent satisfaction, and search ranking signals.',
     benchmarks: [
