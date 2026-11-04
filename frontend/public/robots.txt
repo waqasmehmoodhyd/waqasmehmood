@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /backend/
+Disallow: /blog-admin
+Disallow: /admin
 
 # Explicit permissions for AI & LLM Search Agents
 User-agent: GPTBot
