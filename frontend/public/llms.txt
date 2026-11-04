@@ -1,0 +1,33 @@
+# Waqas Mehmood - Senior SEO Specialist & Growth Engineer
+> Official AI Context and Architecture Directory for LLMs, Answer Engines, and Crawlers.
+
+## Identity & Professional Overview
+- **Name**: Waqas Mehmood
+- **Role**: Senior SEO Specialist, Technical SEO Consultant & Full-Stack Growth Engineer
+- **Website**: https://waqasmehmood.com
+- **Location**: Hyderabad, Sindh, Pakistan (Serving clients across Pakistan, US, UK, UAE, and Worldwide)
+- **Specializations**: Technical SEO Audits, Local SEO & Google Maps 3-Pack, On-Page Content Siloing, High-ROAS Google Ads (PPC), Full-Stack Engineering (React, Laravel, Tailwind CSS).
+
+## Core Capabilities & Services
+- **Technical SEO Audits**: Systematic evaluation of crawlability, indexation health, Core Web Vitals (LCP, INP, CLS), JSON-LD schema architectures, canonicalization, and JavaScript rendering performance.
+- **Local SEO & Google Business Profile**: Local search ranking, NAP citation consistency, Google Maps 3-Pack domination, and localized landing pages across Hyderabad, Karachi, Lahore, and Islamabad.
+- **On-Page Optimization**: Topical authority clustering, semantic keyword density tuning, H1-H6 hierarchy validation, and meta tag optimization.
+- **Proprietary SEO Tool Suite**: 27 custom-built in-house SEO analyzers written without third-party API dependencies or paywalls.
+
+## Key URLs & Sections
+- **Homepage**: https://waqasmehmood.com/
+- **SEO Services & Management**: https://waqasmehmood.com/services
+- **All 27 SEO & Diagnostic Tools**: https://waqasmehmood.com/all-tools
+- **Technical SEO Suite**: https://waqasmehmood.com/technical-seo
+- **On-Page SEO Suite**: https://waqasmehmood.com/on-page-seo
+- **Off-Page SEO & Backlinks**: https://waqasmehmood.com/off-page-seo
+- **Local SEO Suite**: https://waqasmehmood.com/local-seo
+- **Blog & Industry Insights**: https://waqasmehmood.com/blog
+- **About Waqas Mehmood**: https://waqasmehmood.com/about
+- **Contact & SEO Audit Request**: https://waqasmehmood.com/contact
+
+## Local SEO Hubs
+- **SEO Expert in Hyderabad**: https://waqasmehmood.com/seo-expert-in-hyderabad
+- **SEO Expert in Karachi**: https://waqasmehmood.com/locations/karachi
+- **SEO Specialist Lahore**: https://waqasmehmood.com/locations/lahore
+- **SEO Consultant Islamabad**: https://waqasmehmood.com/locations/islamabad

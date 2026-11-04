@@ -7,13 +7,20 @@ import {
   Palette, Laptop, Share2, Target, Plus, Eye, Send, Filter, Check, Award,
   Copy, Smartphone, Monitor, Image, ListTree, Link2, MapPin, Hash, BookOpen,
   Trash2, Lock, Unlock, Mail, MessageSquare, DollarSign, User, Briefcase,
-  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast
+  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast, Menu, X
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
 import { CITIES_DATA } from './data/citiesData.js';
 import AiMathSolver from './components/AiMathSolver.jsx';
 import SiteAuditCrawler from './components/SiteAuditCrawler.jsx';
 import CityLocationView from './components/CityLocationView.jsx';
+import MarketingRoiCalculator from './components/MarketingRoiCalculator.jsx';
+import SchemaMarkupGenerator from './components/SchemaMarkupGenerator.jsx';
+import BlogHubView from './components/BlogHubView.jsx';
+import BlogPostView from './components/BlogPostView.jsx';
+import AeoGeoAnalyzer from './components/AeoGeoAnalyzer.jsx';
+import BlogAdminStudio from './components/BlogAdminStudio.jsx';
+import { BLOG_POSTS, getMergedBlogPosts } from './data/blogData.js';
 
 const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
   ? 'http://127.0.0.1:8000/api'
@@ -66,6 +73,7 @@ export const PILLARS_DATA = {
       { slug: 'xml-sitemap-checker', title: 'XML Sitemap Checker', desc: 'Find, parse aur validate XML sitemap structure' },
       { slug: 'robots-txt-tester', title: 'Robots.txt Tester', desc: 'Fetch aur review robots.txt bot directives' },
       { slug: 'schema-markup-validator', title: 'Schema Markup Validator', desc: 'JSON-LD structured data validation' },
+      { slug: 'schema-generator', title: '1-Click Schema JSON-LD Generator', desc: 'Generate FAQ, LocalBusiness, HowTo & Article structured data' },
     ]
   },
   local: {
@@ -89,8 +97,20 @@ export const PILLARS_DATA = {
     color: 'from-amber-500 to-rose-600',
     badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
     tools: [
+      { slug: 'ai-aeo-geo-analyzer', title: 'Waqas Mehmood - AI, AEO & GEO Search Engine Analyzer', desc: '13-category deep audit for Google AI Overviews, Perplexity & Answer Engine Optimization' },
       { slug: 'ai-math-solver', title: 'Free AI Math Solver', desc: 'Scan math photos or type equations for instant step-by-step AI answers' },
       { slug: 'website-crawler', title: 'Free AI Website Crawler & Auditor', desc: 'Real-time multi-page crawler, 404 broken links, title & H1 audit' }
+    ]
+  },
+  calculators: {
+    id: 'calculators',
+    title: 'MARKETING CALCULATORS',
+    tagline: 'High-ROAS Google Ads, Breakeven CPA & SEO Revenue Forecasting',
+    color: 'from-amber-500 via-emerald-500 to-cyan-500',
+    badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+    tools: [
+      { slug: 'roas-calculator', title: 'Google Ads ROAS & Breakeven Calculator', desc: 'Real-time target ROAS, CPA limits & profit margins' },
+      { slug: 'seo-roi-calculator', title: 'SEO ROI & Organic Revenue Calculator', desc: 'Compounding organic traffic value & customer LTV growth' }
     ]
   }
 };
@@ -111,6 +131,8 @@ export default function App() {
   const [openAboutFaq, setOpenAboutFaq] = useState(0);
   const [openContactFaq, setOpenContactFaq] = useState(0);
   const [openToolsFaq, setOpenToolsFaq] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeBlogPostSlug, setActiveBlogPostSlug] = useState('local-seo-hyderabad-sindh-google-maps');
 
   // Admin Owner Authorization State (Only Waqas can add/delete projects)
   const [isAdmin, setIsAdmin] = useState(() => {
@@ -232,6 +254,7 @@ export default function App() {
     technical: '/technical-seo',
     local: '/local-seo',
     ai: '/ai-tools',
+    calculators: '/marketing-calculators',
   };
 
   // Flattened tools list across all pillars for fast lookup
@@ -527,11 +550,80 @@ export default function App() {
     } else if (existingLocationSchema) {
       existingLocationSchema.remove();
     }
+
+    // Dynamic Schema Injection for Blog Article Pages (BlogPosting & FAQPage)
+    const existingBlogSchema = document.getElementById('blog-post-schema');
+    if (canonicalPath.startsWith('/blog/')) {
+      const postSlug = canonicalPath.replace('/blog/', '');
+      const post = BLOG_POSTS.find(p => p.slug === postSlug);
+      if (post) {
+        const blogSchemaData = {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "BlogPosting",
+              "@id": `https://waqasmehmood.com/blog/${post.slug}#article`,
+              "headline": post.title,
+              "description": post.excerpt,
+              "url": `https://waqasmehmood.com/blog/${post.slug}`,
+              "image": post.coverImage || "https://waqasmehmood.com/favicon.svg",
+              "datePublished": `${post.publishedAt}T08:00:00+05:00`,
+              "dateModified": `${post.updatedAt}T08:00:00+05:00`,
+              "inLanguage": "en",
+              "author": {
+                "@type": "Person",
+                "name": "Waqas Mehmood",
+                "url": "https://waqasmehmood.com/about",
+                "jobTitle": "Best SEO Expert & Engineer"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Waqas Mehmood",
+                "url": "https://waqasmehmood.com",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://waqasmehmood.com/favicon.svg"
+                }
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://waqasmehmood.com/blog/${post.slug}`
+              }
+            },
+            ...(post.faqs && post.faqs.length > 0 ? [{
+              "@type": "FAQPage",
+              "@id": `https://waqasmehmood.com/blog/${post.slug}#faq`,
+              "mainEntity": post.faqs.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": f.a
+                }
+              }))
+            }] : [])
+          ]
+        };
+
+        if (!existingBlogSchema) {
+          const script = document.createElement('script');
+          script.id = 'blog-post-schema';
+          script.type = 'application/ld+json';
+          script.text = JSON.stringify(blogSchemaData);
+          document.head.appendChild(script);
+        } else {
+          existingBlogSchema.text = JSON.stringify(blogSchemaData);
+        }
+      }
+    } else if (existingBlogSchema) {
+      existingBlogSchema.remove();
+    }
   };
 
   // Smooth tab navigation with browser history sync
   const goToTab = (tab, customPath = null) => {
     setActiveTab(tab);
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (customPath) {
       navigate(customPath);
@@ -542,12 +634,22 @@ export default function App() {
     else if (tab === 'about') navigate('/about');
     else if (tab === 'contact') navigate('/contact');
     else if (tab === 'all-tools') navigate('/all-tools');
+    else if (tab === 'blog') navigate('/blog');
     else if (tab === 'location') navigate(`/locations/${selectedCity}`);
+  };
+
+  const handleOpenBlogPost = (slug) => {
+    setActiveBlogPostSlug(slug);
+    setActiveTab('blog-post');
+    setMobileMenuOpen(false);
+    navigate(`/blog/${slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSwitchCity = (citySlug) => {
     setSelectedCity(citySlug);
     setActiveTab('location');
+    setMobileMenuOpen(false);
     navigate(`/locations/${citySlug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -557,6 +659,7 @@ export default function App() {
     setActiveTool(tool);
     setSelectedPillar(tool.pillarKey || selectedPillar);
     setActiveTab('active-tool');
+    setMobileMenuOpen(false);
     navigate(`/tools/${tool.slug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
@@ -730,6 +833,39 @@ export default function App() {
       }
     });
 
+    list.push({
+      id: 'page-blog-hub',
+      category: 'Pages',
+      categoryIcon: BookOpen,
+      title: 'SEO & Marketing Blog (Case Studies & Engineering Guides)',
+      desc: 'Actionable strategies, Google algorithm updates & growth blueprints by Waqas Mehmood',
+      badge: 'Blog Hub',
+      badgeColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+      keywords: 'blog articles case studies guides tutorials learn seo digital marketing blueprints',
+      onSelect: () => {
+        setSearchOpen(false);
+        goToTab('blog');
+      }
+    });
+
+    // 5. In-Depth Blog Articles & Case Studies
+    BLOG_POSTS.forEach(post => {
+      list.push({
+        id: `blog-${post.slug}`,
+        category: 'Blog Articles',
+        categoryIcon: BookOpen,
+        title: post.title,
+        desc: post.excerpt,
+        badge: post.categoryLabel,
+        badgeColor: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+        keywords: `${post.title} ${post.excerpt} ${post.categoryLabel} ${post.slug} blog article case study guide`,
+        onSelect: () => {
+          setSearchOpen(false);
+          handleOpenBlogPost(post.slug);
+        }
+      });
+    });
+
     return list;
   }, [allToolsList]);
 
@@ -885,6 +1021,14 @@ export default function App() {
         'Explore free AI-powered web tools by Waqas Mehmood. Free AI Math Solver, Free AI Website Crawler & Auditor, photo equation OCR, and multi-page technical audit.',
         '/ai-tools'
       );
+    } else if (cleanPath === '/marketing-calculators') {
+      setActiveTab('all-tools');
+      setSelectedPillar('calculators');
+      updateSeoMetadata(
+        'Free Marketing & ROI Calculators | Waqas Mehmood',
+        'Calculate your Google Ads ROAS, breakeven CPA, and SEO organic traffic revenue with free online marketing financial modeling tools by Waqas Mehmood.',
+        '/marketing-calculators'
+      );
     } else if (cleanPath === '/ai-math-solver') {
       const matched = allToolsList.find(t => t.slug === 'ai-math-solver');
       if (matched) {
@@ -933,12 +1077,50 @@ export default function App() {
           true
         );
       }
+    } else if (cleanPath === '/blog-admin' || cleanPath === '/admin/blog' || cleanPath === '/blog-studio') {
+      setActiveTab('blog-studio');
+      updateSeoMetadata(
+        'Blog Admin Studio | Waqas Mehmood',
+        'Private Blog Studio for On-Page SEO content authoring and Rank Math score optimization.',
+        cleanPath,
+        true
+      );
+    } else if (cleanPath === '/blog') {
+      setActiveTab('blog');
+      updateSeoMetadata(
+        'SEO & Growth Engineering Blog (2026) | Waqas Mehmood',
+        'Read actionable technical SEO guides, Google Ads scaling playbooks, Local SEO maps blueprints, and AI search case studies. Explore expert growth articles!',
+        '/blog'
+      );
+    } else if (cleanPath.startsWith('/blog/')) {
+      const slug = cleanPath.replace('/blog/', '');
+      const allPosts = getMergedBlogPosts();
+      const matchedPost = allPosts.find(p => p.slug === slug);
+      if (matchedPost) {
+        setActiveBlogPostSlug(slug);
+        setActiveTab('blog-post');
+        updateSeoMetadata(
+          `${matchedPost.seoTitle || matchedPost.title} | Waqas Mehmood`,
+          matchedPost.seoDesc || matchedPost.excerpt,
+          `/blog/${matchedPost.slug}`
+        );
+      } else {
+        setActiveTab('not-found');
+        updateSeoMetadata(
+          '404: Article Not Found | Waqas Mehmood',
+          'The requested blog article could not be found.',
+          cleanPath,
+          true
+        );
+      }
     } else {
-      // Check if it's a direct tool slug like /nap-consistency-checker or /website-seo-checker
-      const directSlug = cleanPath.replace(/^\//, '');
-      const matchedDirect = allToolsList.find(t => t.slug === directSlug);
+      // Check if it's a legacy tool URL (either root /slug or old pillar-prefixed /local-seo/slug)
+      const potentialToolSlug = cleanPath
+        .replace(/^\/(on-page-seo|off-page-seo|technical-seo|local-seo|ai-tools)\//, '')
+        .replace(/^\//, '');
+      const matchedDirect = allToolsList.find(t => t.slug === potentialToolSlug);
       if (matchedDirect) {
-        // Legitimate tool requested without /tools/ prefix -> Auto redirect to canonical /tools/:slug
+        // Legitimate tool requested with legacy URL -> Auto redirect to canonical /tools/:slug
         navigate(`/tools/${matchedDirect.slug}`, { replace: true });
       } else {
         // Unknown, legacy, or spam URL -> Set 404 Not Found & noindex
@@ -1857,60 +2039,73 @@ export default function App() {
       {/* TOP NAVBAR                                               */}
       {/* ======================================================== */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#070b15]/90 border-b border-slate-800/80">
-        <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 h-18 flex items-center justify-between">
           
           {/* Brand */}
-          <button 
-            onClick={() => { goToTab('home'); setAuditResult(null); }} 
-            className="flex items-center gap-3 group text-left cursor-pointer"
+          <Link 
+            to="/"
+            onClick={() => { goToTab('home'); setAuditResult(null); setMobileMenuOpen(false); }} 
+            className="flex items-center gap-2 sm:gap-3 group text-left cursor-pointer shrink-0"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-all">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center font-black text-slate-950 text-lg sm:text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-all">
               W
             </div>
             <div>
-              <span className="font-extrabold text-base tracking-tight text-white block group-hover:text-cyan-400 transition-colors">
+              <span className="font-extrabold text-sm sm:text-base tracking-tight text-white block group-hover:text-cyan-400 transition-colors whitespace-nowrap">
                 WAQAS MEHMOOD
               </span>
-              <span className="text-[10px] text-slate-400 font-mono tracking-wider uppercase block">
+              <span className="hidden sm:block text-[10px] text-slate-400 font-mono tracking-wider uppercase">
                 Digital Marketing & SEO Architect
               </span>
             </div>
-          </button>
+          </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-1 text-xs font-semibold">
-            <button 
+          <nav className="hidden md:flex items-center gap-1 text-xs font-semibold" aria-label="Main Navigation">
+            <Link 
+              to="/services"
               onClick={() => goToTab('services')}
               className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'services' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               Services
-            </button>
-            <button 
+            </Link>
+            <Link 
+              to="/all-tools"
               onClick={() => goToTab('all-tools')}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               <span>All Tools</span>
               <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
-            </button>
-            <button 
+            </Link>
+            <Link 
+              to="/blog"
+              onClick={() => goToTab('blog')}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'blog' || activeTab === 'blog-post' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+            >
+              Blog
+            </Link>
+            <Link 
+              to="/about"
               onClick={() => goToTab('about')}
               className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'about' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               About
-            </button>
-            <button 
+            </Link>
+            <Link 
+              to="/contact"
               onClick={() => goToTab('contact')}
               className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'contact' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               Contact
-            </button>
-            <button 
+            </Link>
+            <Link 
+              to="/seo-expert-in-hyderabad"
               onClick={() => handleSwitchCity('hyderabad')}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'location' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
             >
               <MapPin className="w-3.5 h-3.5 text-cyan-400" />
               <span>Locations</span>
-            </button>
+            </Link>
 
             {/* Quick Live Search Bar in Nav */}
             <button 
@@ -1928,14 +2123,14 @@ export default function App() {
           </nav>
 
           {/* Action CTAs & Admin Indicator */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Mobile Search Icon Button */}
             <button
               onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
-              className="md:hidden w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
+              className="md:hidden w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
               title="Search tools & services"
             >
-              <Search className="w-4 h-4" />
+              <Search className="w-3.5 h-3.5" />
             </button>
             {/* Localhost / Dev Email Delivery Tester Quick Button */}
             {(typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) && (
@@ -1982,18 +2177,18 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-                className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/50 text-slate-300 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/50 text-slate-300 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-sm"
                 title={`Theme: ${theme.toUpperCase()} (Click to change)`}
                 aria-label="Toggle Visual Theme"
               >
                 {theme === 'light' ? (
-                  <Sun className="w-4 h-4 text-amber-400" />
+                  <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
                 ) : theme === 'oled' ? (
-                  <Contrast className="w-4 h-4 text-cyan-400" />
+                  <Contrast className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
                 ) : theme === 'system' ? (
-                  <Monitor className="w-4 h-4 text-slate-400" />
+                  <Monitor className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />
                 ) : (
-                  <Moon className="w-4 h-4 text-indigo-400" />
+                  <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-400" />
                 )}
               </button>
 
@@ -2052,13 +2247,138 @@ export default function App() {
 
             <button 
               onClick={() => { setHireService('Full-Stack Digital Marketing'); setHireModalOpen(true); }}
-              className="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white shadow-md shadow-cyan-500/20 transition-all cursor-pointer"
+              className="px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white shadow-md shadow-cyan-500/20 transition-all cursor-pointer whitespace-nowrap"
             >
               Hire Waqas
+            </button>
+
+            {/* Mobile Hamburger Menu Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4 text-cyan-400" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
 
         </div>
+
+        {/* Mobile Navigation Dropdown Drawer */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-800 bg-[#070b15]/98 backdrop-blur-2xl px-4 py-5 space-y-4 shadow-2xl">
+            {/* Primary Nav Links */}
+            <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+              <Link 
+                to="/services"
+                onClick={() => goToTab('services')}
+                className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 ${activeTab === 'services' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
+              >
+                <span>Services</span>
+              </Link>
+              <Link 
+                to="/all-tools"
+                onClick={() => goToTab('all-tools')}
+                className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center justify-between ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
+              >
+                <span>All Tools</span>
+                <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
+              </Link>
+              <Link 
+                to="/about"
+                onClick={() => goToTab('about')}
+                className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 ${activeTab === 'about' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
+              >
+                <span>About</span>
+              </Link>
+              <Link 
+                to="/contact"
+                onClick={() => goToTab('contact')}
+                className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 ${activeTab === 'contact' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
+              >
+                <span>Contact</span>
+              </Link>
+              <Link 
+                to="/blog"
+                onClick={() => goToTab('blog')}
+                className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center justify-between col-span-2 ${activeTab === 'blog' || activeTab === 'blog-post' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
+              >
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Engineering Blog & Case Studies</span>
+                </div>
+                <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{BLOG_POSTS.length} Guides</span>
+              </Link>
+            </div>
+
+            {/* Featured New Marketing Calculators Quick Links */}
+            <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
+              <span className="text-[10px] font-mono uppercase text-slate-400 tracking-wider block">
+                Featured Growth Calculators
+              </span>
+              <div className="grid grid-cols-1 gap-1.5 text-xs">
+                <button
+                  onClick={() => {
+                    const matched = allToolsList.find(t => t.slug === 'roas-calculator');
+                    if (matched) { openTool(matched); setMobileMenuOpen(false); }
+                  }}
+                  className="w-full p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 flex items-center justify-between text-left text-slate-300 cursor-pointer"
+                >
+                  <div className="flex items-center gap-2">
+                    <Target className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="font-medium text-xs">Google Ads ROAS & Breakeven</span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+                </button>
+                <button
+                  onClick={() => {
+                    const matched = allToolsList.find(t => t.slug === 'seo-roi-calculator');
+                    if (matched) { openTool(matched); setMobileMenuOpen(false); }
+                  }}
+                  className="w-full p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 flex items-center justify-between text-left text-slate-300 cursor-pointer"
+                >
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-3.5 h-3.5 text-cyan-400" />
+                    <span className="font-medium text-xs">SEO ROI & Revenue Calculator</span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+                </button>
+              </div>
+            </div>
+
+            {/* Local Cities Bar */}
+            <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
+              <span className="text-[10px] font-mono uppercase text-slate-400 tracking-wider block">
+                Local SEO Hubs
+              </span>
+              <div className="flex flex-wrap gap-1.5 text-[11px]">
+                {['hyderabad', 'karachi', 'lahore', 'islamabad'].map((city) => (
+                  <button
+                    key={city}
+                    onClick={() => { handleSwitchCity(city); setMobileMenuOpen(false); }}
+                    className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-cyan-400 capitalize cursor-pointer"
+                  >
+                    {city}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Direct WhatsApp Call CTA in Mobile Drawer */}
+            <div className="pt-2">
+              <a
+                href="https://wa.me/923033111126"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 px-3 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-2 hover:bg-emerald-600/30 transition-all cursor-pointer"
+              >
+                <Phone className="w-3.5 h-3.5 text-emerald-400" />
+                <span>WhatsApp / Phone: +92 303 3111126</span>
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ======================================================== */}
@@ -2095,21 +2415,23 @@ export default function App() {
                   <ArrowRight className="w-4 h-4" />
                 </a>
 
-                <button 
+                <Link 
+                  to="/all-tools"
                   onClick={() => goToTab('all-tools')}
                   className="px-6 py-3.5 rounded-xl font-semibold text-xs sm:text-sm bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <span>Run Free In-House SEO Tools (27)</span>
                   <ExternalLink className="w-4 h-4 text-cyan-400" />
-                </button>
+                </Link>
 
-                <button 
+                <Link 
+                  to="/contact"
                   onClick={() => goToTab('contact')}
                   className="px-6 py-3.5 rounded-xl font-semibold text-xs sm:text-sm bg-cyan-950/40 hover:bg-cyan-900/40 text-cyan-300 border border-cyan-500/30 transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <Mail className="w-4 h-4" />
                   <span>Request Custom Audit</span>
-                </button>
+                </Link>
               </div>
 
               {/* 5 Core Skills Highlights Bar */}
@@ -2619,12 +2941,15 @@ export default function App() {
                     {/* Thumbnail */}
                     <div className="relative h-48 w-full overflow-hidden bg-slate-950">
                       <img 
-                        src={proj.image && !proj.image.includes('upwork.com') ? proj.image : 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80'} 
+                        src={proj.image && !proj.image.includes('upwork.com') ? proj.image : 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80&fm=webp'} 
                         alt={`${proj.title} - ${proj.categoryLabel} by Waqas Mehmood`}
+                        width="800"
+                        height="450"
                         loading="lazy" 
+                        decoding="async"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80';
+                          e.target.src = 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80&fm=webp';
                         }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -2786,6 +3111,121 @@ export default function App() {
           </section>
 
           {/* ======================================================== */}
+          {/* AEO DIRECT ANSWER SECTIONS & KNOWLEDGE CARDS             */}
+          {/* ======================================================== */}
+          <section className="py-16 px-6 border-b border-slate-800/80 bg-[#060912]">
+            <div className="max-w-6xl mx-auto space-y-12">
+
+              {/* Card 1: What SEO Services */}
+              <div className="p-8 rounded-3xl bg-slate-900/70 border border-slate-800 space-y-4" id="what-seo-services">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 block">Direct Answer • AEO & Search Intent</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">What SEO Services Does Waqas Mehmood Provide?</h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Waqas Mehmood provides end-to-end SEO services covering comprehensive technical SEO audits, Core Web Vitals optimization, on-page topical keyword siloing, high-intent Local SEO Google Maps 3-Pack rankings, and dedicated monthly SEO management. Every retainer is paired with 27 free proprietary in-house diagnostic tools built natively for deep DOM analysis.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 text-xs">
+                  <Link to="/technical-seo" onClick={() => goToTab('all-tools', '/technical-seo')} className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+                    <div className="font-bold text-cyan-400 mb-1">Technical SEO Audits</div>
+                    <div className="text-slate-400 text-[11px]">Crawl budget, status codes & schema</div>
+                  </Link>
+                  <Link to="/local-seo" onClick={() => goToTab('all-tools', '/local-seo')} className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+                    <div className="font-bold text-emerald-400 mb-1">Local SEO 3-Pack</div>
+                    <div className="text-slate-400 text-[11px]">Google Business & NAP citations</div>
+                  </Link>
+                  <Link to="/on-page-seo" onClick={() => goToTab('all-tools', '/on-page-seo')} className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+                    <div className="font-bold text-indigo-400 mb-1">On-Page Architecture</div>
+                    <div className="text-slate-400 text-[11px]">Keyword clusters & semantic headings</div>
+                  </Link>
+                  <Link to="/off-page-seo" onClick={() => goToTab('all-tools', '/off-page-seo')} className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+                    <div className="font-bold text-amber-400 mb-1">White-Hat Authority</div>
+                    <div className="text-slate-400 text-[11px]">Contextual backlinks & link audits</div>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Card 2: Technical SEO Definition */}
+              <div className="p-8 rounded-3xl bg-slate-900/70 border border-slate-800 space-y-4" id="technical-seo-audit">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 block">Definition & Diagnostic Standards</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">What Is a Technical SEO Audit?</h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  A technical SEO audit is a review of website infrastructure factors that affect how search engine bots crawl, render, index, and rank web pages. It evaluates indexability status codes, robots.txt directives, XML sitemaps, canonical tags, redirect chains, JSON-LD structured data, and mobile Core Web Vitals (LCP, INP, CLS) to eliminate architectural bottlenecks.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-300 pt-1">
+                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ Crawlability & Indexation</div>
+                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ Canonical & Redirect Paths</div>
+                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ JSON-LD Schema Validation</div>
+                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ Core Web Vitals & Speed</div>
+                </div>
+              </div>
+
+              {/* Card 3: Local SEO 3-Step Strategy */}
+              <div className="p-8 rounded-3xl bg-slate-900/70 border border-slate-800 space-y-4" id="local-seo-ranking">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 block">Actionable Local Strategy</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">How Can Local SEO Help a Business?</h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Local SEO helps physical and service-area businesses capture high-converting customers searching in their immediate geographic market. Waqas Mehmood executes a proven 3-stage local search roadmap:
+                </p>
+                <ol className="space-y-3 text-xs text-slate-300 list-decimal list-inside pt-1">
+                  <li className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 leading-relaxed">
+                    <strong className="text-white">Google Business Profile (GBP) Optimization:</strong> Selecting dominant primary categories, creating complete geo-attribute profiles, and publishing regular product updates.
+                  </li>
+                  <li className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 leading-relaxed">
+                    <strong className="text-white">100% Consistent NAP Citations:</strong> Aligning Name, Address, and Phone Number across all major business directories to build unbreakable local entity confidence.
+                  </li>
+                  <li className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 leading-relaxed">
+                    <strong className="text-white">Localized Landing Pages & Schema:</strong> Structuring city-specific landing pages with nested LocalBusiness schema markup for regional search dominance.
+                  </li>
+                </ol>
+              </div>
+
+              {/* Card 4: SEO vs Google Ads Comparison Table */}
+              <div className="p-8 rounded-3xl bg-slate-900/70 border border-slate-800 space-y-4 overflow-x-auto" id="seo-vs-google-ads">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 block">Strategic Comparison Table</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-white">SEO vs. Google Ads: What Is the Difference?</h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Understanding when to deploy organic search optimization versus paid search advertising maximizes total marketing blended return on investment (ROAS):
+                </p>
+                <table className="w-full text-left text-xs text-slate-300 border-collapse min-w-[550px]">
+                  <thead>
+                    <tr class="border-b border-slate-800 text-white font-mono text-xs uppercase bg-slate-950/60">
+                      <th className="p-3 font-semibold text-cyan-400">Evaluation Metric</th>
+                      <th className="p-3 font-semibold text-white">Organic Search (SEO)</th>
+                      <th className="p-3 font-semibold text-indigo-400">Google Ads (PPC)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/60">
+                    <tr>
+                      <td className="p-3 font-medium text-white">Time to Results</td>
+                      <td className="p-3">2–4 weeks (technical), 3–6 months (commercial keywords)</td>
+                      <td className="p-3">Instant (traffic begins within hours of campaign launch)</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-medium text-white">Cost Structure</td>
+                      <td className="p-3">Fixed investment with zero per-click media fees</td>
+                      <td className="p-3">Pay-Per-Click (PPC) media fees on every user visit</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-medium text-white">Traffic Longevity</td>
+                      <td className="p-3">Compounding equity; rankings persist without monthly ad spend</td>
+                      <td className="p-3">Immediate stop; traffic ceases the moment daily budget depletes</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-medium text-white">Click-Through Rate (CTR)</td>
+                      <td className="p-3">60%–70% of search clicks go to organic listings</td>
+                      <td className="p-3">2%–5% average CTR across competitive search keywords</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-medium text-white">Recommended Strategy</td>
+                      <td className="p-3 text-cyan-300" colSpan={2}>Combine Google Ads search query intelligence with long-term Organic SEO siloing for maximum blended ROAS.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </section>
+
+          {/* ======================================================== */}
           {/* FAQ SECTION (STRUCTURED ON-PAGE SEO ACCORDION)           */}
           {/* ======================================================== */}
           <section className="py-20 px-6 border-b border-slate-800/80 bg-[#070b15]">
@@ -2807,24 +3247,28 @@ export default function App() {
               <div className="space-y-3">
                 {[
                   {
+                    q: 'What SEO services does Waqas Mehmood provide?',
+                    a: 'Waqas Mehmood provides end-to-end SEO services including comprehensive technical SEO audits, Core Web Vitals remediation, on-page topical siloing, Local SEO Google Maps 3-Pack rankings, and 27 proprietary in-house diagnostic tools.'
+                  },
+                  {
+                    q: 'What is a technical SEO audit and how often should it be conducted?',
+                    a: 'A technical SEO audit evaluates infrastructure factors affecting crawlability, indexation, rendering, and Core Web Vitals. An in-depth audit should be performed quarterly or before any major website redesign or CMS migration.'
+                  },
+                  {
                     q: 'How long does it take to see real results from SEO?',
                     a: 'Technical SEO fixes and indexation corrections typically show initial diagnostic improvements within 2 to 4 weeks. However, ranking for competitive commercial keywords and compounding organic revenue typically matures over 3 to 6 months as domain authority and content topical siloing solidify.'
                   },
                   {
-                    q: 'What makes your 25 in-house SEO tools different from other online checkers?',
-                    a: 'Our 25 tools are written natively in PHP Laravel and perform live DOM parsing directly against the target website. Unlike third-party SaaS wrappers that enforce strict daily rate limits or require expensive API keys, our suite is 100% free, transparent, and built from scratch by Waqas Mehmood.'
+                    q: 'What makes your 27 in-house SEO tools different from other online checkers?',
+                    a: 'Our 27 tools are written natively in PHP Laravel and perform live DOM parsing directly against the target website. Unlike third-party SaaS wrappers that enforce strict daily rate limits or require expensive API keys, our suite is 100% free, transparent, and built from scratch by Waqas Mehmood.'
                   },
                   {
                     q: 'Can you manage both Google Ads and Organic SEO simultaneously?',
                     a: 'Yes, and this is actually the most profitable approach. Search query data and converting search terms from Google Ads directly inform our organic content strategy, while first-page organic rankings allow us to trim expensive ad spend on high-volume keywords, maximizing overall blended ROAS.'
                   },
                   {
-                    q: 'What full-stack tech stack do you use for web development?',
-                    a: 'I specialize in modern, high-performance web engineering using React.js (Vite / Next.js) and Tailwind CSS on the frontend, paired with PHP Laravel 13, RESTful APIs, and SQLite/MySQL databases on the backend. Every build is optimized for 95+ Google PageSpeed and sub-second Core Web Vitals.'
-                  },
-                  {
-                    q: 'How do I hire Waqas Mehmood or request a website audit?',
-                    a: 'You can navigate to the Contact page or click any of the "Hire Waqas" buttons throughout the site. Enter your project details, website URL, and preferred timeline. I personally review every inquiry and respond with a customized roadmap within 24 hours.'
+                    q: 'How does Generative Engine Optimization (GEO) differ from traditional SEO?',
+                    a: 'Generative Engine Optimization (GEO) focuses on structuring content with direct factual definitions, semantic JSON-LD schema, and verifiable entity proof so AI answer engines like ChatGPT, Perplexity, and Google AI Overviews can accurately cite your website as an authoritative source.'
                   }
                 ].map((faq, idx) => {
                   const isOpen = openFaqIndex === idx;
@@ -3148,12 +3592,15 @@ export default function App() {
                     {/* Thumbnail */}
                     <div className="relative h-48 w-full overflow-hidden bg-slate-950">
                       <img 
-                        src={proj.image && !proj.image.includes('upwork.com') ? proj.image : 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80'} 
+                        src={proj.image && !proj.image.includes('upwork.com') ? proj.image : 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80&fm=webp'} 
                         alt={`${proj.title} - ${proj.categoryLabel} by Waqas Mehmood`}
+                        width="800"
+                        height="450"
                         loading="lazy" 
+                        decoding="async"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80';
+                          e.target.src = 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80&fm=webp';
                         }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -4552,7 +4999,23 @@ export default function App() {
       {/* 3. ACTIVE LIVE TOOL RUNNER & DETAILED RESULTS             */}
       {/* ======================================================== */}
       {activeTab === 'active-tool' && (
-        activeTool?.slug === 'ai-math-solver' ? (
+        activeTool?.slug === 'ai-aeo-geo-analyzer' ? (
+          <section className="py-12 px-6 max-w-6xl mx-auto space-y-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+              <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+              <span>/</span>
+              <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+              <span>/</span>
+              <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+                {pillarsData[selectedPillar]?.title || 'AI TOOLS'}
+              </button>
+              <span>/</span>
+              <span className="text-cyan-400 font-bold">{activeTool?.title || 'Waqas Mehmood - AI, AEO & GEO Analyzer'}</span>
+            </div>
+
+            <AeoGeoAnalyzer onHireClick={(service) => { setHireService(service || 'AI & AEO/GEO Optimization'); setHireModalOpen(true); }} />
+          </section>
+        ) : activeTool?.slug === 'ai-math-solver' ? (
           <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
             <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
               <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
@@ -4583,6 +5046,43 @@ export default function App() {
             </div>
 
             <SiteAuditCrawler onHireClick={(service) => { setHireService(service || 'Technical SEO Remediation'); setHireModalOpen(true); }} />
+          </section>
+        ) : (activeTool?.slug === 'roas-calculator' || activeTool?.slug === 'seo-roi-calculator') ? (
+          <section className="py-12 px-6 max-w-6xl mx-auto space-y-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+              <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+              <span>/</span>
+              <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+              <span>/</span>
+              <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+                {pillarsData[selectedPillar]?.title || 'MARKETING CALCULATORS'}
+              </button>
+              <span>/</span>
+              <span className="text-cyan-400 font-bold">{activeTool?.title || 'Marketing Calculator'}</span>
+            </div>
+
+            <MarketingRoiCalculator 
+              initialTab={activeTool?.slug === 'seo-roi-calculator' ? 'seo-roi' : 'roas'}
+              onHireClick={(service) => { setHireService(service || 'High-ROAS Digital Marketing'); setHireModalOpen(true); }} 
+            />
+          </section>
+        ) : activeTool?.slug === 'schema-generator' ? (
+          <section className="py-12 px-6 max-w-6xl mx-auto space-y-8">
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono flex-wrap">
+              <button onClick={() => goToTab('home')} className="hover:text-cyan-400 cursor-pointer">waqasmehmood.com</button>
+              <span>/</span>
+              <button onClick={() => goToTab('all-tools')} className="hover:text-cyan-400 cursor-pointer">all-tools</button>
+              <span>/</span>
+              <button onClick={() => navigate(pillarSlugMap[selectedPillar] || '/all-tools')} className="hover:text-cyan-400 cursor-pointer uppercase">
+                {pillarsData[selectedPillar]?.title || 'TECHNICAL SEO'}
+              </button>
+              <span>/</span>
+              <span className="text-cyan-400 font-bold">{activeTool?.title || 'Schema Generator'}</span>
+            </div>
+
+            <SchemaMarkupGenerator 
+              onHireClick={(service) => { setHireService(service || 'Technical SEO & Structured Data'); setHireModalOpen(true); }} 
+            />
           </section>
         ) : (
           <section className="py-12 px-6 max-w-5xl mx-auto space-y-8">
@@ -5380,8 +5880,11 @@ export default function App() {
                           <img
                             src={toolSeo.partnerResource.thumbnail}
                             alt={`${toolSeo.partnerResource.niche} - ${toolSeo.partnerResource.domain}`}
+                            width="56"
+                            height="56"
                             className="w-14 h-14 aspect-square rounded-xl object-contain bg-slate-950 p-1"
                             loading="lazy"
+                            decoding="async"
                           />
                         </div>
                         <div className="space-y-1.5 flex-1">
@@ -5512,6 +6015,69 @@ export default function App() {
           })()}
         </section>
         )
+      )}
+
+      {/* ======================================================== */}
+      {/* 3.4. BLOG & ENGINEERING CASE STUDIES HUB                 */}
+      {/* ======================================================== */}
+      {activeTab === 'blog' && (
+        <main>
+          <BlogHubView 
+            onSelectPost={handleOpenBlogPost}
+            isAdmin={isAdmin}
+            onOpenStudio={() => {
+              if (!isAdmin) {
+                setAdminModalOpen(true);
+              } else {
+                goToTab('blog-studio', '/blog-admin');
+              }
+            }}
+            onOpenHire={(service) => {
+              setHireService(service || 'Full-Stack Digital Marketing');
+              setHireModalOpen(true);
+            }}
+            onOpenTool={(toolSlug) => {
+              const matched = allToolsList.find(t => t.slug === toolSlug);
+              if (matched) openTool(matched);
+            }}
+          />
+        </main>
+      )}
+
+      {/* ======================================================== */}
+      {/* 3.4.1. INDIVIDUAL BLOG POST VIEW                         */}
+      {/* ======================================================== */}
+      {activeTab === 'blog-post' && (
+        <main>
+          <BlogPostView 
+            postSlug={activeBlogPostSlug}
+            onBackToHub={() => goToTab('blog')}
+            onSelectPost={handleOpenBlogPost}
+            onOpenHire={(service) => {
+              setHireService(service || 'Full-Stack Digital Marketing');
+              setHireModalOpen(true);
+            }}
+            onOpenTool={(toolSlug) => {
+              const matched = allToolsList.find(t => t.slug === toolSlug);
+              if (matched) openTool(matched);
+            }}
+          />
+        </main>
+      )}
+
+      {/* ======================================================== */}
+      {/* 3.4.2. BLOG ADMIN STUDIO (RANK MATH ON-PAGE SEO SCORER)   */}
+      {/* ======================================================== */}
+      {activeTab === 'blog-studio' && (
+        <main>
+          <BlogAdminStudio 
+            onBackToBlog={() => goToTab('blog', '/blog')}
+            onPreviewPost={(slug) => {
+              setActiveBlogPostSlug(slug);
+              goToTab('blog-post', `/blog/${slug}`);
+            }}
+          />
+        </main>
       )}
 
       {/* ======================================================== */}
@@ -6220,17 +6786,77 @@ export default function App() {
               <p className="text-xs text-slate-400 leading-relaxed">
                 Full-funnel digital marketing, dedicated SEO management, and enterprise technical architectures designed for sustainable Google rankings.
               </p>
+
+              {/* Social Media Link Badges */}
+              <div className="pt-2">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 block mb-2">Connect & Follow:</span>
+                <div className="flex items-center gap-2">
+                  <a 
+                    href="https://linkedin.com/in/waqasmehmood" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-cyan-400 flex items-center justify-center transition-all hover:scale-105"
+                    title="LinkedIn - Waqas Mehmood"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.59 1.59 0 1 0 0-3.18 1.59 1.59 0 0 0 0 3.18m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>
+                  </a>
+                  <a 
+                    href="https://wa.me/923003083161" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-400 text-slate-400 hover:text-emerald-400 flex items-center justify-center transition-all hover:scale-105"
+                    title="WhatsApp Direct (+92 300 3083161)"
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                  </a>
+                  <a 
+                    href="https://x.com/waqasmehmood" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-white flex items-center justify-center transition-all hover:scale-105"
+                    title="X (Twitter) - @waqasmehmood"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </a>
+                  <a 
+                    href="https://github.com/waqasmehmood" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-white flex items-center justify-center transition-all hover:scale-105"
+                    title="GitHub Engineering - waqasmehmood"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                  </a>
+                  <a 
+                    href="https://facebook.com/waqasmehmood" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-blue-400 flex items-center justify-center transition-all hover:scale-105"
+                    title="Facebook Page - Waqas Mehmood"
+                  >
+                    <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                  </a>
+                  <a 
+                    href="mailto:waqasmehmoodhyd@gmail.com" 
+                    className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-400 text-slate-400 hover:text-cyan-400 flex items-center justify-center transition-all hover:scale-105"
+                    title="Direct Email - waqasmehmoodhyd@gmail.com"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
             </div>
 
             {/* Column 2: Navigation & Services */}
             <div className="space-y-3">
               <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Core Navigation</h4>
               <ul className="space-y-2">
-                <li><button onClick={() => goToTab('home')} className="hover:text-white transition-colors cursor-pointer">Best SEO Expert Home</button></li>
-                <li><button onClick={() => goToTab('services')} className="hover:text-white transition-colors cursor-pointer">Best SEO Services & Management</button></li>
-                <li><button onClick={() => goToTab('all-tools')} className="hover:text-white transition-colors cursor-pointer">27 Free Native Tools</button></li>
-                <li><button onClick={() => goToTab('about')} className="hover:text-white transition-colors cursor-pointer">About Waqas Mehmood</button></li>
-                <li><button onClick={() => goToTab('contact')} className="hover:text-white transition-colors cursor-pointer">Contact & Audit Inquiry</button></li>
+                <li><Link to="/" onClick={() => goToTab('home')} className="hover:text-white transition-colors">Best SEO Expert Home</Link></li>
+                <li><Link to="/services" onClick={() => goToTab('services')} className="hover:text-white transition-colors">Best SEO Services & Management</Link></li>
+                <li><Link to="/all-tools" onClick={() => goToTab('all-tools')} className="hover:text-white transition-colors">{allToolsList.length} Free Native Tools</Link></li>
+                <li><Link to="/blog" onClick={() => goToTab('blog')} className="hover:text-white transition-colors flex items-center gap-1.5"><BookOpen className="w-3 h-3 text-cyan-400" /> SEO & Marketing Blog</Link></li>
+                <li><Link to="/about" onClick={() => goToTab('about')} className="hover:text-white transition-colors">About Waqas Mehmood</Link></li>
+                <li><Link to="/contact" onClick={() => goToTab('contact')} className="hover:text-white transition-colors">Contact & Audit Inquiry</Link></li>
               </ul>
             </div>
 
@@ -6238,10 +6864,10 @@ export default function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Locations (Local SEO)</h4>
               <ul className="space-y-2">
-                <li><button onClick={() => handleSwitchCity('hyderabad')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Hyderabad, Sindh</button></li>
-                <li><button onClick={() => handleSwitchCity('karachi')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Karachi</button></li>
-                <li><button onClick={() => handleSwitchCity('lahore')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Specialist in Lahore</button></li>
-                <li><button onClick={() => handleSwitchCity('islamabad')} className="hover:text-white transition-colors cursor-pointer flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Consultant in Islamabad</button></li>
+                <li><Link to="/seo-expert-in-hyderabad" onClick={() => handleSwitchCity('hyderabad')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Hyderabad, Sindh</Link></li>
+                <li><Link to="/locations/karachi" onClick={() => handleSwitchCity('karachi')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Karachi</Link></li>
+                <li><Link to="/locations/lahore" onClick={() => handleSwitchCity('lahore')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Specialist in Lahore</Link></li>
+                <li><Link to="/locations/islamabad" onClick={() => handleSwitchCity('islamabad')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Consultant in Islamabad</Link></li>
               </ul>
             </div>
 
@@ -6249,10 +6875,10 @@ export default function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Featured SEO Tools</h4>
               <ul className="space-y-2">
-                <li><button onClick={() => goToTab('all-tools', '/local-seo')} className="hover:text-white transition-colors cursor-pointer">Local SEO Audit Tools</button></li>
-                <li><button onClick={() => goToTab('all-tools', '/technical-seo')} className="hover:text-white transition-colors cursor-pointer">Technical SEO Speed & Schema</button></li>
-                <li><button onClick={() => goToTab('active-tool', '/tools/website-crawler')} className="hover:text-white transition-colors cursor-pointer">Free AI Website Crawler</button></li>
-                <li><button onClick={() => goToTab('active-tool', '/tools/ai-math-solver')} className="hover:text-white transition-colors cursor-pointer">Free AI Math Solver</button></li>
+                <li><Link to="/local-seo" onClick={() => goToTab('all-tools', '/local-seo')} className="hover:text-white transition-colors">Local SEO Audit Tools</Link></li>
+                <li><Link to="/technical-seo" onClick={() => goToTab('all-tools', '/technical-seo')} className="hover:text-white transition-colors">Technical SEO Speed & Schema</Link></li>
+                <li><Link to="/tools/website-crawler" onClick={() => goToTab('active-tool', '/tools/website-crawler')} className="hover:text-white transition-colors">Free AI Website Crawler</Link></li>
+                <li><Link to="/tools/ai-math-solver" onClick={() => goToTab('active-tool', '/tools/ai-math-solver')} className="hover:text-white transition-colors">Free AI Math Solver</Link></li>
               </ul>
             </div>
 
@@ -6260,11 +6886,24 @@ export default function App() {
 
           {/* Bottom Bar */}
           <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
-            <div>
+            <div className="flex flex-wrap items-center gap-3">
               <span className="text-slate-400">© 2026 waqasmehmood.com • All Rights Reserved.</span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
+              <span className="text-slate-500 hidden sm:inline">Connect: LinkedIn • WhatsApp • X • GitHub</span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              {isAdmin && (
+                <button
+                  onClick={() => goToTab('blog-studio', '/blog-admin')}
+                  className="text-cyan-400 hover:text-cyan-300 font-mono text-[11px] flex items-center gap-1 cursor-pointer bg-cyan-400/10 px-2.5 py-1 rounded-lg border border-cyan-400/30"
+                  title="Open Blog Admin Studio"
+                >
+                  <BookOpen className="w-3 h-3 text-cyan-400" />
+                  <span>Blog Studio</span>
+                </button>
+              )}
+
               {isAdmin ? (
                 <button 
                   onClick={handleAdminLogout}

@@ -51,6 +51,19 @@ body[data-theme="light"],
   font-weight: 600 !important;
 }
 
+/* Mobile Navigation Drawer in Light Mode */
+[data-theme="light"] header [class*="bg-[#070b15]"] {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] header .md\:hidden button[class*="bg-slate-900"],
+[data-theme="light"] header .md\:hidden button[class*="bg-slate-950"] {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
 /* Navigation Links & Buttons (Default Inactive) */
 [data-theme="light"] header nav button,
 [data-theme="light"] header nav a,

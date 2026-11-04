@@ -44,6 +44,17 @@ DirectoryIndex index.html index.php
     RewriteCond %{REQUEST_URI} (casino|gambling|slots?|baccarat|blackjack|roulette|rummy|betting|1x2gaming|bluberi|push-gaming|thunderkick|merkur|dragon-tiger|fruit-million|wild-spin|5-reel-drive|moon-princess|bonus-codes|free-chips|fire-strike|24k-casino|big-bass|neogames|red-rake|quickfire|playtech|gamesys|random-logic|best-online-game|mobile-phone-bill-new-zealand) [NC]
     RewriteRule ^ - [G,L]
 
+    # 2b. 301 Permanent Redirect legacy pillar-prefixed tool URLs to canonical /tools/:slug
+    # e.g. /local-seo/google-business-profile-checker/ -> /tools/google-business-profile-checker
+    # e.g. /on-page-seo/broken-link-checker/ -> /tools/broken-link-checker
+    RewriteRule ^(on-page-seo|off-page-seo|technical-seo|local-seo|ai-tools)/([a-z0-9\-]+)/?$ /tools/$2 [R=301,L]
+
+    # 2c. 301 Permanent Redirect legacy direct root-level tool slugs to canonical /tools/:slug
+    # e.g. /website-seo-checker/ -> /tools/website-seo-checker
+    # e.g. /google-business-profile-checker/ -> /tools/google-business-profile-checker
+    RewriteCond %{DOCUMENT_ROOT}/tools/$1/index.html -f
+    RewriteRule ^([a-z0-9\-]+)/?$ /tools/$1 [R=301,L]
+
     # 3. Route all API requests to the Laravel backend entrypoint
     RewriteCond %{REQUEST_URI} ^/api(/.*)?$
     RewriteRule ^api(/.*)?$ backend/public/index.php [L,QSA]

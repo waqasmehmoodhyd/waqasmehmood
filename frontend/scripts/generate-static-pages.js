@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { TOOLS_SEO_DATA, PARTNER_RESOURCES } from '../src/data/toolsSeoData.js';
 import { CITIES_DATA } from '../src/data/citiesData.js';
+import { BLOG_POSTS } from '../src/data/blogData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +20,7 @@ const baseTemplate = fs.readFileSync(templatePath, 'utf8');
 
 // Global navigation header for crawlable pre-rendered HTML
 const renderHeader = (currentPath) => `
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-500 focus:text-slate-950 font-bold rounded-lg shadow-lg">Skip to main content</a>
 <header class="w-full border-b border-slate-800 bg-[#070b15]/90 py-4 px-6 sticky top-0 z-50">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
     <a href="/" class="flex items-center gap-3 text-white font-bold text-lg hover:text-cyan-400 transition-colors">
@@ -29,6 +31,7 @@ const renderHeader = (currentPath) => `
       <a href="/" class="hover:text-cyan-400 transition-colors ${currentPath === '/' ? 'text-cyan-400 font-semibold' : ''}">Home</a>
       <a href="/services" class="hover:text-cyan-400 transition-colors ${currentPath === '/services' ? 'text-cyan-400 font-semibold' : ''}">Services</a>
       <a href="/all-tools" class="hover:text-cyan-400 transition-colors ${currentPath === '/all-tools' ? 'text-cyan-400 font-semibold' : ''}">All Tools</a>
+      <a href="/blog" class="hover:text-cyan-400 transition-colors ${currentPath === '/blog' ? 'text-cyan-400 font-semibold' : ''}">Blog</a>
       <a href="/on-page-seo" class="hover:text-cyan-400 transition-colors ${currentPath === '/on-page-seo' ? 'text-cyan-400 font-semibold' : ''}">On-Page</a>
       <a href="/technical-seo" class="hover:text-cyan-400 transition-colors ${currentPath === '/technical-seo' ? 'text-cyan-400 font-semibold' : ''}">Technical</a>
       <a href="/local-seo" class="hover:text-cyan-400 transition-colors ${currentPath === '/local-seo' ? 'text-cyan-400 font-semibold' : ''}">Local SEO</a>
@@ -49,7 +52,21 @@ const renderFooter = () => `
         <span class="w-6 h-6 rounded-lg bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black">WM</span>
         Waqas Mehmood
       </div>
-      <p class="leading-relaxed mb-4">Senior SEO Specialist, Growth Engineer & Full-Stack Developer providing high-impact SEO management, technical audits, and 27 free in-house digital marketing tools.</p>
+      <p class="leading-relaxed mb-4">Senior SEO Specialist, Growth Engineer & Full-Stack Developer providing high-impact SEO management, technical audits, and 28 free in-house digital marketing tools.</p>
+      
+      <div class="mb-4">
+        <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2 font-bold text-cyan-400">Connect & Follow:</span>
+        <div class="flex items-center gap-3">
+          <a href="https://linkedin.com/in/waqasmehmood" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="LinkedIn">LinkedIn</a>
+          <span>•</span>
+          <a href="https://wa.me/923003083161" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors" title="WhatsApp">WhatsApp</a>
+          <span>•</span>
+          <a href="https://x.com/waqasmehmood" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="X (Twitter)">X</a>
+          <span>•</span>
+          <a href="https://github.com/waqasmehmood" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" title="GitHub">GitHub</a>
+        </div>
+      </div>
+
       <p class="text-slate-500">&copy; ${new Date().getFullYear()} Waqas Mehmood. All rights reserved.</p>
     </div>
     <div>
@@ -60,6 +77,7 @@ const renderFooter = () => `
         <li><a href="/technical-seo" class="hover:text-cyan-400">Technical SEO & Schema</a></li>
         <li><a href="/local-seo" class="hover:text-cyan-400">Local SEO & Google Business</a></li>
         <li><a href="/ai-tools" class="hover:text-cyan-400">Free AI Tools</a></li>
+        <li><a href="/blog" class="hover:text-cyan-400 font-semibold text-cyan-400">SEO & Growth Blog &rarr;</a></li>
       </ul>
     </div>
     <div>
@@ -103,24 +121,37 @@ function generatePageHtml(options) {
   let html = baseTemplate;
 
   // 1. Replace Title
-  html = html.replace(/<title>.*?<\/title>/s, `<title>${title}</title>`);
-  html = html.replace(/<meta name="title" content=".*?" \/>/s, `<meta name="title" content="${title}" />`);
-  html = html.replace(/<meta property="og:title" content=".*?" \/>/s, `<meta property="og:title" content="${title}" />`);
-  html = html.replace(/<meta property="twitter:title" content=".*?" \/>/s, `<meta property="twitter:title" content="${title}" />`);
+  html = html.replace(/<title>.*?<\/title>/s, () => `<title>${title}</title>`);
+  html = html.replace(/<meta name="title" content=".*?" \/>/s, () => `<meta name="title" content="${title}" />`);
+  html = html.replace(/<meta property="og:title" content=".*?" \/>/s, () => `<meta property="og:title" content="${title}" />`);
+  html = html.replace(/<meta property="twitter:title" content=".*?" \/>/s, () => `<meta property="twitter:title" content="${title}" />`);
 
   // 2. Replace Description
-  html = html.replace(/<meta name="description" content=".*?" \/>/s, `<meta name="description" content="${description}" />`);
-  html = html.replace(/<meta property="og:description" content=".*?" \/>/s, `<meta property="og:description" content="${description}" />`);
-  html = html.replace(/<meta property="twitter:description" content=".*?" \/>/s, `<meta property="twitter:description" content="${description}" />`);
+  html = html.replace(/<meta name="description" content=".*?" \/>/s, () => `<meta name="description" content="${description}" />`);
+  html = html.replace(/<meta property="og:description" content=".*?" \/>/s, () => `<meta property="og:description" content="${description}" />`);
+  html = html.replace(/<meta property="twitter:description" content=".*?" \/>/s, () => `<meta property="twitter:description" content="${description}" />`);
 
   // 3. Replace Canonical & OG URL (Self-referencing!)
   const fullCanonicalUrl = `https://waqasmehmood.com${canonicalPath === '/' ? '' : canonicalPath}`;
-  html = html.replace(/<link rel="canonical" href=".*?" \/>/s, `<link rel="canonical" href="${fullCanonicalUrl}" />`);
-  html = html.replace(/<meta property="og:url" content=".*?" \/>/s, `<meta property="og:url" content="${fullCanonicalUrl}" />`);
-  html = html.replace(/<meta property="twitter:url" content=".*?" \/>/s, `<meta property="twitter:url" content="${fullCanonicalUrl}" />`);
+  html = html.replace(/<link rel="canonical" href=".*?" \/>/s, () => `<link rel="canonical" href="${fullCanonicalUrl}" />`);
+  html = html.replace(/<meta property="og:url" content=".*?" \/>/s, () => `<meta property="og:url" content="${fullCanonicalUrl}" />`);
+  html = html.replace(/<meta property="twitter:url" content=".*?" \/>/s, () => `<meta property="twitter:url" content="${fullCanonicalUrl}" />`);
 
   // 4. Replace Robots
   html = html.replace(/<meta name="robots" content=".*?" \/>/s, `<meta name="robots" content="${robots}" />`);
+
+  // 4.5 Ensure Open Graph & Twitter Social Image Cards (1200x630)
+  const ogImageUrl = options.image || 'https://waqasmehmood.com/og-image.png';
+  if (html.includes('property="og:image"')) {
+    html = html.replace(/<meta property="og:image" content=".*?" \/>/s, `<meta property="og:image" content="${ogImageUrl}" />`);
+  } else {
+    html = html.replace('</head>', `  <meta property="og:image" content="${ogImageUrl}" />\n  <meta property="og:image:width" content="1200" />\n  <meta property="og:image:height" content="630" />\n  <meta property="og:image:alt" content="Waqas Mehmood - Best SEO Expert, Specialist & Growth Architect" />\n</head>`);
+  }
+  if (html.includes('name="twitter:image"') || html.includes('property="twitter:image"')) {
+    html = html.replace(/<meta (name|property)="twitter:image" content=".*?" \/>/s, `<meta name="twitter:image" content="${ogImageUrl}" />`);
+  } else {
+    html = html.replace('</head>', `  <meta name="twitter:image" content="${ogImageUrl}" />\n</head>`);
+  }
 
   // 5. Injected JSON-LD schema if provided
   if (schemaJson) {
@@ -179,7 +210,7 @@ const homeHtml = `
     Waqas Mehmood - Best SEO Expert, SEO Specialist & Growth Engineer
   </h1>
   <p class="text-base md:text-lg text-slate-300 max-w-3xl mb-8 leading-relaxed">
-    Welcome to the official portfolio and digital engineering platform of Waqas Mehmood. With over a decade of hands-on experience, I deliver developer-level Technical SEO audits, full-funnel organic search optimization, Local SEO map pack domination, and 27 proprietary in-house SEO tools built natively from scratch.
+    Waqas Mehmood is a Senior SEO Specialist and Growth Engineer based in Pakistan, helping global B2B, SaaS, and regional businesses scale compounding search traffic. Specializations include developer-level technical SEO audits, on-page topical siloing, Local SEO 3-Pack rankings, and 27 proprietary in-house SEO diagnostic tools.
   </p>
   <div class="flex flex-wrap items-center gap-4 mb-12">
     <a href="/services" class="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-lg hover:shadow-cyan-500/25 transition-all">Explore SEO Services</a>
@@ -207,6 +238,121 @@ const homeHtml = `
   </div>
 </section>
 
+<!-- AEO DIRECT ANSWER: WHAT SEO SERVICES -->
+<section class="mb-16" id="what-seo-services">
+  <div class="p-8 rounded-3xl bg-slate-900/70 border border-slate-800">
+    <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Direct Answer • AEO & Search Intent</span>
+    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">What SEO Services Does Waqas Mehmood Provide?</h2>
+    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+      Waqas Mehmood provides end-to-end SEO services covering comprehensive technical SEO audits, Core Web Vitals optimization, on-page topical keyword siloing, high-intent Local SEO Google Maps 3-Pack rankings, and dedicated monthly SEO management. Every retainer is paired with 27 free proprietary in-house diagnostic tools built natively for deep DOM analysis.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+      <a href="/technical-seo" class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+        <div class="font-bold text-cyan-400 mb-1">Technical SEO Audits</div>
+        <div class="text-slate-400 text-[11px]">Crawl budget, status codes & schema</div>
+      </a>
+      <a href="/local-seo" class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+        <div class="font-bold text-emerald-400 mb-1">Local SEO 3-Pack</div>
+        <div class="text-slate-400 text-[11px]">Google Business & NAP citations</div>
+      </a>
+      <a href="/on-page-seo" class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+        <div class="font-bold text-indigo-400 mb-1">On-Page Architecture</div>
+        <div class="text-slate-400 text-[11px]">Keyword clusters & semantic headings</div>
+      </a>
+      <a href="/off-page-seo" class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
+        <div class="font-bold text-amber-400 mb-1">White-Hat Authority</div>
+        <div class="text-slate-400 text-[11px]">Contextual backlinks & link audits</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- AEO DIRECT ANSWER: TECHNICAL SEO AUDIT -->
+<section class="mb-16" id="technical-seo-audit">
+  <div class="p-8 rounded-3xl bg-slate-900/70 border border-slate-800">
+    <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Definition & Diagnostic Standards</span>
+    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">What Is a Technical SEO Audit?</h2>
+    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+      A technical SEO audit is a review of website infrastructure factors that affect how search engine bots crawl, render, index, and rank web pages. It evaluates indexability status codes, robots.txt directives, XML sitemaps, canonical tags, redirect chains, JSON-LD structured data, and mobile Core Web Vitals (LCP, INP, CLS) to eliminate architectural bottlenecks.
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-300">
+      <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ Crawlability & Indexation</div>
+      <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ Canonical & Redirect Paths</div>
+      <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ JSON-LD Schema Validation</div>
+      <div class="p-3 rounded-lg bg-slate-950 border border-slate-800">✓ Core Web Vitals & Speed</div>
+    </div>
+  </div>
+</section>
+
+<!-- AEO DIRECT ANSWER: LOCAL SEO -->
+<section class="mb-16" id="local-seo-ranking">
+  <div class="p-8 rounded-3xl bg-slate-900/70 border border-slate-800">
+    <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Actionable Local Strategy</span>
+    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">How Can Local SEO Help a Business?</h2>
+    <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+      Local SEO helps physical and service-area businesses capture high-converting customers searching in their immediate geographic market. Waqas Mehmood executes a proven 3-stage local search roadmap:
+    </p>
+    <ol class="space-y-4 text-xs sm:text-sm text-slate-300 list-decimal list-inside">
+      <li class="p-3 rounded-xl bg-slate-950 border border-slate-800 leading-relaxed">
+        <strong class="text-white">Google Business Profile (GBP) Optimization:</strong> Selecting dominant primary categories, creating complete geo-attribute profiles, and publishing regular product updates.
+      </li>
+      <li class="p-3 rounded-xl bg-slate-950 border border-slate-800 leading-relaxed">
+        <strong class="text-white">100% Consistent NAP Citations:</strong> Aligning Name, Address, and Phone Number across all major business directories to build unbreakable local entity confidence.
+      </li>
+      <li class="p-3 rounded-xl bg-slate-950 border border-slate-800 leading-relaxed">
+        <strong class="text-white">Localized Landing Pages & Schema:</strong> Structuring city-specific landing pages (such as <a href="/seo-expert-in-hyderabad" class="text-cyan-400 hover:underline">Hyderabad</a>, <a href="/locations/karachi" class="text-cyan-400 hover:underline">Karachi</a>, <a href="/locations/lahore" class="text-cyan-400 hover:underline">Lahore</a>, and <a href="/locations/islamabad" class="text-cyan-400 hover:underline">Islamabad</a>) with nested LocalBusiness schema markup.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- AEO COMPARISON TABLE: SEO VS GOOGLE ADS -->
+<section class="mb-16" id="seo-vs-google-ads">
+  <div class="p-8 rounded-3xl bg-slate-900/70 border border-slate-800 overflow-x-auto">
+    <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Strategic Comparison Table</span>
+    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">SEO vs. Google Ads: What Is the Difference?</h2>
+    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+      Understanding when to deploy organic search optimization versus paid search advertising maximizes total marketing blended return on investment (ROAS):
+    </p>
+    <table class="w-full text-left text-xs sm:text-sm text-slate-300 border-collapse min-w-[550px]">
+      <thead>
+        <tr class="border-b border-slate-800 text-white font-mono text-xs uppercase bg-slate-950/60">
+          <th class="p-3 font-semibold text-cyan-400">Evaluation Metric</th>
+          <th class="p-3 font-semibold text-white">Organic Search (SEO)</th>
+          <th class="p-3 font-semibold text-indigo-400">Google Ads (PPC)</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-800/60">
+        <tr>
+          <td class="p-3 font-medium text-white">Time to Results</td>
+          <td class="p-3">2–4 weeks (technical), 3–6 months (commercial keywords)</td>
+          <td class="p-3">Instant (traffic begins within hours of campaign launch)</td>
+        </tr>
+        <tr>
+          <td class="p-3 font-medium text-white">Cost Structure</td>
+          <td class="p-3">Fixed investment with zero per-click media fees</td>
+          <td class="p-3">Pay-Per-Click (PPC) media fees on every user visit</td>
+        </tr>
+        <tr>
+          <td class="p-3 font-medium text-white">Traffic Longevity</td>
+          <td class="p-3">Compounding equity; rankings persist without monthly ad spend</td>
+          <td class="p-3">Immediate stop; traffic ceases the moment daily budget depletes</td>
+        </tr>
+        <tr>
+          <td class="p-3 font-medium text-white">Click-Through Rate (CTR)</td>
+          <td class="p-3">60%–70% of search clicks go to organic organic listings</td>
+          <td class="p-3">2%–5% average CTR across competitive search keywords</td>
+        </tr>
+        <tr>
+          <td class="p-3 font-medium text-white">Recommended Strategy</td>
+          <td class="p-3 text-cyan-300" colspan="2">Combine Google Ads search query intelligence with long-term Organic SEO siloing for maximum blended ROAS.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 4 PILLARS DIRECTORY -->
 <section class="mb-16">
   <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">Four Pillars of Organic Search Dominance</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -233,16 +379,33 @@ const homeHtml = `
   </div>
 </section>
 
-<section class="mb-16">
+<!-- FREQUENTLY ASKED QUESTIONS (AEO STRUCTURED) -->
+<section class="mb-16" id="faq">
   <h2 class="text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
   <div class="space-y-4">
+    <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
+      <h3 class="font-bold text-white text-base mb-2">What SEO services does Waqas Mehmood provide?</h3>
+      <p class="text-slate-300 text-sm leading-relaxed">Waqas Mehmood provides end-to-end SEO services including comprehensive technical SEO audits, Core Web Vitals remediation, on-page topical siloing, Local SEO Google Maps 3-Pack rankings, and 27 proprietary in-house diagnostic tools.</p>
+    </div>
+    <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
+      <h3 class="font-bold text-white text-base mb-2">What is a technical SEO audit and how often should it be conducted?</h3>
+      <p class="text-slate-300 text-sm leading-relaxed">A technical SEO audit evaluates infrastructure factors affecting crawlability, indexation, rendering, and Core Web Vitals. An in-depth audit should be performed quarterly or before any major website redesign or CMS migration.</p>
+    </div>
     <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
       <h3 class="font-bold text-white text-base mb-2">How long does it take to see real results from SEO?</h3>
       <p class="text-slate-300 text-sm leading-relaxed">Technical SEO fixes and indexation corrections show diagnostic improvements within 2 to 4 weeks. High-intent commercial rankings typically mature within 3 to 6 months as topical authority builds.</p>
     </div>
     <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
-      <h3 class="font-bold text-white text-base mb-2">What makes your 27 in-house SEO tools different?</h3>
-      <p class="text-slate-300 text-sm leading-relaxed">Our 27 tools are custom written without third-party API dependencies or paywalls. They perform direct live DOM parsing, providing transparent and instant SEO insights.</p>
+      <h3 class="font-bold text-white text-base mb-2">What makes your 27 in-house SEO tools different from SaaS tools?</h3>
+      <p class="text-slate-300 text-sm leading-relaxed">Our 27 tools are custom written natively in PHP Laravel without third-party API dependencies or paywalls. They perform direct live DOM parsing, providing transparent and instant SEO insights without sign-up friction.</p>
+    </div>
+    <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
+      <h3 class="font-bold text-white text-base mb-2">Can you manage both Google Ads and Organic SEO simultaneously?</h3>
+      <p class="text-slate-300 text-sm leading-relaxed">Yes, combining PPC with organic SEO is optimal. Converting search query data from Google Ads directly informs the organic content strategy, while first-page organic rankings allow reducing expensive ad spend on high-volume terms.</p>
+    </div>
+    <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
+      <h3 class="font-bold text-white text-base mb-2">How does Generative Engine Optimization (GEO) differ from traditional SEO?</h3>
+      <p class="text-slate-300 text-sm leading-relaxed">Generative Engine Optimization (GEO) focuses on structuring content with direct factual definitions, semantic JSON-LD schema, and verifiable entity proof so AI answer engines like ChatGPT, Perplexity, and Google AI Overviews can accurately cite your website as an authoritative source.</p>
     </div>
   </div>
 </section>
@@ -250,8 +413,8 @@ const homeHtml = `
 
 writeRouteFile('/', generatePageHtml({
   path: '/',
-  title: 'Waqas Mehmood | Best SEO Expert & SEO Specialist',
-  description: 'Hire Waqas Mehmood - Best SEO expert & specialist offering top SEO services, local SEO management, technical audits & web development.',
+  title: 'Best SEO Expert & SEO Specialist in 2026 | Waqas Mehmood',
+  description: "Hire Waqas Mehmood, Pakistan's top SEO expert & specialist providing proven enterprise SEO services, technical audits, and 28 free tools. Get a free proposal today!",
   contentHtml: homeHtml
 }));
 generatedRoutes.push('/');
@@ -298,8 +461,8 @@ const servicesHtml = `
 
 writeRouteFile('/services', generatePageHtml({
   path: '/services',
-  title: 'Best SEO Services & SEO Management | Waqas Mehmood',
-  description: 'Hire Waqas Mehmood for high-ROAS SEO management, technical audits, link building, and organic scaling. Custom data-driven growth strategies.',
+  title: 'Best SEO Services & SEO Management (2026) | Waqas Mehmood',
+  description: 'Hire Waqas Mehmood for high-ROAS SEO management, technical audits, link building, and organic scaling. Get your custom data-driven SEO proposal today!',
   contentHtml: servicesHtml
 }));
 generatedRoutes.push('/services');
@@ -340,7 +503,7 @@ const aboutHtml = `
 writeRouteFile('/about', generatePageHtml({
   path: '/about',
   title: 'About Waqas Mehmood | Best SEO Expert & Specialist',
-  description: 'Learn about Waqas Mehmood, senior SEO specialist & engineer delivering full-funnel SEO services, technical audits, and organic revenue scaling.',
+  description: 'Learn about Waqas Mehmood, senior SEO specialist & engineer delivering full-funnel SEO services, technical audits, and organic revenue scaling. Work with us!',
   contentHtml: aboutHtml
 }));
 generatedRoutes.push('/about');
@@ -397,8 +560,8 @@ const contactHtml = `
 
 writeRouteFile('/contact', generatePageHtml({
   path: '/contact',
-  title: 'Contact Waqas Mehmood | Hire Best SEO Expert',
-  description: 'Get in touch with Waqas Mehmood for custom SEO audits, best SEO services, high-ROAS PPC ad campaigns, or full-stack web application development.',
+  title: 'Contact Waqas Mehmood | Hire Best SEO Expert (2026)',
+  description: 'Get in touch with Waqas Mehmood for custom SEO audits, expert SEO services, and high-ROAS digital campaigns. Request a free consultation & quote today!',
   contentHtml: contactHtml
 }));
 generatedRoutes.push('/contact');
@@ -444,8 +607,8 @@ const allToolsHtml = `
 
 writeRouteFile('/all-tools', generatePageHtml({
   path: '/all-tools',
-  title: '27 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
-  description: 'Run 27 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. Zero third-party API dependencies.',
+  title: '28 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
+  description: 'Run 28 free in-house SEO tools covering On Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. 100% free with zero third-party dependencies!',
   contentHtml: allToolsHtml
 }));
 generatedRoutes.push('/all-tools');
@@ -456,8 +619,8 @@ generatedRoutes.push('/all-tools');
 const PILLARS_CONFIG = [
   {
     path: '/on-page-seo',
-    title: 'One Page SEO Tools - 10 Free Analyzers | Waqas',
-    description: 'Free On-Page SEO tools: Website SEO Checker, Keyword Density, Meta Tag Analyzer, SERP Preview, Word Counter, Heading Hierarchy, and Broken Link Checker.',
+    title: 'Best On-Page SEO Tools & Page Analyzers | Waqas Mehmood',
+    description: 'Free On-Page SEO tools: Website SEO checker, keyword density, meta tag analyzer, SERP preview, heading checker, and broken link audit. Test your URLs free!',
     h1: 'One Page SEO Tools - 10 Free On-Page Analyzers',
     tools: [
       { slug: 'website-seo-checker', name: 'Website SEO Checker' },
@@ -474,8 +637,8 @@ const PILLARS_CONFIG = [
   },
   {
     path: '/off-page-seo',
-    title: 'Off Page SEO Tools & Backlink Analyzers | Waqas',
-    description: 'Free Off-Page SEO tools: Backlink Checker, DA & PA Checker, Competitor Backlink Analyzer, Referring Domains, and Anchor Text Analyzer.',
+    title: 'Off Page SEO Tools & Backlink Analyzers | Waqas Mehmood',
+    description: 'Free Off-Page SEO tools: Backlink checker, DA & PA analyzer, competitor backlinks, referring domains, and anchor text analysis. Analyze backlinks free now!',
     h1: 'Off Page SEO Tools & Backlink Analyzers',
     tools: [
       { slug: 'backlink-checker', name: 'Backlink Checker' },
@@ -487,21 +650,22 @@ const PILLARS_CONFIG = [
   },
   {
     path: '/technical-seo',
-    title: 'Technical SEO Tools & Schema Analyzers | Waqas',
-    description: 'Free Technical SEO tools: Website Speed Checker, Technical Broken Link Checker, XML Sitemap Validator, Robots.txt Tester, and Schema JSON-LD Validator.',
+    title: 'Technical SEO Tools & Schema Analyzers | Waqas Mehmood',
+    description: 'Free Technical SEO tools: Website speed check, technical broken links, XML sitemap validator, robots.txt tester, and Schema JSON-LD. Audit technical SEO free!',
     h1: 'Technical SEO Tools & Schema Analyzers',
     tools: [
       { slug: 'website-speed-checker', name: 'Website Speed Checker' },
       { slug: 'tech-broken-link-checker', name: 'Technical Broken Link Checker' },
       { slug: 'xml-sitemap-checker', name: 'XML Sitemap Checker' },
       { slug: 'robots-txt-tester', name: 'Robots.txt Tester' },
-      { slug: 'schema-markup-validator', name: 'Schema Markup Validator' }
+      { slug: 'schema-markup-validator', name: 'Schema Markup Validator' },
+      { slug: 'schema-generator', name: '1-Click Schema JSON-LD Generator' }
     ]
   },
   {
     path: '/local-seo',
-    title: 'Local SEO & Google Business Profile Tools | Waqas',
-    description: 'Free Local SEO tools: Local Rank Checker, Google Business Profile Audit, Local Citation Checker, NAP Consistency Checker, and Local SEO Audit Tool.',
+    title: 'Local SEO & Google Maps Ranking Tools | Waqas Mehmood',
+    description: 'Free Local SEO tools: Local rank checker, Google Business Profile audit, local citation checker, and NAP consistency analyzer. Dominate Google Maps 3-Pack free!',
     h1: 'Local SEO Tools & Google Business Profile Analyzers',
     tools: [
       { slug: 'local-rank-checker', name: 'Local Rank Checker' },
@@ -513,12 +677,15 @@ const PILLARS_CONFIG = [
   },
   {
     path: '/ai-tools',
-    title: 'Free AI Tools & Multimodal Solvers | Waqas Mehmood',
-    description: 'Explore free AI web tools by Waqas Mehmood: Free AI Math Solver, Free AI Website Crawler & Auditor, photo equation OCR, and multi-page technical audit.',
+    title: 'Free AI Tools & Multimodal Solvers (2026) | Waqas Mehmood',
+    description: 'Explore free AI web tools by Waqas Mehmood: AI AEO & GEO Analyzer, Free AI Math Solver, Free AI Website Crawler, and PPC Calculators. Try free AI tools now!',
     h1: 'Free AI Tools & Multimodal Problem Solvers',
     tools: [
+      { slug: 'ai-aeo-geo-analyzer', name: 'AI, AEO & GEO Search Engine Analyzer' },
       { slug: 'ai-math-solver', name: 'Free AI Math Solver' },
-      { slug: 'website-crawler', name: 'Free AI Website Crawler & Auditor' }
+      { slug: 'website-crawler', name: 'Free AI Website Crawler & Auditor' },
+      { slug: 'roas-calculator', name: 'Google Ads ROAS & Breakeven Calculator' },
+      { slug: 'seo-roi-calculator', name: 'SEO ROI & Revenue Calculator' }
     ]
   }
 ];
@@ -635,11 +802,59 @@ for (const [slug, data] of Object.entries(TOOLS_SEO_DATA)) {
 </article>
   `;
 
+  const toolSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": `https://waqasmehmood.com${toolRoute}#app`,
+        "name": toolTitle.split(' | ')[0],
+        "description": toolDesc,
+        "url": `https://waqasmehmood.com${toolRoute}`,
+        "applicationCategory": "SEOApplication",
+        "operatingSystem": "All modern browsers",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Waqas Mehmood",
+          "url": "https://waqasmehmood.com/about"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `https://waqasmehmood.com${toolRoute}#breadcrumb`,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://waqasmehmood.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://waqasmehmood.com/all-tools" },
+          { "@type": "ListItem", "position": 3, "name": toolTitle.split(' | ')[0], "item": `https://waqasmehmood.com${toolRoute}` }
+        ]
+      },
+      ...(data.faqs && data.faqs.length > 0 ? [{
+        "@type": "FAQPage",
+        "@id": `https://waqasmehmood.com${toolRoute}#faq`,
+        "mainEntity": data.faqs.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.a
+          }
+        }))
+      }] : [])
+    ]
+  };
+
   writeRouteFile(toolRoute, generatePageHtml({
     path: toolRoute,
     title: toolTitle,
     description: toolDesc,
     canonicalPath: toolRoute,
+    schemaJson: toolSchema,
     contentHtml: toolHtml
   }));
   generatedRoutes.push(toolRoute);
@@ -733,11 +948,73 @@ for (const [slug, city] of Object.entries(CITIES_DATA)) {
 </article>
   `;
 
+  const citySchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": `https://waqasmehmood.com${cityRoute}#business`,
+        "name": `Waqas Mehmood - Best SEO Expert in ${city.cityName}`,
+        "description": cityDesc,
+        "url": `https://waqasmehmood.com${cityRoute}`,
+        "telephone": "+923003083161",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Latifabad",
+          "addressLocality": city.cityName,
+          "addressRegion": city.province,
+          "postalCode": city.postalCode,
+          "addressCountry": "PK"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": city.geo.lat,
+          "longitude": city.geo.lng
+        },
+        "areaServed": city.localAreas.map(area => ({
+          "@type": "AdministrativeArea",
+          "name": area
+        })),
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `https://waqasmehmood.com${cityRoute}#breadcrumb`,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://waqasmehmood.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Local SEO", "item": "https://waqasmehmood.com/local-seo" },
+          { "@type": "ListItem", "position": 3, "name": city.cityName, "item": `https://waqasmehmood.com${cityRoute}` }
+        ]
+      },
+      ...(city.faqs && city.faqs.length > 0 ? [{
+        "@type": "FAQPage",
+        "@id": `https://waqasmehmood.com${cityRoute}#faq`,
+        "mainEntity": city.faqs.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.a
+          }
+        }))
+      }] : [])
+    ]
+  };
+
   writeRouteFile(cityRoute, generatePageHtml({
     path: cityRoute,
     title: cityTitle,
     description: cityDesc,
     canonicalPath: cityRoute,
+    schemaJson: citySchema,
     contentHtml: cityHtml
   }));
   generatedRoutes.push(cityRoute);
@@ -746,13 +1023,272 @@ for (const [slug, city] of Object.entries(CITIES_DATA)) {
   if (slug === 'hyderabad') {
     writeRouteFile('/seo-expert-in-hyderabad', generatePageHtml({
       path: '/seo-expert-in-hyderabad',
-      title: 'SEO Expert in Hyderabad Sindh | Waqas Mehmood',
-      description: 'Looking for the top SEO Expert in Hyderabad, Sindh? Waqas Mehmood helps businesses in Latifabad, Qasimabad & Sindh dominate Google Page 1 & Map Pack.',
+      title: 'Best SEO Expert in Hyderabad Sindh (2026) | Waqas Mehmood',
+      description: 'Looking for the top SEO expert in Hyderabad, Sindh? Waqas Mehmood helps businesses in Latifabad and Qasimabad dominate Google Page 1. Book a free audit!',
       canonicalPath: '/seo-expert-in-hyderabad',
+      schemaJson: citySchema,
       contentHtml: cityHtml
     }));
     generatedRoutes.push('/seo-expert-in-hyderabad');
   }
+}
+
+// =========================================================================
+// 12.5. BLOG HUB (/blog) & CASE STUDIES (/blog/:slug)
+// =========================================================================
+
+// A. Blog Hub (/blog)
+const blogHubHtml = `
+<nav aria-label="Breadcrumb" class="mb-6 text-xs text-slate-400">
+  <ol class="flex items-center gap-2">
+    <li><a href="/" class="hover:text-cyan-400">Home</a></li>
+    <li>/</li>
+    <li class="text-cyan-400 font-semibold">Blog</li>
+  </ol>
+</nav>
+<section class="py-6 max-w-5xl mx-auto space-y-12">
+  <div class="text-center space-y-4 max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-semibold text-cyan-300">
+      <span>Engineering-Grade Insights & Playbooks</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+      SEO, PPC & Growth Architecture <br />
+      <span class="text-cyan-400">Technical Knowledge Base</span>
+    </h1>
+    <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
+      Battle-tested frameworks, local Google Maps ranking playbooks, and negative keyword PPC methodologies engineered by established Best SEO Expert <strong>Waqas Mehmood</strong>.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    ${BLOG_POSTS.map(post => `
+      <article class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between space-y-4">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-bold uppercase">${post.categoryLabel}</span>
+            <span>${post.readTime}</span>
+          </div>
+          <h2 class="text-lg font-bold text-white hover:text-cyan-300 transition-colors">
+            <a href="/blog/${post.slug}">${post.title}</a>
+          </h2>
+          <p class="text-xs text-slate-400 leading-relaxed">${post.excerpt}</p>
+        </div>
+        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <span class="text-[11px] text-slate-500">Updated: ${post.updatedAt}</span>
+          <a href="/blog/${post.slug}" class="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">Read Guide &rarr;</a>
+        </div>
+      </article>
+    `).join('')}
+  </div>
+
+  <div class="p-8 rounded-2xl bg-gradient-to-r from-cyan-950/40 to-indigo-950/40 border border-cyan-800/40 flex flex-wrap items-center justify-between gap-6">
+    <div>
+      <h3 class="text-xl font-bold text-white mb-1">Need a custom SEO & growth strategy for your business?</h3>
+      <p class="text-xs text-slate-300">Hire Waqas Mehmood for full-funnel organic search management and high-ROAS PPC campaigns.</p>
+    </div>
+    <a href="/contact" class="px-6 py-3 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs transition-all">Request Custom Audit</a>
+  </div>
+</section>
+`;
+
+const blogHubSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://waqasmehmood.com/blog#collection",
+      "name": "SEO & Growth Engineering Blog",
+      "description": "In-depth technical SEO case studies, Google Ads scaling blueprints, and modern web growth engineering by Waqas Mehmood.",
+      "url": "https://waqasmehmood.com/blog",
+      "author": {
+        "@type": "Person",
+        "name": "Waqas Mehmood",
+        "url": "https://waqasmehmood.com/about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://waqasmehmood.com/blog#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://waqasmehmood.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://waqasmehmood.com/blog" }
+      ]
+    }
+  ]
+};
+
+writeRouteFile('/blog', generatePageHtml({
+  path: '/blog',
+  title: 'SEO & Growth Engineering Blog (2026) | Waqas Mehmood',
+  description: 'Read actionable technical SEO guides, Google Ads scaling playbooks, Local SEO maps blueprints, and AI search case studies. Explore expert growth articles!',
+  canonicalPath: '/blog',
+  schemaJson: blogHubSchema,
+  contentHtml: blogHubHtml
+}));
+generatedRoutes.push('/blog');
+
+// B. Individual Blog Posts (/blog/:slug)
+for (const post of BLOG_POSTS) {
+  const postRoute = `/blog/${post.slug}`;
+  const rawTitle = post.seoTitle || post.title;
+  const postTitle = rawTitle.includes('Waqas Mehmood') ? rawTitle : `${rawTitle} | Waqas Mehmood`;
+  const postDesc = post.seoDesc || post.excerpt;
+
+  const postSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `https://waqasmehmood.com${postRoute}#article`,
+        "headline": post.title,
+        "description": post.excerpt,
+        "url": `https://waqasmehmood.com${postRoute}`,
+        "image": post.coverImage || "https://waqasmehmood.com/favicon.svg",
+        "datePublished": `${post.publishedAt}T08:00:00+05:00`,
+        "dateModified": `${post.updatedAt}T08:00:00+05:00`,
+        "inLanguage": "en",
+        "author": {
+          "@type": "Person",
+          "name": "Waqas Mehmood",
+          "url": "https://waqasmehmood.com/about",
+          "jobTitle": "Best SEO Expert & Engineer"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Waqas Mehmood",
+          "url": "https://waqasmehmood.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://waqasmehmood.com/favicon.svg"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `https://waqasmehmood.com${postRoute}`
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `https://waqasmehmood.com${postRoute}#breadcrumb`,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://waqasmehmood.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://waqasmehmood.com/blog" },
+          { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://waqasmehmood.com${postRoute}` }
+        ]
+      },
+      ...(post.faqs && post.faqs.length > 0 ? [{
+        "@type": "FAQPage",
+        "@id": `https://waqasmehmood.com${postRoute}#faq`,
+        "mainEntity": post.faqs.map(f => ({
+          "@type": "Question",
+          "name": f.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.a
+          }
+        }))
+      }] : [])
+    ]
+  };
+
+  const postHtml = `
+<nav aria-label="Breadcrumb" class="mb-6 text-xs text-slate-400 max-w-4xl mx-auto">
+  <ol class="flex items-center gap-2">
+    <li><a href="/" class="hover:text-cyan-400">Home</a></li>
+    <li>/</li>
+    <li><a href="/blog" class="hover:text-cyan-400">Blog</a></li>
+    <li>/</li>
+    <li class="text-cyan-400 font-semibold truncate max-w-xs">${post.title}</li>
+  </ol>
+</nav>
+
+<article class="max-w-4xl mx-auto py-6 px-4 sm:px-6 space-y-10">
+  <div class="flex items-center justify-between text-xs font-mono text-slate-400 pb-4 border-b border-slate-800">
+    <a href="/blog" class="text-cyan-400 hover:text-cyan-300 font-semibold">&larr; Back to Blog Hub</a>
+    <span>Published: ${post.publishedAt} • Updated: ${post.updatedAt}</span>
+  </div>
+
+  <header class="space-y-4">
+    <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-bold uppercase">${post.categoryLabel}</span>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">${post.title}</h1>
+    <p class="text-base text-slate-300 leading-relaxed">${post.excerpt}</p>
+    <div class="flex items-center gap-3 pt-2 text-xs text-slate-400 font-mono">
+      <span>By Waqas Mehmood (Senior SEO Specialist)</span>
+      <span>•</span>
+      <span>${post.readTime}</span>
+    </div>
+  </header>
+
+  <div class="space-y-8 text-sm text-slate-300 leading-relaxed">
+    ${post.sections.map(section => `
+      <section id="${section.id}" class="space-y-4">
+        <h2 class="text-2xl font-bold text-white tracking-tight border-b border-slate-800/80 pb-2">${section.title}</h2>
+        <p class="leading-relaxed text-slate-300">${section.content}</p>
+        
+        ${section.checklist ? `
+          <ul class="space-y-2.5 my-4">
+            ${section.checklist.map(item => `
+              <li class="flex items-start gap-2.5">
+                <span class="text-cyan-400 font-bold">&check;</span>
+                <span class="text-slate-200">${item}</span>
+              </li>
+            `).join('')}
+          </ul>
+        ` : ''}
+
+        ${section.callout ? `
+          <div class="p-4 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-xs my-4">
+            <strong class="text-cyan-300 block mb-1 uppercase font-mono">${section.callout.title}</strong>
+            <p class="text-slate-300">${section.callout.text}</p>
+          </div>
+        ` : ''}
+      </section>
+    `).join('')}
+  </div>
+
+  ${post.toolCta ? `
+    <div class="p-6 rounded-2xl bg-slate-900 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h3 class="text-base font-bold text-white mb-1">Recommended In-House Tool: ${post.toolCta.toolTitle}</h3>
+        <p class="text-xs text-slate-400">Put this strategy to work immediately with 100% free browser execution.</p>
+      </div>
+      <a href="/tools/${post.toolCta.toolSlug}" class="px-5 py-2.5 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs transition-all">${post.toolCta.buttonText} &rarr;</a>
+    </div>
+  ` : ''}
+
+  ${post.faqs && post.faqs.length > 0 ? `
+    <section class="space-y-4 pt-6 border-t border-slate-800">
+      <h3 class="text-xl font-bold text-white">Frequently Asked Questions</h3>
+      <div class="space-y-3">
+        ${post.faqs.map(faq => `
+          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <h4 class="font-bold text-white text-sm mb-1">${faq.q}</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">${faq.a}</p>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  ` : ''}
+
+  <div class="p-8 rounded-2xl bg-gradient-to-r from-cyan-950/40 to-indigo-950/40 border border-cyan-800/40 flex flex-wrap items-center justify-between gap-6">
+    <div>
+      <h3 class="text-xl font-bold text-white mb-1">Dominate Google Rankings with Waqas Mehmood</h3>
+      <p class="text-xs text-slate-300">Hire senior digital marketing management with direct ROI accountability.</p>
+    </div>
+    <a href="/contact" class="px-6 py-3 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs transition-all">${post.serviceCta ? post.serviceCta.buttonText : 'Contact Waqas Mehmood'}</a>
+  </div>
+</article>
+  `;
+
+  writeRouteFile(postRoute, generatePageHtml({
+    path: postRoute,
+    title: postTitle,
+    description: postDesc,
+    canonicalPath: postRoute,
+    schemaJson: postSchema,
+    contentHtml: postHtml
+  }));
+  generatedRoutes.push(postRoute);
 }
 
 // =========================================================================

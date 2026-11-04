@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waqas Mehmood - AI SEO, AEO & GEO Engine</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="wm-container">
+
+    <!-- Header: Waqas Mehmood Brand -->
+    <header class="wm-header">
+      <div class="brand">
+        <div class="wm-avatar">WM</div>
+        <div class="brand-text">
+          <div class="title-row">
+            <span class="wm-title">WAQAS MEHMOOD</span>
+            <span class="badge-pro">PRO</span>
+          </div>
+          <div class="wm-sub">AI SEO &bull; AEO &bull; GEO ENGINE</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top 4 Metric Cards -->
+    <section class="metrics-grid">
+      <div class="metric-card metric-seo">
+        <div class="metric-label">SEO</div>
+        <div class="metric-val" id="val-seo">--</div>
+        <div class="metric-sub">Search Visibility</div>
+      </div>
+      <div class="metric-card metric-geo">
+        <div class="metric-label">GEO</div>
+        <div class="metric-val" id="val-geo">--</div>
+        <div class="metric-sub">AI Readiness</div>
+      </div>
+      <div class="metric-card metric-aeo">
+        <div class="metric-label">AEO</div>
+        <div class="metric-val" id="val-aeo">--</div>
+        <div class="metric-sub">Answer Targeting</div>
+      </div>
+      <div class="metric-card metric-aiview">
+        <div class="metric-label">AI VIEW</div>
+        <div class="metric-val" id="val-aiview">--</div>
+        <div class="metric-sub">Agent Discovery</div>
+      </div>
+    </section>
+
+    <!-- Main Score & Target URL Card -->
+    <section class="overview-card">
+      <div class="gauge-col">
+        <div class="score-circle">
+          <span class="score-number" id="val-overall">--</span>
+          <span class="score-caption">SCORE</span>
+        </div>
+      </div>
+      <div class="details-col">
+        <div class="target-url" id="target-url">Loading page...</div>
+        <div class="tag-row">
+          <span class="badge-type" id="page-type">WEB PAGE</span>
+        </div>
+        <div class="status-headline" id="status-headline">Analyzing active tab...</div>
+        <div class="status-sub" id="status-sub">Calculating 60+ algorithmic checkpoints</div>
+      </div>
+    </section>
+
+    <!-- Categories Breakdown -->
+    <section class="categories-section">
+      <div class="section-title">AUDIT CATEGORIES</div>
+      <div class="categories-list" id="categories-list">
+        <!-- Dynamically rendered via popup.js -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Inspecting live DOM & Schema markup...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Actions -->
+    <footer class="wm-footer">
+      <button class="btn-action btn-rescan" id="btn-rescan" title="Re-scan current tab">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>RE-SCAN</span>
+      </button>
+      <button class="btn-action btn-export-csv" id="btn-export" title="Export Raw CSV Data">
+        <span>CSV</span>
+      </button>
+      <button class="btn-action btn-export-pdf" id="btn-export-pdf" title="Export Graphical PDF Resolution Plan">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>EXPORT PDF</span>
+      </button>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

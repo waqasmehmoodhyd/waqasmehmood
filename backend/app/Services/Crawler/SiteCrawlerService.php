@@ -149,6 +149,8 @@ class SiteCrawlerService
         $missingH1Count = 0;
         $duplicateH1Count = 0;
         $missingDescCount = 0;
+        $missingAltTotal = 0;
+        $thinContentTotal = 0;
         $totalLoadTimeMs = 0;
 
         while (!empty($queue) && $crawledCount < $pageLimit) {
@@ -176,6 +178,8 @@ class SiteCrawlerService
             if ($pageData['h1_status'] === 'missing') $missingH1Count++;
             if ($pageData['h1_status'] === 'duplicate') $duplicateH1Count++;
             if ($pageData['description_status'] === 'missing') $missingDescCount++;
+            if (($pageData['images_missing_alt_count'] ?? 0) > 0) $missingAltTotal += $pageData['images_missing_alt_count'];
+            if (($pageData['word_count'] ?? 0) < 250 && $pageData['status'] === 200) $thinContentTotal++;
             $totalLoadTimeMs += $pageData['load_time_ms'];
 
             // Push discovered internal links to queue if under budget
@@ -232,6 +236,8 @@ class SiteCrawlerService
             'missing_h1_count' => $missingH1Count,
             'duplicate_h1_count' => $duplicateH1Count,
             'missing_descriptions_count' => $missingDescCount,
+            'missing_alt_images_count' => $missingAltTotal,
+            'thin_content_pages_count' => $thinContentTotal,
             'average_load_time_ms' => $avgLoadTime,
             'completed_at' => date('Y-m-d H:i:s')
         ];
@@ -419,21 +425,52 @@ class SiteCrawlerService
 
         // Also extract internal routes from JSON-LD schemas (Crucial for modern apps)
         $jsonLdNodes = $xpath->query('//script[@type="application/ld+json"]');
+        $schemaTypes = [];
         foreach ($jsonLdNodes as $jNode) {
             $jsonContent = trim($jNode->textContent);
-            if (!empty($jsonContent) && preg_match_all('~https?://[^"\'\\s<>]+~i', $jsonContent, $urlMatches)) {
-                foreach ($urlMatches[0] as $jUrl) {
-                    $jParsed = parse_url($jUrl);
-                    $jHostNoWww = preg_replace('~^www\.~i', '', strtolower($jParsed['host'] ?? ''));
-                    if ($jHostNoWww === $baseHostNoWww && $this->isHtmlPageUrl($jUrl)) {
-                        $discoveredInternal[] = $jUrl;
-                        $internalCount++;
+            if (!empty($jsonContent)) {
+                if (preg_match_all('~"@type"\s*:\s*"([^"]+)"~i', $jsonContent, $tMatches)) {
+                    foreach ($tMatches[1] as $st) {
+                        $schemaTypes[] = $st;
+                    }
+                }
+                if (preg_match_all('~https?://[^"\'\\s<>]+~i', $jsonContent, $urlMatches)) {
+                    foreach ($urlMatches[0] as $jUrl) {
+                        $jParsed = parse_url($jUrl);
+                        $jHostNoWww = preg_replace('~^www\.~i', '', strtolower($jParsed['host'] ?? ''));
+                        if ($jHostNoWww === $baseHostNoWww && $this->isHtmlPageUrl($jUrl)) {
+                            $discoveredInternal[] = $jUrl;
+                            $internalCount++;
+                        }
                     }
                 }
             }
         }
+        $schemaTypes = array_values(array_unique($schemaTypes));
 
-        // 6. Aggregate Page Issues
+        // 6. Image ALT attributes
+        $imgNodes = $xpath->query('//img');
+        $imagesCount = $imgNodes->length;
+        $missingAltCount = 0;
+        foreach ($imgNodes as $img) {
+            $alt = trim($img->getAttribute('alt'));
+            if ($alt === '') {
+                $missingAltCount++;
+            }
+        }
+
+        // 7. Word Count
+        $bodyNodes = $xpath->query('//body');
+        $bodyText = $bodyNodes->length > 0 ? trim($bodyNodes->item(0)->textContent) : '';
+        $bodyTextClean = preg_replace('/\s+/', ' ', $bodyText);
+        $wordCount = str_word_count(strip_tags($bodyTextClean));
+
+        // 8. Open Graph & Social Signals
+        $ogTitle = $xpath->query('//meta[@property="og:title"]/@content')->length > 0;
+        $ogDesc = $xpath->query('//meta[@property="og:description"]/@content')->length > 0;
+        $hasOg = ($ogTitle && $ogDesc);
+
+        // 9. Aggregate Page Issues
         $issues = [];
         if ($httpCode >= 400) $issues[] = "HTTP {$httpCode} Error";
         elseif ($httpCode >= 300) $issues[] = "Redirect ({$httpCode})";
@@ -444,6 +481,9 @@ class SiteCrawlerService
         if ($h1Status === 'missing') $issues[] = 'Missing H1 Heading';
         elseif ($h1Status === 'duplicate') $issues[] = "Multiple H1 Headings ({$h1Count})";
         if ($canonicalStatus === 'missing') $issues[] = 'Missing Canonical Tag';
+        if ($missingAltCount > 0) $issues[] = "{$missingAltCount} Image(s) Missing ALT";
+        if ($wordCount < 250 && $httpCode === 200) $issues[] = "Thin Content ({$wordCount} words)";
+        if (!$hasOg && $httpCode === 200) $issues[] = 'Missing Open Graph Tags';
         if ($loadTimeMs > 2000) $issues[] = "Slow Response ({$loadTimeMs}ms)";
 
         return [
@@ -458,6 +498,22 @@ class SiteCrawlerService
             'title_status' => $titleStatus,
             'description' => $desc,
             'description_length' => $descLen,
+            'description_status' => $descStatus,
+            'h1' => $h1Text,
+            'h1_count' => $h1Count,
+            'h1_status' => $h1Status,
+            'canonical' => $canonical,
+            'canonical_status' => $canonicalStatus,
+            'images_count' => $imagesCount,
+            'images_missing_alt_count' => $missingAltCount,
+            'word_count' => $wordCount,
+            'has_og' => $hasOg,
+            'schema_types' => $schemaTypes,
+            'internal_links_count' => $internalCount,
+            'external_links_count' => $externalCount,
+            'issues' => $issues,
+            'internal_urls' => array_unique($discoveredInternal)
+        ];
             'description_status' => $descStatus,
             'h1' => $h1Text,
             'h1_count' => $h1Count,

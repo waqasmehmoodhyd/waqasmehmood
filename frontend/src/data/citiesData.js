@@ -12,8 +12,8 @@ export const CITIES_DATA = {
     localAreas: ['Latifabad', 'Qasimabad', 'Autobahn Road', 'Hirabad', 'Jamshoro', 'Kotri', 'Saddar'],
     heroBadge: '#1 Top-Rated Local SEO Specialist in Hyderabad, Sindh',
     headline: 'Rank #1 on Google with the Leading SEO Expert in Hyderabad, Sindh',
-    metaTitle: 'Local SEO Hyderabad Sindh | Waqas Mehmood',
-    metaDesc: 'Dominate Google Maps & local search in Latifabad, Qasimabad and Autobahn Road with proven Local SEO management by Waqas Mehmood in Hyderabad.',
+    metaTitle: 'Best SEO Expert in Hyderabad Sindh (2026) | Waqas Mehmood',
+    metaDesc: 'Dominate Google Maps 3-Pack & local search across Latifabad, Qasimabad and Autobahn Road with proven Local SEO management by Waqas Mehmood. Book a free audit!',
     intro: "Assalam-o-Alaikum! I'm Waqas Mehmood, an established SEO Expert in Hyderabad, Sindh. Based locally, I help business owners, service firms, and stores across Latifabad, Qasimabad, Autobahn Road, and interior Sindh dominate competitive Google search results through custom technical SEO audits, Google Business Profile #1 Map Pack rankings, and high-ROAS digital campaigns.",
     stats: { clientsServed: '25+', avgRankingBoost: '340%', mapTop3Rate: '94%' },
     services: [
@@ -50,8 +50,8 @@ export const CITIES_DATA = {
     localAreas: ['DHA', 'Clifton', 'Shahrah-e-Faisal', 'Gulshan-e-Iqbal', 'Korangi Industrial Area', 'PECHS', 'North Nazimabad'],
     heroBadge: 'Enterprise Technical SEO & E-Commerce Consultant in Karachi',
     headline: 'Scale Organic Revenue with an Established SEO Expert in Karachi',
-    metaTitle: 'SEO Expert in Karachi | Waqas Mehmood',
-    metaDesc: 'Accelerate organic business growth with a senior SEO Expert in Karachi. Enterprise technical SEO, e-commerce optimization, and high-ROAS digital campaigns.',
+    metaTitle: 'Best SEO Expert in Karachi (2026) | Waqas Mehmood',
+    metaDesc: 'Accelerate organic business growth with a senior SEO expert in Karachi. Enterprise technical SEO, e-commerce growth & high-ROAS ad campaigns. Request a quote!',
     intro: "Looking for an elite SEO Expert in Karachi? Waqas Mehmood delivers enterprise-grade technical SEO audits, e-commerce revenue growth, and scalable organic architectures for corporate firms and brands across DHA, Clifton, Shahrah-e-Faisal, and Korangi.",
     stats: { clientsServed: '40+', avgRankingBoost: '280%', mapTop3Rate: '91%' },
     services: [
@@ -84,8 +84,8 @@ export const CITIES_DATA = {
     localAreas: ['Gulberg', 'DHA Lahore', 'Johar Town', 'Model Town', 'Bahria Town', 'Cavalry Ground', 'Mall Road'],
     heroBadge: 'Top SEO Specialist & E-Commerce Consultant in Lahore',
     headline: 'Dominate Google Search with a Leading SEO Specialist in Lahore',
-    metaTitle: 'SEO Specialist Lahore | Waqas Mehmood',
-    metaDesc: 'Grow your traffic with a leading SEO Specialist in Lahore. High-converting e-commerce SEO, technical optimization, and scalable Google ranking strategies.',
+    metaTitle: 'Top SEO Specialist in Lahore (2026) | Waqas Mehmood',
+    metaDesc: 'Grow organic traffic with a top SEO specialist in Lahore. High-converting e-commerce SEO, technical optimization, and scalable Google rankings. Get a proposal!',
     intro: "Dominate Google search results with a recognized SEO Specialist in Lahore. Waqas Mehmood helps high-growth startups, software houses, and e-commerce brands across Gulberg, DHA Lahore, and Johar Town scale predictable organic customer acquisition.",
     stats: { clientsServed: '35+', avgRankingBoost: '310%', mapTop3Rate: '93%' },
     services: [
@@ -99,6 +99,14 @@ export const CITIES_DATA = {
       {
         q: 'Can you help our Lahore tech company generate international US/UK clients?',
         a: 'Yes. We build international SEO content silos with programmatic search intent targeting, allowing Lahore software houses and agencies to rank organically for high-paying international keywords.'
+      },
+      {
+        q: 'How do you approach eCommerce SEO for Lahore online brands?',
+        a: 'We resolve product catalog indexation bloat, structure faceted navigation canonicals, optimize high-intent category schema, and build digital PR links that drive transactional revenue.'
+      },
+      {
+        q: 'Do you offer in-person SEO strategy sessions in Lahore?',
+        a: 'Yes. We conduct dedicated on-site strategy workshops for enterprise teams in Gulberg, DHA, and Johar Town, alongside continuous monthly technical management retainers.'
       }
     ]
   },
@@ -114,8 +122,8 @@ export const CITIES_DATA = {
     localAreas: ['Blue Area', 'F-6', 'F-7', 'F-8', 'G-11', 'I-8', 'Saddar Rawalpindi', 'Bahria Town Rawalpindi'],
     heroBadge: 'Corporate & SaaS SEO Consultant in Islamabad & Rawalpindi',
     headline: 'Enterprise B2B SEO Strategy from an Elite SEO Consultant in Islamabad',
-    metaTitle: 'SEO Consultant Islamabad | Waqas Mehmood',
-    metaDesc: 'Scale high-intent B2B leads with an established SEO Consultant in Islamabad. Authority link building, technical architectures, and SaaS SEO growth.',
+    metaTitle: 'Top SEO Consultant in Islamabad (2026) | Waqas Mehmood',
+    metaDesc: 'Scale high-intent B2B leads with an established SEO consultant in Islamabad. Enterprise technical architecture, SaaS SEO growth, and PR links. Book a call now!',
     intro: "Elevate your enterprise search presence with an experienced SEO Consultant in Islamabad and Rawalpindi. Waqas Mehmood partners with B2B corporate enterprises, SaaS platforms, and tech organizations in the Blue Area and federal capital to dominate mission-critical search terms.",
     stats: { clientsServed: '20+', avgRankingBoost: '290%', mapTop3Rate: '90%' },
     services: [
@@ -129,6 +137,14 @@ export const CITIES_DATA = {
       {
         q: 'Do you offer monthly SEO management retainers for Islamabad businesses?',
         a: 'Yes, we provide end-to-end monthly SEO management retainers including technical maintenance, content production guidance, continuous link acquisition, and transparent weekly KPI reporting.'
+      },
+      {
+        q: 'How does B2B SaaS SEO differ from traditional search marketing in Islamabad?',
+        a: 'B2B SaaS focuses on high-ACV (Annual Contract Value) keywords with bottom-of-the-funnel comparison pages, integration schema, and technical whitepapers rather than broad vanity traffic.'
+      },
+      {
+        q: 'Can you optimize our Islamabad agency for Google Maps 3-Pack rankings?',
+        a: 'Yes. We optimize your Google Business Profile with Blue Area & Rawalpindi geo-targeting, build local citations, and implement verified LocalBusiness JSON-LD markup.'
       }
     ]
   }

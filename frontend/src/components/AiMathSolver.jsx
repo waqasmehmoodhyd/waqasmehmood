@@ -1384,8 +1384,11 @@ export default function AiMathSolver({ onHireClick }) {
               <img
                 src="/assets/partners/qrcodex.svg"
                 alt="Blog Tools - qrcodex.site"
+                width="56"
+                height="56"
                 className="w-14 h-14 aspect-square rounded-xl object-contain bg-slate-950 p-1"
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <div className="space-y-1.5 flex-1">

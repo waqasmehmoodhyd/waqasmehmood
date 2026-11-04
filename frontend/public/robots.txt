@@ -3,6 +3,22 @@ Allow: /
 Disallow: /api/
 Disallow: /backend/
 
+# Explicit permissions for AI & LLM Search Agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 # Host
 Host: https://waqasmehmood.com
 
