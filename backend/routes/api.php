@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\MathSolverController;
 use App\Http\Controllers\Api\SiteCrawlerController;
+use App\Http\Controllers\Api\AeoGeoAnalyzerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,3 +41,8 @@ Route::post('/math/solve', [MathSolverController::class, 'solve']);
 
 // 6. Multi-Page Website Crawler & Site Auditor (Online Screaming Frog Lite)
 Route::get('/crawler/stream', [SiteCrawlerController::class, 'stream']);
+
+// 7. AI / AEO / GEO Engine Analyzer Scraper
+Route::post('/seo/analyze', [AeoGeoAnalyzerController::class, 'analyze']);
+Route::post('/tools/aeo-geo-analyze', [AeoGeoAnalyzerController::class, 'analyze']);
+

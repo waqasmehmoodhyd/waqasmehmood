@@ -25,46 +25,52 @@ class SiteCrawlerController extends Controller
         $limit = (int) $request->query('limit', 25);
 
         $response = new StreamedResponse(function () use ($rawUrl, $limit) {
-            // Set reasonable execution time limit
+            // Set reasonable execution time limit & memory
             @set_time_limit(180);
             @ini_set('memory_limit', '256M');
+            @ini_set('zlib.output_compression', '0');
+            @ini_set('output_buffering', '0');
+            @ini_set('implicit_flush', '1');
+            @ob_implicit_flush(true);
 
-            // Clean output buffers for immediate push
+            // Clean all previous output buffers for immediate stream push
             while (ob_get_level() > 0) {
                 @ob_end_flush();
             }
-            flush();
+            @flush();
+
+            $sendEvent = function (string $event, array $data) {
+                echo "event: {$event}\n";
+                echo "data: " . json_encode($data) . "\n\n";
+                if (ob_get_level() > 0) {
+                    @ob_flush();
+                }
+                @flush();
+            };
 
             // Initial ping event
-            echo "event: start\n";
-            echo "data: " . json_encode(['message' => 'Initializing crawler engine...']) . "\n\n";
-            flush();
+            $sendEvent('start', ['message' => 'Initializing crawler engine...']);
 
             $this->crawlerService->crawlAndStream(
                 $rawUrl,
                 $limit,
-                function (array $pageData, array $progress) {
-                    echo "event: page\n";
-                    echo "data: " . json_encode(['page' => $pageData, 'progress' => $progress]) . "\n\n";
-                    flush();
+                function (array $pageData, array $progress) use ($sendEvent) {
+                    $sendEvent('page', ['page' => $pageData, 'progress' => $progress]);
                 },
-                function (array $summary) {
-                    echo "event: complete\n";
-                    echo "data: " . json_encode($summary) . "\n\n";
-                    flush();
+                function (array $summary) use ($sendEvent) {
+                    $sendEvent('complete', $summary);
                 },
-                function (string $error, bool $blocked = false) {
-                    echo "event: error_event\n";
-                    echo "data: " . json_encode(['message' => $error, 'blocked' => $blocked]) . "\n\n";
-                    flush();
+                function (string $error, bool $blocked = false) use ($sendEvent) {
+                    $sendEvent('error_event', ['message' => $error, 'blocked' => $blocked]);
                 }
             );
         });
 
-        $response->headers->set('Content-Type', 'text/event-stream');
-        $response->headers->set('Cache-Control', 'no-cache, no-transform');
+        $response->headers->set('Content-Type', 'text/event-stream; charset=UTF-8');
+        $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
         $response->headers->set('Connection', 'keep-alive');
         $response->headers->set('X-Accel-Buffering', 'no');
+        $response->headers->set('Content-Encoding', 'none');
 
         return $response;
     }

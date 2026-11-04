@@ -35,6 +35,8 @@ export default function SiteAuditCrawler({ onHireClick }) {
 
   const eventSourceRef = useRef(null);
   const timerRef = useRef(null);
+  const isCompletedRef = useRef(false);
+  const isCrawlingRef = useRef(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const resultsTableRef = useRef(null);
 
@@ -48,6 +50,8 @@ export default function SiteAuditCrawler({ onHireClick }) {
     }
 
     // Reset previous states
+    isCompletedRef.current = false;
+    isCrawlingRef.current = true;
     setCrawledPages([]);
     setSummary(null);
     setErrorMessage('');
@@ -85,12 +89,18 @@ export default function SiteAuditCrawler({ onHireClick }) {
     });
 
     es.addEventListener('complete', (e) => {
+      isCompletedRef.current = true;
+      isCrawlingRef.current = false;
       const sum = JSON.parse(e.data);
       setSummary(sum);
+      setProgress((prev) => ({ ...prev, percent: 100 }));
+      setCurrentCrawlingUrl(`Audit complete! Crawled all ${sum.total_crawled} discovered internal pages.`);
       handleStopCrawl(false);
     });
 
     es.addEventListener('error_event', (e) => {
+      isCompletedRef.current = true;
+      isCrawlingRef.current = false;
       const err = JSON.parse(e.data);
       setErrorMessage(err.message || 'An error occurred during crawling.');
       if (err.blocked) {
@@ -100,7 +110,10 @@ export default function SiteAuditCrawler({ onHireClick }) {
     });
 
     es.onerror = () => {
-      if (isCrawling) {
+      if (isCompletedRef.current) {
+        return;
+      }
+      if (isCrawlingRef.current) {
         setErrorMessage('Connection closed or website timeout reached.');
       }
       handleStopCrawl(false);
@@ -109,6 +122,7 @@ export default function SiteAuditCrawler({ onHireClick }) {
 
   // Stop Crawling
   const handleStopCrawl = (manual = true) => {
+    isCrawlingRef.current = false;
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
       eventSourceRef.current = null;

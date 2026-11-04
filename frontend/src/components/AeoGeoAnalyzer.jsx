@@ -5,6 +5,10 @@ import {
   RefreshCw, ExternalLink, ArrowRight, Layers, HelpCircle, FileText
 } from 'lucide-react';
 
+const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+  ? 'http://127.0.0.1:8000/api'
+  : '/api';
+
 export default function AeoGeoAnalyzer({ onHireClick }) {
   const [targetUrl, setTargetUrl] = useState('https://waqasmehmood.com');
   const [isLoading, setIsLoading] = useState(false);
@@ -26,49 +30,74 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
     }
 
     try {
-      // 1. Try Laravel Backend Scraper
-      const response = await fetch('/api/seo/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ url: cleanUrl })
-      }).catch(() => null);
-
       let rawHtml = '';
-      if (response && response.ok) {
-        const json = await response.json();
-        rawHtml = json.raw_html || json.html || '';
+      let fetchErrorMsg = '';
+
+      // 1. Authoritative: Fetch via Laravel backend scraper endpoint
+      try {
+        const response = await fetch(`${API_BASE}/seo/analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ url: cleanUrl })
+        });
+
+        if (response.ok) {
+          const json = await response.json();
+          if (json.success && json.raw_html) {
+            rawHtml = json.raw_html;
+          } else if (json.message) {
+            fetchErrorMsg = json.message;
+          }
+        } else {
+          try {
+            const errJson = await response.json();
+            if (errJson.message) fetchErrorMsg = errJson.message;
+          } catch (_) {}
+        }
+      } catch (backendErr) {
+        // Backend not reachable directly
       }
 
-      // If backend is local or unreachable, fetch via allorigins proxy or fallback
+      // 2. Client-side fallback via public proxy if backend is unreachable
       if (!rawHtml) {
         try {
           const proxyRes = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(cleanUrl)}`);
           if (proxyRes.ok) {
             const proxyJson = await proxyRes.json();
-            rawHtml = proxyJson.contents || '';
+            if (proxyJson.contents && typeof proxyJson.contents === 'string' && proxyJson.contents.trim().length > 100) {
+              rawHtml = proxyJson.contents;
+            }
           }
-        } catch (e) {
-          // Ignore and use simulated live parser
-        }
+        } catch (_) {}
       }
 
-      // 2. Parse HTML DOM Authentically
+      // Guard: Never evaluate current document if target HTML failed to fetch
+      if (!rawHtml || !rawHtml.trim()) {
+        throw new Error(fetchErrorMsg || 'Unable to crawl target website. The site may be blocking automated scrapers, offline, or protected by bot verification.');
+      }
+
+      // 3. Authentically compute metrics on the target website's HTML
       const data = computeMetricsFromHtml(cleanUrl, rawHtml);
       setAuditData(data);
     } catch (err) {
-      setError('Audit encountered an issue: ' + err.message);
+      setError(err.message || 'Audit encountered an issue. Please verify the URL.');
+      setAuditData(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const computeMetricsFromHtml = (url, html) => {
+    if (!html || typeof html !== 'string' || !html.trim()) {
+      throw new Error('Target website HTML could not be parsed.');
+    }
+
     const parser = new DOMParser();
-    const doc = html ? parser.parseFromString(html, 'text/html') : document;
+    const doc = parser.parseFromString(html, 'text/html');
     const urlObj = new URL(url);
 
     // Metadata
-    const title = doc.querySelector('title')?.innerText.trim() || '';
+    const title = (doc.querySelector('title')?.textContent || doc.querySelector('title')?.innerText || '').trim();
     const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
     const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute('href') || '';
     const robots = (doc.querySelector('meta[name="robots"]')?.getAttribute('content') || 'index, follow').toLowerCase();
@@ -84,7 +113,7 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
     let questionHeadingsCount = 0;
     let conciseAnswersCount = 0;
     allHeadings.forEach(h => {
-      const text = h.innerText.toLowerCase();
+      const text = (h.textContent || h.innerText || '').toLowerCase().trim();
       if (text.includes('?') || questionWords.some(w => text.startsWith(w + ' '))) {
         questionHeadingsCount++;
         let next = h.nextElementSibling;
@@ -92,7 +121,7 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
           next = next.nextElementSibling;
         }
         if (next && next.tagName === 'P') {
-          const wc = next.innerText.trim().split(/\s+/).length;
+          const wc = (next.textContent || next.innerText || '').trim().split(/\s+/).filter(Boolean).length;
           if (wc >= 35 && wc <= 65) conciseAnswersCount++;
         }
       }
@@ -111,11 +140,13 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
         const parsed = JSON.parse(s.textContent);
         const list = parsed['@graph'] || [parsed];
         list.forEach(item => {
-          schemas.push(item['@type']);
-          if (item['@type'] === 'Person') personSchema = true;
-          if (['Organization', 'ProfessionalService', 'LocalBusiness'].includes(item['@type'])) orgSchema = true;
-          if (item['@type'] === 'FAQPage') faqSchema = true;
-          if (item.sameAs && Array.isArray(item.sameAs)) sameAsCount += item.sameAs.length;
+          if (item && item['@type']) {
+            schemas.push(item['@type']);
+            if (item['@type'] === 'Person') personSchema = true;
+            if (['Organization', 'ProfessionalService', 'LocalBusiness'].includes(item['@type'])) orgSchema = true;
+            if (item['@type'] === 'FAQPage') faqSchema = true;
+            if (item.sameAs && Array.isArray(item.sameAs)) sameAsCount += item.sameAs.length;
+          }
         });
       } catch (e) {}
     });
@@ -134,6 +165,7 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
 
     anchors.forEach(a => {
       const href = a.getAttribute('href') || '';
+      const anchorText = (a.textContent || a.innerText || '').toLowerCase();
       if (href.startsWith('http')) {
         try {
           const lUrl = new URL(href);
@@ -143,8 +175,8 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
       } else if (href.startsWith('/') || href.startsWith('#')) {
         internalLinks++;
       }
-      if (href.includes('about') || a.innerText.toLowerCase().includes('about')) aboutLink = true;
-      if (href.includes('contact') || a.innerText.toLowerCase().includes('contact')) contactLink = true;
+      if (href.includes('about') || anchorText.includes('about')) aboutLink = true;
+      if (href.includes('contact') || anchorText.includes('contact')) contactLink = true;
     });
 
     // Images

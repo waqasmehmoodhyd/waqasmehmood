@@ -514,17 +514,6 @@ class SiteCrawlerService
             'issues' => $issues,
             'internal_urls' => array_unique($discoveredInternal)
         ];
-            'description_status' => $descStatus,
-            'h1' => $h1Text,
-            'h1_count' => $h1Count,
-            'h1_status' => $h1Status,
-            'canonical' => $canonical,
-            'canonical_status' => $canonicalStatus,
-            'internal_links_count' => $internalCount,
-            'external_links_count' => $externalCount,
-            'issues' => $issues,
-            'internal_urls' => array_unique($discoveredInternal)
-        ];
     }
 
     /**

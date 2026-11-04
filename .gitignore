@@ -25,6 +25,7 @@ backend/bootstrap/cache/*
 !backend/bootstrap/cache/.gitignore
 
 # OS & Editor Files
+wm-ai-extension.zip
 .DS_Store
 Thumbs.db
 .idea/

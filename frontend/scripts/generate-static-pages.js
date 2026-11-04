@@ -57,13 +57,15 @@ const renderFooter = () => `
       <div class="mb-4">
         <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2 font-bold text-cyan-400">Connect & Follow:</span>
         <div class="flex items-center gap-3">
-          <a href="https://linkedin.com/in/waqasmehmood" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="LinkedIn">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/waqas-mehmood-657b7a8b/" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="LinkedIn">LinkedIn</a>
           <span>•</span>
-          <a href="https://wa.me/923003083161" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors" title="WhatsApp">WhatsApp</a>
+          <a href="https://wa.me/923033111126" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors" title="WhatsApp">WhatsApp</a>
           <span>•</span>
-          <a href="https://x.com/waqasmehmood" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="X (Twitter)">X</a>
+          <a href="https://x.com/waqasmehmood89" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="X (Twitter)">X</a>
           <span>•</span>
-          <a href="https://github.com/waqasmehmood" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" title="GitHub">GitHub</a>
+          <a href="https://shorturl.at/nSr2h" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors" title="Google Business Profile (GMB)">Google Profile</a>
+          <span>•</span>
+          <a href="https://www.facebook.com/waqas.duacomm" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition-colors" title="Facebook">Facebook</a>
         </div>
       </div>
 
@@ -536,7 +538,7 @@ const contactHtml = `
         </div>
         <div>
           <span class="block text-xs text-slate-500 font-mono uppercase">Direct WhatsApp</span>
-          <a href="https://wa.me/923003083161" class="text-emerald-400 font-semibold hover:underline">+92 300 3083161</a>
+          <a href="https://wa.me/923033111126" class="text-emerald-400 font-semibold hover:underline">+92 303 3111126 (03033111126)</a>
         </div>
         <div>
           <span class="block text-xs text-slate-500 font-mono uppercase">Location</span>
@@ -957,7 +959,7 @@ for (const [slug, city] of Object.entries(CITIES_DATA)) {
         "name": `Waqas Mehmood - Best SEO Expert in ${city.cityName}`,
         "description": cityDesc,
         "url": `https://waqasmehmood.com${cityRoute}`,
-        "telephone": "+923003083161",
+        "telephone": "+923033111126",
         "priceRange": "$$",
         "address": {
           "@type": "PostalAddress",
