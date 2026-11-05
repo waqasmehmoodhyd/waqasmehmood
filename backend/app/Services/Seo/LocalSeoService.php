@@ -187,7 +187,7 @@ class LocalSeoService
         $recs[] = 'Earn links from local newspapers, chambers of commerce and community sites.';
 
         // Map Pack Rankings
-        $has_maps = (stripos($html, 'maps.google') !== false || stripos($html, 'google.com/maps') !== false || stripos($html, 'maps.googleapis') !== false || stripos($html, 'openstreetmap') !== false);
+        $has_maps = (stripos($html, 'maps.google') !== false || stripos($html, 'google.com/maps') !== false || stripos($html, 'maps.googleapis') !== false || stripos($html, 'openstreetmap') !== false || stripos($html, 'share.google') !== false || stripos($html, 'maps.app.goo.gl') !== false || stripos($html, 'shorturl.at') !== false);
         $d['has_maps'] = $has_maps;
         if ($has_maps) {
             $checks[] = ['status' => 'good', 'cat' => 'Map Pack Rankings', 'text' => 'Map embed or Maps link detected on site.'];

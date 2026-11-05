@@ -885,7 +885,7 @@ class SubtoolRunnerService
                 break;
 
             case 'google-business-profile-checker':
-                $maps = $xpath->query('//a[contains(@href,"google.com/maps") or contains(@href,"maps.google") or contains(@href,"goo.gl/maps") or contains(@href,"g.page")]')->length;
+                $maps = $xpath->query('//a[contains(@href,"google.com/maps") or contains(@href,"maps.google") or contains(@href,"goo.gl/maps") or contains(@href,"g.page") or contains(@href,"share.google") or contains(@href,"maps.app.goo.gl") or contains(@href,"shorturl.at")]')->length;
                 $iframe = $xpath->query('//iframe[contains(@src,"google.com/maps") or contains(@src,"maps.google")]')->length;
                 $tel = $xpath->query('//a[starts-with(@href,"tel:")]')->length;
                 $schemaLocal = false;

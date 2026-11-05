@@ -4187,6 +4187,40 @@ export default function App() {
       {activeTab === 'contact' && (
         <main className="py-16 px-6 max-w-5xl mx-auto space-y-12">
           
+          {/* LocalBusiness JSON-LD Schema for Contact Page */}
+          <script type="application/ld+json" dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": ["LocalBusiness", "ProfessionalService"],
+              "@id": "https://waqasmehmood.com/#localbusiness",
+              "name": "Waqas Mehmood - SEO Expert & Growth Consulting",
+              "url": "https://waqasmehmood.com/contact",
+              "telephone": "+923033111126",
+              "image": "https://waqasmehmood.com/favicon.svg",
+              "hasMap": "https://share.google/rwnMRpUr6G9OqHnhy",
+              "priceRange": "$$",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Auto Bhan Road",
+                "addressLocality": "Hyderabad",
+                "addressRegion": "Sindh",
+                "postalCode": "71000",
+                "addressCountry": "PK"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 25.3960,
+                "longitude": 68.3578
+              },
+              "sameAs": [
+                "https://www.linkedin.com/in/waqas-mehmood-657b7a8b/",
+                "https://x.com/waqasmehmood89",
+                "https://www.facebook.com/waqas.duacomm",
+                "https://share.google/rwnMRpUr6G9OqHnhy"
+              ]
+            })
+          }} />
+
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-semibold text-cyan-300">
               <Mail className="w-3.5 h-3.5 text-cyan-400" />
@@ -4226,20 +4260,35 @@ export default function App() {
                       <Phone className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 uppercase font-mono block">WhatsApp / Phone</span>
-                      <a href="https://wa.me/923033111126" target="_blank" rel="noreferrer" className="text-white hover:text-emerald-400 font-semibold transition-colors">
-                        +92 303 3111126
-                      </a>
+                      <span className="text-[10px] text-slate-400 uppercase font-mono block">Direct Phone (Click-to-Call)</span>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <a href="tel:+923033111126" className="text-white hover:text-emerald-400 font-semibold transition-colors">
+                          +92 303 3111126
+                        </a>
+                        <span className="text-slate-500">•</span>
+                        <a href="https://wa.me/923033111126" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline text-[11px] font-medium">
+                          WhatsApp
+                        </a>
+                      </div>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
                       <MapPin className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-400 uppercase font-mono block">Location</span>
-                      <span className="text-white font-semibold">Sindh, Pakistan • Worldwide Clients</span>
+                      <span className="text-[10px] text-slate-400 uppercase font-mono block">Google Business Profile / Maps</span>
+                      <a 
+                        href="https://share.google/rwnMRpUr6G9OqHnhy" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors flex items-center gap-1.5"
+                      >
+                        <span>Waqas Mehmood (Google Maps Profile)</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                      <span className="text-[11px] text-slate-400 block mt-0.5">Hyderabad & Karachi, Sindh, Pakistan</span>
                     </div>
                   </div>
                 </div>
@@ -6819,7 +6868,7 @@ export default function App() {
                     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                   </a>
                   <a 
-                    href="https://shorturl.at/nSr2h" 
+                    href="https://share.google/rwnMRpUr6G9OqHnhy" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-400 text-slate-400 hover:text-amber-400 flex items-center justify-center transition-all hover:scale-105"

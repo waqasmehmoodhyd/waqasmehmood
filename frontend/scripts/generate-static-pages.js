@@ -63,7 +63,7 @@ const renderFooter = () => `
           <span>•</span>
           <a href="https://x.com/waqasmehmood89" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="X (Twitter)">X</a>
           <span>•</span>
-          <a href="https://shorturl.at/nSr2h" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors" title="Google Business Profile (GMB)">Google Profile</a>
+          <a href="https://share.google/rwnMRpUr6G9OqHnhy" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors" title="Google Business Profile (GMB)">Google Profile</a>
           <span>•</span>
           <a href="https://www.facebook.com/waqas.duacomm" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition-colors" title="Facebook">Facebook</a>
         </div>
@@ -537,12 +537,22 @@ const contactHtml = `
           <a href="mailto:waqasmehmoodhyd@gmail.com" class="text-cyan-400 font-semibold hover:underline">waqasmehmoodhyd@gmail.com</a>
         </div>
         <div>
-          <span class="block text-xs text-slate-500 font-mono uppercase">Direct WhatsApp</span>
-          <a href="https://wa.me/923033111126" class="text-emerald-400 font-semibold hover:underline">+92 303 3111126 (03033111126)</a>
+          <span class="block text-xs text-slate-500 font-mono uppercase">Click-to-Call Phone & WhatsApp</span>
+          <div class="flex items-center gap-3">
+            <a href="tel:+923033111126" class="text-white font-semibold hover:text-emerald-400 hover:underline">+92 303 3111126</a>
+            <span class="text-slate-500">•</span>
+            <a href="https://wa.me/923033111126" class="text-emerald-400 font-semibold hover:underline">WhatsApp Direct</a>
+          </div>
         </div>
         <div>
-          <span class="block text-xs text-slate-500 font-mono uppercase">Location</span>
-          <span class="text-slate-200">Hyderabad & Karachi, Sindh, Pakistan (Available Worldwide)</span>
+          <span class="block text-xs text-slate-500 font-mono uppercase">Google Business Profile / Maps</span>
+          <a href="https://share.google/rwnMRpUr6G9OqHnhy" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-semibold hover:underline">
+            Waqas Mehmood - Verified Google Business Profile & Maps
+          </a>
+        </div>
+        <div>
+          <span class="block text-xs text-slate-500 font-mono uppercase">Physical Location</span>
+          <span class="text-slate-200">Auto Bhan Road, Hyderabad & Karachi, Sindh, Pakistan (Worldwide Clients)</span>
         </div>
       </div>
     </div>
@@ -564,6 +574,36 @@ writeRouteFile('/contact', generatePageHtml({
   path: '/contact',
   title: 'Contact Waqas Mehmood | Hire Best SEO Expert (2026)',
   description: 'Get in touch with Waqas Mehmood for custom SEO audits, expert SEO services, and high-ROAS digital campaigns. Request a free consultation & quote today!',
+  schemaJson: {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "@id": "https://waqasmehmood.com/#localbusiness",
+    "name": "Waqas Mehmood - SEO Expert & Growth Consulting",
+    "url": "https://waqasmehmood.com/contact",
+    "telephone": "+923033111126",
+    "image": "https://waqasmehmood.com/favicon.svg",
+    "hasMap": "https://share.google/rwnMRpUr6G9OqHnhy",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Auto Bhan Road",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Sindh",
+      "postalCode": "71000",
+      "addressCountry": "PK"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 25.3960,
+      "longitude": 68.3578
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/waqas-mehmood-657b7a8b/",
+      "https://x.com/waqasmehmood89",
+      "https://www.facebook.com/waqas.duacomm",
+      "https://share.google/rwnMRpUr6G9OqHnhy"
+    ]
+  },
   contentHtml: contactHtml
 }));
 generatedRoutes.push('/contact');
