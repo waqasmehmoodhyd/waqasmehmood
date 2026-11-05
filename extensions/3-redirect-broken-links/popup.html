@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waqas Mehmood - Smart Redirect Path & Broken Link Checker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="wm-app">
+
+    <!-- TOP HEADER -->
+    <header class="wm-header">
+      <div class="brand-left">
+        <div class="wm-avatar">WM</div>
+        <div class="brand-info">
+          <div class="brand-title-row">
+            <span class="brand-name">WAQAS MEHMOOD</span>
+            <span class="brand-badge-pro">TECHNICAL SEO</span>
+          </div>
+          <span class="brand-sub">REDIRECT PATH &bull; BROKEN LINK HIGHLIGHTER</span>
+        </div>
+      </div>
+      <div class="header-status-badge" id="header-status-badge">
+        <span class="status-pulse"></span>
+        <span id="header-status-text">Active Tab</span>
+      </div>
+    </header>
+
+    <!-- TABS NAVIGATION -->
+    <nav class="wm-tabs-nav">
+      <button class="tab-btn active" data-tab="tab-redirects">Redirect Path 🔀</button>
+      <button class="tab-btn" data-tab="tab-broken">Broken Links 🔗</button>
+      <button class="tab-btn tab-btn-consult" data-tab="tab-consultation">Consultation 💬</button>
+    </nav>
+
+    <!-- MAIN TAB CONTENTS -->
+    <main class="wm-tab-content">
+
+      <!-- ================= TAB 1: REDIRECT PATH ================= -->
+      <div class="tab-pane active" id="tab-redirects">
+        <div class="current-url-bar">
+          <span class="url-label">ACTIVE URL:</span>
+          <span class="url-val" id="active-tab-url">Detecting page...</span>
+        </div>
+
+        <div class="chain-summary-strip" id="chain-summary-strip">
+          <div class="metric-pill">
+            <span class="metric-label">HOPS</span>
+            <span class="metric-val" id="metric-hops-count">0</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-label">FINAL STATUS</span>
+            <span class="metric-val" id="metric-final-status">Checking...</span>
+          </div>
+          <div class="metric-pill">
+            <span class="metric-label">SERVER IP</span>
+            <span class="metric-val" id="metric-server-ip">Detecting...</span>
+          </div>
+        </div>
+
+        <div class="chain-timeline" id="chain-timeline-container">
+          <div class="empty-state">
+            Inspecting HTTP navigation hops... If this page was opened prior to extension installation, please refresh the tab.
+          </div>
+        </div>
+
+        <div class="tools-cta-box" style="margin-top: 14px;">
+          <div class="cta-title">Audit Deep Crawl Redirect Chains & Canonical Silos</div>
+          <p class="cta-desc">Run a full recursive site crawl to find internal 301 loops and redirect waste on WaqasMehmood.com.</p>
+          <a href="https://waqasmehmood.com/tools/website-crawler" target="_blank" class="cta-link">
+            Launch Free Website Crawler &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: BROKEN LINKS CHECKER ================= -->
+      <div class="tab-pane" id="tab-broken">
+        <div class="scanner-controls">
+          <button id="btn-start-scan" class="btn-primary-action">
+            <span>🚀 SCAN ALL LINKS ON THIS PAGE</span>
+          </button>
+        </div>
+
+        <div class="scan-metrics-grid" id="scan-metrics-grid" style="display: none;">
+          <div class="metric-card metric-total">
+            <span class="m-num" id="stat-total">0</span>
+            <span class="m-lbl">Total Links</span>
+          </div>
+          <div class="metric-card metric-green">
+            <span class="m-num" id="stat-valid">0</span>
+            <span class="m-lbl">200 OK</span>
+          </div>
+          <div class="metric-card metric-amber">
+            <span class="m-num" id="stat-redirect">0</span>
+            <span class="m-lbl">Redirected</span>
+          </div>
+          <div class="metric-card metric-red">
+            <span class="m-num" id="stat-broken">0</span>
+            <span class="m-lbl">404 Broken</span>
+          </div>
+        </div>
+
+        <div class="progress-container" id="progress-container" style="display: none;">
+          <div class="progress-track">
+            <div class="progress-bar" id="scan-progress-bar" style="width: 0%;"></div>
+          </div>
+          <div class="progress-text" id="scan-progress-text">Scanning 0 of 0...</div>
+        </div>
+
+        <!-- Action bar -->
+        <div class="actions-row" id="actions-row" style="display: none;">
+          <button id="btn-toggle-highlight" class="btn-chip btn-highlight">
+            <span>👁️ Highlight On Page</span>
+          </button>
+          <button id="btn-export-broken" class="btn-chip" style="color: #fb7185; border-color: #f43f5e;">
+            <span>Export Broken (CSV)</span>
+          </button>
+          <button id="btn-export-all" class="btn-chip" style="color: #38bdf8; border-color: #38bdf8;">
+            <span>Export All (CSV)</span>
+          </button>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-strip" id="filter-strip" style="display: none;">
+          <button class="filter-chip active" data-filter="all">All (<span id="count-all">0</span>)</button>
+          <button class="filter-chip" data-filter="broken">Broken Only (<span id="count-broken">0</span>)</button>
+          <button class="filter-chip" data-filter="redirect">Redirects (<span id="count-redirect">0</span>)</button>
+        </div>
+
+        <!-- Scanned Links List -->
+        <div class="links-list-container" id="links-list-container">
+          <div class="empty-state">
+            Click "SCAN ALL LINKS" above to crawl all on-page anchors, detect broken 404s, and highlight invalid links live on the website.
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 3: FREE CONSULTATION ================= -->
+      <div class="tab-pane" id="tab-consultation">
+        <div class="consultation-card">
+          <div class="consult-hero">
+            <div class="consult-avatar">WM</div>
+            <div>
+              <h2 class="consult-name">Waqas Mehmood</h2>
+              <p class="consult-role">Senior Technical SEO & Crawl Budget Architect</p>
+              <div class="consult-rating">⭐⭐⭐⭐⭐ <span>Redirect Chain & Site Recovery Specialist</span></div>
+            </div>
+          </div>
+
+          <p class="consult-pitch">
+            Are redirect loops, crawl budget leakage, and broken links dragging down your organic Google rankings?
+            I architect crawl-efficient site structures, fix legacy migration redirects, and resolve indexation bottlenecks.
+          </p>
+
+          <div class="consult-buttons-grid">
+            <a href="https://wa.me/923033111126?text=Hi%20Waqas,%20I%20am%20using%20your%20Redirect%20and%20Broken%20Link%20Checker%20and%20need%20a%20Technical%20SEO%20audit%20for%20my%20website" target="_blank" class="btn-cta btn-whatsapp">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.53c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+              <span>WhatsApp (03033111126)</span>
+            </a>
+
+            <a href="mailto:waqasmehmoodhyd@gmail.com?subject=Technical%20SEO%20and%20Redirect%20Audit" class="btn-cta btn-email">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <span>Direct Email Consultation</span>
+            </a>
+          </div>
+
+          <div class="consult-portfolio-box">
+            <div class="port-title">Technical SEO Audit & Migration Services</div>
+            <p class="port-desc">Eliminating canonical loops, 301 hop latency, and rendering errors to maximize indexation efficiency.</p>
+            <a href="https://waqasmehmood.com/technical-seo" target="_blank" class="btn-port-link">
+              <span>View Technical SEO Services &rarr;</span>
+            </a>
+          </div>
+
+          <div class="consult-socials">
+            <span class="social-label">Follow & Verify:</span>
+            <div class="social-icons-row">
+              <a href="https://www.linkedin.com/in/waqas-mehmood-657b7a8b/" target="_blank">LinkedIn</a>
+              <span>&bull;</span>
+              <a href="https://x.com/waqasmehmood89" target="_blank">X.com</a>
+              <span>&bull;</span>
+              <a href="https://www.facebook.com/waqas.duacomm" target="_blank">Facebook</a>
+              <span>&bull;</span>
+              <a href="https://shorturl.at/nSr2h" target="_blank">Google Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER STATUS BAR -->
+    <footer class="wm-footer-status">
+      <div>
+        <span class="status-dot"></span>
+        <span>100% Free Forever</span>
+      </div>
+      <div>
+        <span>Developed by <a href="https://waqasmehmood.com" target="_blank">Waqas Mehmood</a></span>
+      </div>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

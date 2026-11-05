@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Waqas Mehmood - GS Location Changer & Local 3-Pack Spy",
+  "version": "1.0.0",
+  "description": "Simulate local Google search & Google Maps results from any city worldwide without VPN. Inspect local 3-Pack competitor rankings, categories & reviews by Waqas Mehmood.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Waqas Mehmood - GS Location Changer & Local 3-Pack Spy",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.google.com/search*",
+        "*://*.google.co.uk/search*",
+        "*://*.google.com.pk/search*",
+        "*://*.google.ae/search*",
+        "*://*.google.ca/search*",
+        "*://*.google.com.au/search*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

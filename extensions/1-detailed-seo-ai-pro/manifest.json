@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Waqas Mehmood - Detailed SEO & AI AEO Engine 2026",
+  "version": "1.0.0",
+  "description": "Inspect any webpage in 1-click: Detailed on-page SEO, interactive H1-H6 headings tree, JSON-LD schema, links, images, executive PDF report & 2026 AI/AEO readiness by Waqas Mehmood.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Waqas Mehmood - Detailed SEO & AI AEO Engine 2026",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waqas Mehmood - Detailed SEO & AI AEO Engine 2026</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="wm-app">
+
+    <!-- TOP HEADER -->
+    <header class="wm-header">
+      <div class="brand-left">
+        <div class="wm-avatar">WM</div>
+        <div class="brand-info">
+          <div class="brand-title-row">
+            <span class="brand-name">WAQAS MEHMOOD</span>
+            <span class="brand-badge-pro">PRO 2026</span>
+          </div>
+          <span class="brand-sub">DETAILED SEO &bull; AEO &bull; GEO ENGINE</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-rescan" class="btn-icon" title="Re-scan active page">
+          <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        </button>
+        <button id="btn-export-csv" class="btn-chip" title="Export CSV Data">
+          <span>CSV</span>
+        </button>
+        <button id="btn-export-pdf" class="btn-chip btn-chip-primary" title="Export Client-Ready PDF Report">
+          <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>PDF REPORT</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- QUICK STATUS & SCORE RIBBON -->
+    <section class="score-ribbon">
+      <div class="ribbon-url" id="ribbon-url" title="Current URL">Inspecting current page...</div>
+      <div class="ribbon-scores">
+        <div class="mini-score">
+          <span class="mini-val" id="mini-seo">--</span>
+          <span class="mini-lbl">SEO</span>
+        </div>
+        <div class="mini-score">
+          <span class="mini-val" id="mini-aeo">--</span>
+          <span class="mini-lbl">AEO</span>
+        </div>
+        <div class="mini-score">
+          <span class="mini-val" id="mini-geo">--</span>
+          <span class="mini-lbl">GEO</span>
+        </div>
+        <div class="mini-score overall-badge">
+          <span class="mini-val font-bold" id="mini-overall">--</span>
+          <span class="mini-lbl">SCORE</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 NAVIGATION TABS -->
+    <nav class="wm-tabs-nav" id="tabs-nav">
+      <button class="tab-btn active" data-tab="tab-overview">Overview</button>
+      <button class="tab-btn" data-tab="tab-headings">Headings</button>
+      <button class="tab-btn" data-tab="tab-schema">Schema</button>
+      <button class="tab-btn" data-tab="tab-links">Links</button>
+      <button class="tab-btn" data-tab="tab-images">Images</button>
+      <button class="tab-btn" data-tab="tab-social">Social</button>
+      <button class="tab-btn tab-btn-highlight" data-tab="tab-ai-aeo">AI & AEO 2026</button>
+      <button class="tab-btn tab-btn-consult" data-tab="tab-consultation">Consultation 💬</button>
+    </nav>
+
+    <!-- MAIN TAB CONTENTS CONTAINER -->
+    <main class="wm-tab-content">
+
+      <!-- ================= TAB 1: OVERVIEW ================= -->
+      <div class="tab-pane active" id="tab-overview">
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">PAGE TITLE</span>
+            <div class="group-meta">
+              <span id="title-char-count" class="pill-count">0 chars</span>
+              <span id="title-pixel-count" class="pill-count">0 px</span>
+              <button class="copy-btn" data-copy="title-text" title="Copy Title">Copy</button>
+            </div>
+          </div>
+          <div class="data-value-box text-selectable" id="title-text">--</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="title-progress"></div>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">META DESCRIPTION</span>
+            <div class="group-meta">
+              <span id="desc-char-count" class="pill-count">0 chars</span>
+              <button class="copy-btn" data-copy="desc-text" title="Copy Description">Copy</button>
+            </div>
+          </div>
+          <div class="data-value-box text-selectable" id="desc-text">--</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="desc-progress"></div>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">CANONICAL URL</span>
+            <div class="group-meta">
+              <span id="canonical-status-badge" class="pill-status">Checking...</span>
+              <button class="copy-btn" data-copy="canonical-text" title="Copy Canonical">Copy</button>
+            </div>
+          </div>
+          <div class="data-value-box text-selectable font-mono" id="canonical-text">--</div>
+        </div>
+
+        <div class="grid-2-col">
+          <div class="data-group">
+            <div class="group-header">
+              <span class="group-title">INDEXABILITY & ROBOTS</span>
+            </div>
+            <div class="badges-row" id="robots-badges">
+              <span class="pill-tag">index</span>
+              <span class="pill-tag">follow</span>
+            </div>
+          </div>
+
+          <div class="data-group">
+            <div class="group-header">
+              <span class="group-title">CONTENT METRICS</span>
+            </div>
+            <div class="stats-mini-grid">
+              <div><span class="stats-num" id="stat-words">0</span><span class="stats-lbl">Words</span></div>
+              <div><span class="stats-num" id="stat-reading">1m</span><span class="stats-lbl">Read Time</span></div>
+              <div><span class="stats-num" id="stat-ratio">0%</span><span class="stats-lbl">Text/HTML</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">DOCUMENT SIGNALS</span>
+          </div>
+          <div class="meta-chips-wrap" id="doc-meta-chips">
+            <span class="chip-item">Lang: <b id="chip-lang">--</b></span>
+            <span class="chip-item">Charset: <b id="chip-charset">--</b></span>
+            <span class="chip-item">Viewport: <b id="chip-viewport">--</b></span>
+            <span class="chip-item">Author: <b id="chip-author">--</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: HEADINGS ================= -->
+      <div class="tab-pane" id="tab-headings">
+        <div class="headings-summary-bar">
+          <div class="heading-badge-count h1"><span class="h-tag">H1</span><span class="h-val" id="cnt-h1">0</span></div>
+          <div class="heading-badge-count h2"><span class="h-tag">H2</span><span class="h-val" id="cnt-h2">0</span></div>
+          <div class="heading-badge-count h3"><span class="h-tag">H3</span><span class="h-val" id="cnt-h3">0</span></div>
+          <div class="heading-badge-count h4"><span class="h-tag">H4</span><span class="h-val" id="cnt-h4">0</span></div>
+          <div class="heading-badge-count h5"><span class="h-tag">H5</span><span class="h-val" id="cnt-h5">0</span></div>
+          <div class="heading-badge-count h6"><span class="h-tag">H6</span><span class="h-val" id="cnt-h6">0</span></div>
+        </div>
+
+        <div id="headings-alert-box" class="alert-box-notice"></div>
+
+        <div class="tree-list-container">
+          <div class="section-subhead">
+            <span>PAGE HEADING TREE & OUTLINE</span>
+            <button class="copy-btn" id="btn-copy-headings">Copy All Headings</button>
+          </div>
+          <div class="headings-tree" id="headings-tree-list">
+            <!-- Dynamic Headings -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 3: SCHEMA ================= -->
+      <div class="tab-pane" id="tab-schema">
+        <div class="schema-header-card">
+          <div>
+            <div class="card-large-title" id="schema-count-title">0 Structured Data Schemas Found</div>
+            <div class="card-sub-desc">Extracted from JSON-LD scripts on the page</div>
+          </div>
+          <button class="copy-btn" id="btn-copy-schemas">Copy JSON-LD</button>
+        </div>
+
+        <div class="badges-row" id="schema-types-badges" style="margin-bottom: 12px;"></div>
+
+        <div class="schema-items-list" id="schema-details-accordion">
+          <!-- Accordion of raw JSON-LD schemas -->
+        </div>
+      </div>
+
+      <!-- ================= TAB 4: LINKS ================= -->
+      <div class="tab-pane" id="tab-links">
+        <div class="stats-overview-grid">
+          <div class="metric-card">
+            <div class="metric-num" id="links-total">0</div>
+            <div class="metric-text">Total Links</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-cyan" id="links-internal">0</div>
+            <div class="metric-text">Internal Links</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-amber" id="links-external">0</div>
+            <div class="metric-text">External Links</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-slate" id="links-nofollow">0</div>
+            <div class="metric-text">Nofollow / UGC</div>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">EXTERNAL DOMAINS REFERENCED (<span id="domains-count">0</span> UNIQUE)</span>
+          </div>
+          <div class="links-scroll-list" id="external-links-list">
+            <!-- Dynamic external links -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 5: IMAGES ================= -->
+      <div class="tab-pane" id="tab-images">
+        <div class="stats-overview-grid">
+          <div class="metric-card">
+            <div class="metric-num" id="img-total">0</div>
+            <div class="metric-text">Total Images</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-rose" id="img-missing-alt">0</div>
+            <div class="metric-text">Missing ALT</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-emerald" id="img-modern-percent">0%</div>
+            <div class="metric-text">WebP / Modern</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-amber" id="img-missing-dims">0</div>
+            <div class="metric-text">No Dimensions (CLS)</div>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">IMAGES MISSING ALT ATTRIBUTES</span>
+          </div>
+          <div class="images-preview-list" id="missing-alt-images-list">
+            <!-- Dynamic missing alt images with thumb preview -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 6: SOCIAL / OG ================= -->
+      <div class="tab-pane" id="tab-social">
+        <div class="social-preview-card">
+          <div class="social-card-tag">Open Graph (Facebook / LinkedIn)</div>
+          <div class="og-preview-box">
+            <div class="og-image-preview" id="og-img-box">
+              <span class="no-img-text">No og:image detected</span>
+            </div>
+            <div class="og-content-box">
+              <div class="og-site-name" id="og-site">WEBSITE.COM</div>
+              <div class="og-title" id="og-title">No Open Graph Title Detected</div>
+              <div class="og-desc" id="og-desc">No og:description meta tag specified.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="social-preview-card" style="margin-top: 14px;">
+          <div class="social-card-tag">Twitter Card Summary</div>
+          <div class="twitter-preview-box">
+            <div class="tw-card-type" id="tw-type">Card: summary_large_image</div>
+            <div class="tw-title" id="tw-title">--</div>
+            <div class="tw-desc" id="tw-desc">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 7: AI & AEO 2026 (EXCLUSIVE) ================= -->
+      <div class="tab-pane" id="tab-ai-aeo">
+        <div class="ai-hero-card">
+          <div class="ai-hero-header">
+            <div>
+              <span class="ai-chip">NEXT-GEN SEARCH 2026</span>
+              <h2 class="ai-hero-title">Google AI Overviews & Perplexity Readiness</h2>
+              <p class="ai-hero-sub">Evaluates machine readability, entity strength, and direct-answer citability.</p>
+            </div>
+            <div class="ai-gauge-box">
+              <div class="ai-gauge-score" id="ai-aeo-hero-score">--</div>
+              <div class="ai-gauge-label">CITABILITY</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-overview-grid" style="margin-top: 12px;">
+          <div class="metric-card">
+            <div class="metric-num text-cyan" id="ai-questions-cnt">0</div>
+            <div class="metric-text">Question Headings</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-emerald" id="ai-answers-cnt">0</div>
+            <div class="metric-text">Direct Answer Snippets</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-amber" id="ai-tables-cnt">0</div>
+            <div class="metric-text">Factual Tables (th)</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-num text-indigo" id="ai-stats-density">0%</div>
+            <div class="metric-text">Data & Stats Density</div>
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">DETECTED 40-60 WORD AEO SNIPPETS</span>
+          </div>
+          <div class="snippets-scroll-list" id="ai-snippets-list">
+            <!-- Dynamic snippets -->
+          </div>
+        </div>
+
+        <div class="data-group">
+          <div class="group-header">
+            <span class="group-title">AI & GEO SEARCH ACTION CHECKLIST</span>
+          </div>
+          <div class="ai-checklist-box" id="ai-action-checklist">
+            <!-- Dynamic checklist items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 8: FREE CONSULTATION ================= -->
+      <div class="tab-pane" id="tab-consultation">
+        <div class="consultation-card">
+          <div class="consult-hero">
+            <div class="consult-avatar">WM</div>
+            <div>
+              <h2 class="consult-name">Waqas Mehmood</h2>
+              <p class="consult-role">Senior SEO Specialist, AEO/GEO Architect & Growth Engineer</p>
+              <div class="consult-rating">⭐⭐⭐⭐⭐ <span>Verified SEO Specialist</span></div>
+            </div>
+          </div>
+
+          <p class="consult-pitch">
+            Need a high-impact organic ranking strategy, complete technical SEO overhaul, or Google AI Overviews citability architecture for your website? 
+            Connect directly with me for a <strong>Free 1-on-1 Consultation</strong>.
+          </p>
+
+          <div class="consult-buttons-grid">
+            <a href="https://wa.me/923033111126?text=Hi%20Waqas,%20I%20am%20using%20your%20SEO%20Engine%20extension%20and%20want%20a%20free%20consultation%20for%20my%20website" target="_blank" class="btn-cta btn-whatsapp">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.53c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+              <span>WhatsApp (03033111126)</span>
+            </a>
+
+            <a href="mailto:waqasmehmoodhyd@gmail.com?subject=SEO%20Audit%20Consultation%20Inquiry" class="btn-cta btn-email">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <span>Direct Email Consultation</span>
+            </a>
+          </div>
+
+          <div class="consult-portfolio-box">
+            <div class="port-title">28 Free In-House SEO Diagnostics</div>
+            <p class="port-desc">Explore 28 proprietary native tools, live website crawlers, and mathematical algorithms developed by Waqas Mehmood.</p>
+            <a href="https://waqasmehmood.com/all-tools" target="_blank" class="btn-port-link">
+              <span>Open WaqasMehmood.com Free Tools &rarr;</span>
+            </a>
+          </div>
+
+          <!-- Social Links -->
+          <div class="consult-socials">
+            <span class="social-label">Follow & Verify:</span>
+            <div class="social-icons-row">
+              <a href="https://www.linkedin.com/in/waqas-mehmood-657b7a8b/" target="_blank" title="LinkedIn">LinkedIn</a>
+              <span>&bull;</span>
+              <a href="https://x.com/waqasmehmood89" target="_blank" title="X (Twitter)">X.com</a>
+              <span>&bull;</span>
+              <a href="https://www.facebook.com/waqas.duacomm" target="_blank" title="Facebook">Facebook</a>
+              <span>&bull;</span>
+              <a href="https://shorturl.at/nSr2h" target="_blank" title="Google Business Profile (GMB)">Google Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER STATUS BAR -->
+    <footer class="wm-footer-status">
+      <div class="footer-left">
+        <span class="status-dot"></span>
+        <span id="footer-analyzed-time">Ready</span>
+      </div>
+      <div class="footer-right">
+        <span>100% Free Forever &bull; by <a href="https://waqasmehmood.com" target="_blank">Waqas Mehmood</a></span>
+      </div>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

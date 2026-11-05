@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waqas Mehmood - GS Location Changer & Local 3-Pack Spy</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="wm-app">
+
+    <!-- TOP HEADER -->
+    <header class="wm-header">
+      <div class="brand-left">
+        <div class="wm-avatar">WM</div>
+        <div class="brand-info">
+          <div class="brand-title-row">
+            <span class="brand-name">WAQAS MEHMOOD</span>
+            <span class="brand-badge-pro">LOCAL SEO</span>
+          </div>
+          <span class="brand-sub">GOOGLE LOCATION CHANGER &bull; 3-PACK SPY</span>
+        </div>
+      </div>
+      <div class="header-status-badge" id="header-loc-status">
+        <span class="status-pulse"></span>
+        <span id="header-loc-name">Worldwide</span>
+      </div>
+    </header>
+
+    <!-- TABS NAVIGATION -->
+    <nav class="wm-tabs-nav">
+      <button class="tab-btn active" data-tab="tab-location">Location Changer 📍</button>
+      <button class="tab-btn" data-tab="tab-pack">Local 3-Pack Spy 🔍</button>
+      <button class="tab-btn tab-btn-consult" data-tab="tab-consultation">Consultation 💬</button>
+    </nav>
+
+    <!-- MAIN TAB CONTENTS -->
+    <main class="wm-tab-content">
+
+      <!-- ================= TAB 1: LOCATION CHANGER ================= -->
+      <div class="tab-pane active" id="tab-location">
+        <div class="control-box">
+          <label class="field-label">TARGET SEARCH QUERY</label>
+          <div class="input-with-icon">
+            <input type="text" id="input-query" class="text-input" placeholder="e.g. plumber near me, seo agency, dentist" />
+          </div>
+        </div>
+
+        <div class="control-box">
+          <label class="field-label">ONE-CLICK POPULAR LOCATIONS</label>
+          <div class="chips-grid">
+            <button class="city-chip active" data-loc="Dallas,Texas,United States" data-gl="us" data-hl="en" data-domain="google.com">🇺🇸 Dallas, TX</button>
+            <button class="city-chip" data-loc="New York,New York,United States" data-gl="us" data-hl="en" data-domain="google.com">🇺🇸 New York, NY</button>
+            <button class="city-chip" data-loc="Los Angeles,California,United States" data-gl="us" data-hl="en" data-domain="google.com">🇺🇸 Los Angeles, CA</button>
+            <button class="city-chip" data-loc="London,England,United Kingdom" data-gl="uk" data-hl="en" data-domain="google.co.uk">🇬🇧 London, UK</button>
+            <button class="city-chip" data-loc="Dubai,Dubai,United Arab Emirates" data-gl="ae" data-hl="en" data-domain="google.ae">🇦🇪 Dubai, UAE</button>
+            <button class="city-chip" data-loc="Toronto,Ontario,Canada" data-gl="ca" data-hl="en" data-domain="google.ca">🇨🇦 Toronto, CA</button>
+            <button class="city-chip" data-loc="Karachi,Sindh,Pakistan" data-gl="pk" data-hl="en" data-domain="google.com.pk">🇵🇰 Karachi, PK</button>
+            <button class="city-chip" data-loc="Lahore,Punjab,Pakistan" data-gl="pk" data-hl="en" data-domain="google.com.pk">🇵🇰 Lahore, PK</button>
+          </div>
+        </div>
+
+        <div class="control-box">
+          <label class="field-label">OR ENTER CUSTOM CANONICAL CITY (WORLDWIDE)</label>
+          <input type="text" id="input-custom-city" class="text-input" placeholder="e.g. Austin,Texas,United States" value="Dallas,Texas,United States" />
+          <span class="field-hint">Format: City, State/Province, Country (matches Google's official canonical UULE geo-database).</span>
+        </div>
+
+        <div class="grid-3-col">
+          <div>
+            <label class="field-label">GOOGLE DOMAIN</label>
+            <select id="select-domain" class="select-input">
+              <option value="google.com" selected>google.com (Global / US)</option>
+              <option value="google.co.uk">google.co.uk (UK)</option>
+              <option value="google.ae">google.ae (UAE)</option>
+              <option value="google.ca">google.ca (Canada)</option>
+              <option value="google.com.au">google.com.au (Australia)</option>
+              <option value="google.com.pk">google.com.pk (Pakistan)</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">COUNTRY (&gl)</label>
+            <select id="select-gl" class="select-input">
+              <option value="us" selected>US - United States</option>
+              <option value="uk">UK - United Kingdom</option>
+              <option value="ae">AE - UAE</option>
+              <option value="ca">CA - Canada</option>
+              <option value="au">AU - Australia</option>
+              <option value="pk">PK - Pakistan</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">LANGUAGE (&hl)</label>
+            <select id="select-hl" class="select-input">
+              <option value="en" selected>English (en)</option>
+              <option value="es">Spanish (es)</option>
+              <option value="ar">Arabic (ar)</option>
+              <option value="ur">Urdu (ur)</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="btn-run-search" class="btn-primary-action">
+          <span>🚀 SEARCH IN THIS CITY (NO VPN NEEDED)</span>
+        </button>
+
+        <div class="notice-callout">
+          <span class="notice-icon">💡</span>
+          <span><strong>How it works:</strong> Generates Google's proprietary encrypted <code>uule</code> geo-parameter. Google renders the exact localized SERP and Maps 3-Pack without VPN latency or CAPTCHAs.</span>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: LOCAL 3-PACK SPY ================= -->
+      <div class="tab-pane" id="tab-pack">
+        <div class="pack-status-card" id="pack-status-header">
+          <div>
+            <div class="pack-title" id="pack-query-label">Checking active Google search...</div>
+            <div class="pack-sub" id="pack-loc-label">Scanning local 3-Pack competitors</div>
+          </div>
+          <button id="btn-refresh-pack" class="btn-chip">Refresh</button>
+        </div>
+
+        <div class="competitors-list" id="competitors-cards-list">
+          <div class="empty-state">
+            Navigate to any Google search tab (e.g. "plumber near me") to automatically extract the live ranking Local 3-Pack businesses!
+          </div>
+        </div>
+
+        <div class="tools-cta-box">
+          <div class="cta-title">Audit Your Google Business Profile 3-Pack Signals</div>
+          <p class="cta-desc">Check NAP citation consistency, localized landing page siloing, and LocalBusiness schema markup on WaqasMehmood.com.</p>
+          <a href="https://waqasmehmood.com/tools/local-seo-audit-tool" target="_blank" class="cta-link">
+            Open Free Local SEO Audit Tool &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- ================= TAB 3: FREE CONSULTATION ================= -->
+      <div class="tab-pane" id="tab-consultation">
+        <div class="consultation-card">
+          <div class="consult-hero">
+            <div class="consult-avatar">WM</div>
+            <div>
+              <h2 class="consult-name">Waqas Mehmood</h2>
+              <p class="consult-role">Senior Local SEO Specialist & Google Maps Growth Architect</p>
+              <div class="consult-rating">⭐⭐⭐⭐⭐ <span>Local 3-Pack Takeover Expert</span></div>
+            </div>
+          </div>
+
+          <p class="consult-pitch">
+            Struggling to rank in the Google Maps 3-Pack in your target city? 
+            I build high-authority citation architectures, geo-grid proximity signals, and local content silos that dominate high-intent localized search queries.
+          </p>
+
+          <div class="consult-buttons-grid">
+            <a href="https://wa.me/923033111126?text=Hi%20Waqas,%20I%20am%20using%20your%20Location%20Changer%20extension%20and%20want%20a%20free%20Local%20SEO%20consultation%20for%20my%20business" target="_blank" class="btn-cta btn-whatsapp">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.53c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+              <span>WhatsApp (03033111126)</span>
+            </a>
+
+            <a href="mailto:waqasmehmoodhyd@gmail.com?subject=Local%20SEO%20and%20Google%20Maps%20Consultation" class="btn-cta btn-email">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <span>Direct Email Consultation</span>
+            </a>
+          </div>
+
+          <div class="consult-portfolio-box">
+            <div class="port-title">Local SEO Services & Hyderabad/Karachi Silos</div>
+            <p class="port-desc">Dominating high-intent localized search queries with NAP consistency and Google Business Profile optimization.</p>
+            <a href="https://waqasmehmood.com/local-seo" target="_blank" class="btn-port-link">
+              <span>Explore Local SEO Solutions &rarr;</span>
+            </a>
+          </div>
+
+          <div class="consult-socials">
+            <span class="social-label">Follow & Verify:</span>
+            <div class="social-icons-row">
+              <a href="https://www.linkedin.com/in/waqas-mehmood-657b7a8b/" target="_blank">LinkedIn</a>
+              <span>&bull;</span>
+              <a href="https://x.com/waqasmehmood89" target="_blank">X.com</a>
+              <span>&bull;</span>
+              <a href="https://www.facebook.com/waqas.duacomm" target="_blank">Facebook</a>
+              <span>&bull;</span>
+              <a href="https://shorturl.at/nSr2h" target="_blank">Google Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER STATUS BAR -->
+    <footer class="wm-footer-status">
+      <div>
+        <span class="status-dot"></span>
+        <span>100% Free Forever</span>
+      </div>
+      <div>
+        <span>Developed by <a href="https://waqasmehmood.com" target="_blank">Waqas Mehmood</a></span>
+      </div>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

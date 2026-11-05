@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+  <!-- Background Shield -->
+  <rect width="128" height="128" rx="28" fill="url(#bgGrad)" stroke="#334155" stroke-width="3" />
+  
+  <!-- Inner Glow Border -->
+  <rect x="8" y="8" width="112" height="112" rx="22" fill="none" stroke="url(#brandGrad)" stroke-width="3" opacity="0.9" />
+  
+  <!-- Monogram WM -->
+  <text x="64" y="82" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="54" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="-2">WM</text>
+  
+  <!-- Sparkle Node -->
+  <circle cx="102" cy="28" r="4.5" fill="#f59e0b" />
+</svg>
