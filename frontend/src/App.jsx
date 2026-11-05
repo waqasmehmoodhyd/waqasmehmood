@@ -5187,14 +5187,21 @@ export default function App() {
             {inputMode === 'url' ? (
               <div className="grid md:grid-cols-3 gap-4">
                 <div className={['keyword-density-checker', 'competitor-backlink-analyzer', 'local-rank-checker', 'local-seo-audit-tool'].includes(activeTool?.slug) ? 'md:col-span-2' : 'md:col-span-3'}>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">Target Webpage URL</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                    {activeTool?.slug === 'google-business-profile-checker' ? 'Target Website / Landing Page URL' : 'Target Webpage URL'}
+                  </label>
                   <input 
                     type="url" 
                     value={targetUrl}
                     onChange={(e) => setTargetUrl(e.target.value)}
-                    placeholder="https://waqasmehmood.com"
+                    placeholder={activeTool?.slug === 'google-business-profile-checker' ? 'https://waqasmehmood.com/contact' : 'https://waqasmehmood.com'}
                     className="w-full px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-400 font-mono"
                   />
+                  {activeTool?.slug === 'google-business-profile-checker' && (
+                    <p className="text-[11px] text-cyan-400 mt-1.5 flex items-center gap-1.5">
+                      <span>💡 <strong>Tip:</strong> Enter your website URL (e.g. <code>https://waqasmehmood.com/contact</code>) to audit on-page Google Maps, click-to-call, and LocalBusiness schema integration.</span>
+                    </p>
+                  )}
                 </div>
 
                 {activeTool?.slug === 'keyword-density-checker' && (
