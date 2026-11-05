@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local 3-Pack Competitor Intelligence Report - Waqas Mehmood</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    body { background: #f1f5f9; color: #1e293b; line-height: 1.5; font-size: 13px; }
+    
+    /* Top sticky action bar for web view */
+    .top-actions-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .top-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; letter-spacing: 0.5px; }
+    .top-avatar { width: 30px; height: 30px; border-radius: 6px; background: linear-gradient(135deg, #06b6d4, #3b82f6); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+    .top-buttons { display: flex; gap: 10px; }
+    .btn-action {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-action:hover { background: #0369a1; }
+    .btn-whatsapp { background: #16a34a; }
+    .btn-whatsapp:hover { background: #15803d; }
+
+    /* Printable Paper Sheet */
+    .report-sheet {
+      max-width: 960px;
+      margin: 24px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 24px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 24px;
+    }
+    .brand-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; }
+    .brand-sub { font-size: 12px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+    .report-meta { text-align: right; font-size: 12px; color: #64748b; }
+    .report-meta strong { color: #0f172a; }
+
+    /* Highlights strip */
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .summary-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+    .summary-lbl { font-size: 10.5px; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 4px; }
+    .summary-val { font-size: 16px; font-weight: 800; color: #0f172a; }
+
+    /* Table */
+    .table-title { font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+    th { background: #0f172a; color: #fff; text-align: left; padding: 12px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; }
+    td { padding: 14px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; font-size: 13px; }
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    .rank-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #0284c7;
+      color: #fff;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .biz-name { font-weight: 700; font-size: 14px; color: #0f172a; }
+    .biz-cat { font-size: 11px; color: #64748b; margin-top: 2px; }
+    .star-score { color: #d97706; font-weight: 800; font-size: 13px; }
+    .reviews-count { font-size: 11px; color: #64748b; }
+    .phone-text { font-family: monospace; font-weight: 700; color: #0284c7; font-size: 12.5px; }
+    .web-link { color: #059669; font-weight: 600; text-decoration: underline; word-break: break-all; }
+    .not-listed { color: #94a3b8; font-style: italic; }
+
+    /* Strategic Takeaways Box */
+    .strategy-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 28px;
+    }
+    .strategy-title { font-weight: 800; color: #166534; font-size: 14px; margin-bottom: 6px; }
+    .strategy-text { font-size: 12.5px; color: #15803d; line-height: 1.6; }
+
+    /* Footer pitch */
+    .footer-cta {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .footer-cta h3 { font-size: 16px; color: #38bdf8; font-weight: 800; margin-bottom: 6px; }
+    .footer-cta p { font-size: 12px; color: #cbd5e1; margin-bottom: 14px; max-width: 650px; margin-left: auto; margin-right: auto; }
+    .footer-meta { margin-top: 14px; font-size: 11px; color: #94a3b8; }
+
+    /* Print Styles */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .top-actions-bar { display: none !important; }
+      .report-sheet { max-width: 100%; margin: 0; padding: 20px; box-shadow: none; border-radius: 0; }
+      th, .rank-pill, .footer-cta { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP ACTION BAR (Hidden in Print) -->
+  <div class="top-actions-bar">
+    <div class="top-brand">
+      <div class="top-avatar">WM</div>
+      <span>WAQAS MEHMOOD &bull; LOCAL 3-PACK SPY</span>
+    </div>
+    <div class="top-buttons">
+      <button id="btn-print-trigger" class="btn-action">🖨️ Print / Save as PDF</button>
+      <a href="https://wa.me/923033111126?text=Hi%20Waqas,%20I%20have%20reviewed%20the%20Local%203-Pack%20Audit%20Report%20and%20want%20to%20discuss%20my%20business%20rankings" target="_blank" class="btn-action btn-whatsapp">
+        💬 WhatsApp Consultation
+      </a>
+    </div>
+  </div>
+
+  <!-- MAIN REPORT SHEET -->
+  <div class="report-sheet">
+    <div class="report-header">
+      <div>
+        <div class="brand-title">WAQAS MEHMOOD</div>
+        <div class="brand-sub">Google Maps & Local 3-Pack Competitor Intelligence</div>
+      </div>
+      <div class="report-meta">
+        <div>Target Query: <strong id="lbl-query">Loading query...</strong></div>
+        <div>Geo Location: <strong id="lbl-geo">Detecting location...</strong></div>
+        <div>Generated: <span id="lbl-timestamp">--</span></div>
+      </div>
+    </div>
+
+    <div class="summary-strip">
+      <div class="summary-box">
+        <div class="summary-lbl">Search Intent</div>
+        <div class="summary-val">High Commercial Intent</div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-lbl">Competitors Extracted</div>
+        <div class="summary-val" id="lbl-competitors-count">0 Businesses</div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-lbl">Local SEO Architect</div>
+        <div class="summary-val">WaqasMehmood.com</div>
+      </div>
+    </div>
+
+    <div class="table-title">
+      <span>Live Ranking 3-Pack Businesses</span>
+      <span style="font-size:12px; color:#64748b; font-weight:normal;">Real-time SERP scrape</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:50px; text-align:center;">Rank</th>
+          <th>Business Name & Category</th>
+          <th style="width:120px;">Rating & Reviews</th>
+          <th style="width:160px;">Phone Number</th>
+          <th>Website Link</th>
+        </tr>
+      </thead>
+      <tbody id="table-rows-container">
+        <tr>
+          <td colspan="5" style="text-align:center; padding:30px; color:#64748b;">
+            Loading ranking competitor data from Google...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="strategy-box">
+      <div class="strategy-title">Local 3-Pack Ranking Takeaway & Growth Action:</div>
+      <div class="strategy-text">
+        The top 3 ranking listings capture <strong>78% of localized search volume and direct customer calls</strong>. 
+        Businesses outranking you dominate with localized NAP consistency, verified LocalBusiness JSON-LD schema markup, active review generation velocity, and geographic proximity siloing.
+      </div>
+    </div>
+
+    <div class="footer-cta">
+      <h3>Ready to Take Over the Google Local 3-Pack in Your Target City?</h3>
+      <p>
+        I engineer tailored Local SEO and Google Business Profile growth architectures designed to push your business into positions #1–#3.
+      </p>
+      <div class="footer-meta">
+        <strong>Waqas Mehmood</strong> &bull; Senior Local SEO Specialist & Full-Stack Growth Engineer<br>
+        WhatsApp: <strong>+92 303 3111126</strong> &bull; Email: <strong>waqasmehmoodhyd@gmail.com</strong> &bull; Web: <strong>waqasmehmood.com</strong>
+      </div>
+    </div>
+  </div>
+
+  <script src="report.js"></script>
+</body>
+</html>

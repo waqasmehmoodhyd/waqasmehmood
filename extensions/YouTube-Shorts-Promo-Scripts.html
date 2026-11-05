@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Short Video Promo Scripts - Waqas Mehmood Chrome Extensions</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .page {
+      page-break-after: always;
+    }
+    .page:last-child {
+      page-break-after: avoid;
+    }
+    /* Header */
+    .doc-header {
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .doc-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0369a1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .doc-subtitle {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .doc-meta {
+      text-align: right;
+      font-size: 10px;
+      color: #64748b;
+    }
+    .doc-meta strong {
+      color: #0f172a;
+    }
+
+    /* Script Container */
+    .script-badge {
+      display: inline-block;
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .script-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .script-target {
+      font-size: 11px;
+      color: #475569;
+      margin-bottom: 16px;
+      background: #f1f5f9;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid #0284c7;
+    }
+
+    /* Comparison Table */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 18px;
+      font-size: 11.5px;
+    }
+    .comp-table th, .comp-table td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .comp-table th {
+      background: #f8fafc;
+      font-weight: 700;
+      color: #334155;
+    }
+    .comp-table th.our-col {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 800;
+    }
+    .comp-table td.our-col {
+      background: #f0f9ff;
+      font-weight: 600;
+      color: #0284c7;
+    }
+
+    /* Video Flow Timeline Table */
+    .scene-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .scene-table th {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .scene-table td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px;
+      vertical-align: top;
+    }
+    .scene-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .time-pill {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .visual-cue {
+      font-size: 11px;
+      color: #64748b;
+      font-style: italic;
+    }
+    .spoken-words {
+      color: #0f172a;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .spoken-words strong {
+      color: #0284c7;
+    }
+    .onscreen-text {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #92400e;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    /* Pro Tip Callout */
+    .callout-box {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 11px;
+      color: #065f46;
+    }
+    .callout-box strong {
+      color: #047857;
+    }
+
+    .doc-footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- PAGE 1: SCRIPT #1 (DETAILED SEO & AI/AEO COMBO EXTENSION)                -->
+  <!-- ========================================================================= -->
+  <div class="page">
+    <div class="doc-header">
+      <div>
+        <h1 class="doc-title">YouTube Shorts Promo Script #1</h1>
+        <p class="doc-subtitle">Extension #1: Detailed SEO & AI / AEO / GEO Engine 2026</p>
+      </div>
+      <div class="doc-meta">
+        <div>Creator: <strong>Waqas Mehmood</strong></div>
+        <div>Format: <strong>Vertical (9:16 Shorts / Reels)</strong></div>
+        <div>Target Duration: <strong>45 - 55 Seconds</strong></div>
+      </div>
+    </div>
+
+    <div class="script-target">
+      <strong>🎯 Video Goal:</strong> Compare with "Detailed SEO Extension" and show that traditional extensions are outdated because they lack AI / AEO Search audit and PDF reports.
+    </div>
+
+    <!-- Features Comparison Table -->
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Feature</th>
+          <th style="width: 35%;">Competitors (Detailed SEO / SEO Minion)</th>
+          <th style="width: 40%;" class="our-col">Waqas Mehmood AI SEO Extension</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>AI Search (AEO / GEO)</strong></td>
+          <td>❌ Not available (Only 2015 traditional SEO)</td>
+          <td class="our-col">✅ Live ChatGPT, Perplexity & AI Overview Score</td>
+        </tr>
+        <tr>
+          <td><strong>Client Audit Report</strong></td>
+          <td>❌ No PDF Export (Screenshots leni parti hain)</td>
+          <td class="our-col">✅ 1-Click Executive PDF Audit Report for Clients</td>
+        </tr>
+        <tr>
+          <td><strong>Pricing & Limits</strong></td>
+          <td>⚠️ Freemium / Paid upsells</td>
+          <td class="our-col">✅ 100% Free Forever (No credit card, no sign-up)</td>
+        </tr>
+        <tr>
+          <td><strong>Direct Expert Help</strong></td>
+          <td>❌ Email support form / No live chat</td>
+          <td class="our-col">✅ Built-in 1-Click WhatsApp Consultation (03033111126)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 50-Second Video Script Timeline -->
+    <table class="scene-table">
+      <thead>
+        <tr>
+          <th style="width: 14%;">Timing</th>
+          <th style="width: 30%;">Visual Scene (Screen Recording)</th>
+          <th style="width: 56%;">Spoken Words (Urdu / Hindi Voiceover)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="time-pill">0:00 - 0:06</span></td>
+          <td>
+            <div class="visual-cue">Camera par fast cut: Purani SEO extension kholi hui hai aur cross (❌) ka sign flash karein.</div>
+            <div class="onscreen-text">Stop using 2015 SEO Extensions! ❌</div>
+          </td>
+          <td class="spoken-words">
+            "Agar aap abhi bhi 2015 ki purani SEO extensions use kar rahe hain, to aap apna bohot bara nuqsan kar rahe hain!"
+          </td>
+        </tr>
+        <tr>
+          <td><span class="time-pill">0:06 - 0:18</span></td>
+          <td>
+            <div class="visual-cue">Screen recording: Waqas Mehmood Extension ka icon click karein aur 8 tabs smooth open hote dikhayein.</div>
+            <div class="onscreen-text">Detailed SEO + AI Search 2026 🚀</div>
+          </td>
+          <td class="spoken-words">
+            "Market ki mashhoor 'Detailed SEO' extension sirf basic meta tags aur headings dikhati hai. 
+            Lekin Google ab <strong>ChatGPT Search, Perplexity aur AI Overviews</strong> par shift ho chuka hai!"
+          </td>
+        </tr>
+        <tr>
+          <td><span class="time-pill">0:18 - 0:34</span></td>
+          <td>
+            <div class="visual-cue">Zoom into "AI / AEO Engine" Tab: Scores calculate ho rahe hain. Phir "Download PDF Report" par click karein.</div>
+            <div class="onscreen-text">AI Score + 1-Click PDF Report 📄</div>
+          </td>
+          <td class="spoken-words">
+            "Meet karein <strong>Detailed SEO & AI Engine 2026</strong> se! 
+            Yeh na sirf On-Page, Schema aur Links check karti hai, balki pehli dafa aapki website ka <strong>AI Search Readiness Score</strong> batati hai. 
+            Aur sabse kamaal feature: Sirf aik click karein aur client ke liye professional <strong>Executive PDF Report</strong> tayar!"
+          </td>
+        </tr>
+        <tr>
+          <td><span class="time-pill">0:34 - 0:50</span></td>
+          <td>
+            <div class="visual-cue">Chrome Web Store / Download link highlight karein + "Free Consultation" tab dikhayein.</div>
+            <div class="onscreen-text">100% Free Forever! Link in Bio ⬇️</div>
+          </td>
+          <td class="spoken-words">
+            "Aur sabse achi baat? Yeh <strong>100% Free</strong> hai, koi monthly charges nahi! 
+            Abhi description ya comment mein diye gaye link se download karein aur apni website ko 2026 ke liye rank karein!"
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-box">
+      <strong>💡 Pro Tip for Video Creator:</strong> Video ke start mein energetic hook dein. Jab PDF report download ho rahi ho, to usko full screen par 1 second ke liye show karein taake viewer ko instant value nazar aaye!
+    </div>
+
+    <div class="doc-footer">
+      <span>WaqasMehmood.com &bull; YouTube Growth Kit</span>
+      <span>Page 1 of 2</span>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- PAGE 2: SCRIPT #2 (GS LOCATION CHANGER & LOCAL 3-PACK SPY)                -->
+  <!-- ========================================================================= -->
+  <div class="page">
+    <div class="doc-header">
+      <div>
+        <h1 class="doc-title">YouTube Shorts Promo Script #2</h1>
+        <p class="doc-subtitle">Extension #2: GS Location Changer & Local 3-Pack Spy</p>
+      </div>
+      <div class="doc-meta">
+        <div>Creator: <strong>Waqas Mehmood</strong></div>
+        <div>Format: <strong>Vertical (9:16 Shorts / Reels)</strong></div>
+        <div>Target Duration: <strong>45 - 55 Seconds</strong></div>
+      </div>
+    </div>
+
+    <div class="script-target">
+      <strong>🎯 Video Goal:</strong> Show that you don't need expensive VPNs to check Google Maps rankings in US, UK, or Dubai, and reveal the live 3-Pack CSV export feature!
+    </div>
+
+    <!-- Features Comparison Table -->
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Feature</th>
+          <th style="width: 35%;">Competitors (Valentin / Standard VPNs)</th>
+          <th style="width: 40%;" class="our-col">Waqas Mehmood GS Location Changer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>VPN Requirement</strong></td>
+          <td>❌ Paid VPNs chahiye hoti hain (Slow + CAPTCHAs)</td>
+          <td class="our-col">✅ Zero VPN (Google Canonical UULE Protocol)</td>
+        </tr>
+        <tr>
+          <td><strong>Google 403 Blocks</strong></td>
+          <td>⚠️ Frequent 403 Forbidden & Robot Errors</td>
+          <td class="our-col">✅ Clean Regional Routing (Zero 403 Errors)</td>
+        </tr>
+        <tr>
+          <td><strong>Local 3-Pack Spy</strong></td>
+          <td>❌ Competitor data extract nahi hota</td>
+          <td class="our-col">✅ Live Top 3 Competitors (Name, Rating, Reviews, URL)</td>
+        </tr>
+        <tr>
+          <td><strong>Export Leads</strong></td>
+          <td>❌ Manual copy-paste karna parta hai</td>
+          <td class="our-col">✅ 1-Click CSV Export for Local Lead Generation</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 50-Second Video Script Timeline -->
+    <table class="scene-table">
+      <thead>
+        <tr>
+          <th style="width: 14%;">Timing</th>
+          <th style="width: 30%;">Visual Scene (Screen Recording)</th>
+          <th style="width: 56%;">Spoken Words (Urdu / Hindi Voiceover)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="time-pill">0:00 - 0:06</span></td>
+          <td>
+            <div class="visual-cue">Camera par dollar notes / cross ka sign ya VPN disconnected ka notification dikhayein.</div>
+            <div class="onscreen-text">Stop Paying for Local SEO VPNs! 🚫</div>
+          </td>
+          <td class="spoken-words">
+            "Agar aap USA, UK ya Dubai ke Google Maps results check karne ke liye mehngi VPNs khareed rahe hain, to abhi ruk jayein!"
+          </td>
+        </tr>
+        <tr>
+          <td><span class="time-pill">0:06 - 0:18</span></td>
+          <td>
+            <div class="visual-cue">Extension open karein: "Dallas, TX" ya "London, UK" chip par click karein aur Google Maps 3-Pack instant load hote dikhayein.</div>
+            <div class="onscreen-text">Search Any City Worldwide (Zero VPN) 📍</div>
+          </td>
+          <td class="spoken-words">
+            "Purane tools par aksar Google 403 error aa jata hai. 
+            Lekin <strong>GS Location Changer & 3-Pack Spy</strong> extension se aap baghair kisi VPN ke, duniya ke kisi bhi city ke exact local rankings dekh sakte hain!"
+          </td>
+        </tr>
+        <tr>
+          <td><span class="time-pill">0:18 - 0:34</span></td>
+          <td>
+            <div class="visual-cue">"Local 3-Pack Spy" tab par click karein: 3 competitors extract ho gaye. "Export to CSV" par click karein aur Excel sheet open karein.</div>
+            <div class="onscreen-text">1-Click Local 3-Pack Competitor Spy 🔍</div>
+          </td>
+          <td class="spoken-words">
+            "Aur iska sabse powerful feature: Iska <strong>Local 3-Pack Spy</strong>! 
+            Google search par jaate hi yeh top 3 ranking businesses ka Naam, Rating, Reviews aur Website data extract kar leta hai. 
+            Aur sirf 1-click mein poori CSV sheet aapke computer mein download!"
+          </td>
+        </tr>
+        <tr>
+          <td><span class="time-pill">0:34 - 0:50</span></td>
+          <td>
+            <div class="visual-cue">Extension download button + WhatsApp consultation link show karein.</div>
+            <div class="onscreen-text">100% Free Download &bull; Link Below 📥</div>
+          </td>
+          <td class="spoken-words">
+            "Local SEO audits aur lead generation ke liye yeh tool har agency ke paas hona chahiye! 
+            Yeh bilkul <strong>Free</strong> hai. Abhi pinned comment se download karein aur apne local clients ko impress karein!"
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout-box">
+      <strong>💡 Pro Tip for Video Creator:</strong> Video mein jab CSV file download ho kar Excel mein open hoti hai, usko highlight karein. Local SEO clients ko lead generation aur cold email ke liye yeh feature sabse zyada attract karta hai!
+    </div>
+
+    <div class="doc-footer">
+      <span>WaqasMehmood.com &bull; YouTube Growth Kit</span>
+      <span>Page 2 of 2</span>
+    </div>
+  </div>
+
+</body>
+</html>

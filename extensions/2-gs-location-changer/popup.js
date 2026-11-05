@@ -1,24 +1,49 @@
 // Waqas Mehmood - GS Location Changer & Local 3-Pack Spy
-// Engine & UI Controller
+// Engine & UI Controller (100% Robust, No CSV Clutter, Pure PDF Report)
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Elements
+  // Navigation & Control Elements
   const tabButtons = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
   const inputQuery = document.getElementById('input-query');
   const inputCustomCity = document.getElementById('input-custom-city');
   const selectDomain = document.getElementById('select-domain');
-  const selectGl = document.getElementById('select-gl');
   const selectHl = document.getElementById('select-hl');
   const btnRunSearch = document.getElementById('btn-run-search');
   const cityChips = document.querySelectorAll('.city-chip');
-  const headerLocName = document.getElementById('header-loc-name');
   
   // 3-Pack Elements
   const packQueryLabel = document.getElementById('pack-query-label');
   const packLocLabel = document.getElementById('pack-loc-label');
   const competitorsList = document.getElementById('competitors-cards-list');
   const btnRefreshPack = document.getElementById('btn-refresh-pack');
+  const btnHeaderExportPdf = document.getElementById('btn-header-export-pdf');
+  const btnTabExportPdf = document.getElementById('btn-tab-export-pdf');
+
+  let latestPackData = null;
+
+  // GLOBAL LINK INTERCEPTOR:
+  // Fixes broken clicks in Chrome extension popup so ALL links open reliably in a new tab!
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+
+    const href = link.getAttribute('href');
+    if (!href) return;
+
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      e.preventDefault();
+      chrome.tabs.create({ url: href });
+    } else if (href.startsWith('tel:')) {
+      e.preventDefault();
+      const phoneNum = href.replace(/^tel:/i, '').trim();
+      navigator.clipboard.writeText(phoneNum);
+      alert(`Copied phone number: ${phoneNum}`);
+    } else if (href.startsWith('mailto:')) {
+      e.preventDefault();
+      chrome.tabs.create({ url: href });
+    }
+  });
 
   // Tab Switching
   tabButtons.forEach(btn => {
@@ -37,7 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // UULE Encoder for Google canonical geo locations
-  // Standard Google length secret lookup table
   function generateGoogleUule(locationStr) {
     if (!locationStr || !locationStr.trim()) return '';
     const loc = locationStr.trim();
@@ -50,24 +74,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Restore stored preferences
-  chrome.storage.local.get(['wm_loc_city', 'wm_loc_domain', 'wm_loc_gl', 'wm_loc_hl', 'wm_loc_query'], (res) => {
+  chrome.storage.local.get(['wm_loc_city', 'wm_loc_domain', 'wm_loc_hl', 'wm_loc_query'], (res) => {
     if (res.wm_loc_city) inputCustomCity.value = res.wm_loc_city;
     if (res.wm_loc_domain) selectDomain.value = res.wm_loc_domain;
-    if (res.wm_loc_gl) selectGl.value = res.wm_loc_gl;
     if (res.wm_loc_hl) selectHl.value = res.wm_loc_hl;
     if (res.wm_loc_query) inputQuery.value = res.wm_loc_query;
-
-    updateHeaderCityDisplay(inputCustomCity.value);
   });
-
-  function updateHeaderCityDisplay(cityText) {
-    if (!cityText) {
-      headerLocName.textContent = 'Worldwide';
-      return;
-    }
-    const parts = cityText.split(',');
-    headerLocName.textContent = parts[0].trim();
-  }
 
   // Popular City Chips Click
   cityChips.forEach(chip => {
@@ -76,20 +88,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       chip.classList.add('active');
 
       const loc = chip.getAttribute('data-loc');
-      const gl = chip.getAttribute('data-gl');
-      const hl = chip.getAttribute('data-hl');
-      const domain = chip.getAttribute('data-domain');
+      const hl = chip.getAttribute('data-hl') || 'en';
+      const domain = chip.getAttribute('data-domain') || 'google.com';
 
       inputCustomCity.value = loc;
-      selectGl.value = gl;
       selectHl.value = hl;
       selectDomain.value = domain;
 
-      updateHeaderCityDisplay(loc);
-
       chrome.storage.local.set({
         wm_loc_city: loc,
-        wm_loc_gl: gl,
         wm_loc_hl: hl,
         wm_loc_domain: domain
       });
@@ -97,47 +104,73 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   inputCustomCity.addEventListener('input', () => {
-    updateHeaderCityDisplay(inputCustomCity.value);
+    const val = inputCustomCity.value.toLowerCase();
+    if (val.includes('united kingdom') || val.includes('london') || val.includes('manchester') || val.includes('birmingham') || val.includes(' uk')) {
+      selectDomain.value = 'google.co.uk';
+    } else if (val.includes('dubai') || val.includes('abu dhabi') || val.includes('united arab emirates') || val.includes(' uae')) {
+      selectDomain.value = 'google.ae';
+    } else if (val.includes('pakistan') || val.includes('karachi') || val.includes('lahore') || val.includes('islamabad')) {
+      selectDomain.value = 'google.com.pk';
+    } else if (val.includes('canada') || val.includes('toronto') || val.includes('vancouver')) {
+      selectDomain.value = 'google.ca';
+    } else if (val.includes('australia') || val.includes('sydney') || val.includes('melbourne')) {
+      selectDomain.value = 'google.com.au';
+    }
   });
 
-  // Launch Google Search with UULE
+  // Launch Google Search with Safe Local Parameters (No gl= parameter to prevent 403 blocks)
   btnRunSearch.addEventListener('click', () => {
     const query = inputQuery.value.trim() || 'plumber near me';
     const city = inputCustomCity.value.trim();
-    const domain = selectDomain.value || 'google.com';
-    const gl = selectGl.value || 'us';
+    let domain = selectDomain.value || 'google.com';
     const hl = selectHl.value || 'en';
 
-    let searchUrl = `https://www.${domain}/search?q=${encodeURIComponent(query)}&gl=${encodeURIComponent(gl)}&hl=${encodeURIComponent(hl)}`;
+    const qLower = query.toLowerCase();
+    const cLower = city.toLowerCase();
+
+    if (domain === 'google.co.uk' || qLower.includes('in uk') || qLower.includes('uk') || qLower.includes('london') || cLower.includes('united kingdom') || cLower.includes('london')) {
+      domain = 'google.co.uk';
+    } else if (domain === 'google.ae' || qLower.includes('dubai') || cLower.includes('dubai') || cLower.includes('uae')) {
+      domain = 'google.ae';
+    } else if (domain === 'google.com.pk' || qLower.includes('pakistan') || cLower.includes('karachi') || cLower.includes('lahore')) {
+      domain = 'google.com.pk';
+    } else if (domain === 'google.ca' || cLower.includes('canada') || cLower.includes('toronto')) {
+      domain = 'google.ca';
+    } else if (domain === 'google.com.au' || cLower.includes('australia') || cLower.includes('sydney')) {
+      domain = 'google.com.au';
+    }
+
+    let searchUrl = `https://www.${domain}/search?q=${encodeURIComponent(query)}`;
 
     if (city) {
       const uule = generateGoogleUule(city);
       if (uule) {
-        searchUrl += `&uule=${encodeURIComponent(uule)}`;
+        searchUrl += `&uule=${uule}`;
       }
     }
 
-    // Save state
+    if (hl && hl !== 'en') {
+      searchUrl += `&hl=${encodeURIComponent(hl)}`;
+    }
+
     chrome.storage.local.set({
       wm_loc_city: city,
-      wm_loc_gl: gl,
-      wm_loc_hl: hl,
       wm_loc_domain: domain,
       wm_loc_query: query
     });
 
-    // Open target search in a fresh tab
     chrome.tabs.create({ url: searchUrl });
   });
 
   // Local 3-Pack Spy Scanning
-  async function scanActiveSerpPack() {
+  async function scanActiveSerpPack(onDone) {
     packQueryLabel.textContent = 'Scanning current tab...';
     packLocLabel.textContent = 'Looking for Google SERP 3-Pack elements...';
 
     const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!activeTab || !activeTab.id) {
       showEmptyState('No active tab detected.');
+      if (onDone) onDone(false, null);
       return;
     }
 
@@ -145,28 +178,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       showEmptyState('Active tab is not a Google Search page. Open or launch a Google search tab above to inspect its Local 3-Pack competitors.');
       packQueryLabel.textContent = 'Not a Google SERP Tab';
       packLocLabel.textContent = 'Navigate to a Google search results page.';
+      if (onDone) onDone(false, null);
       return;
     }
 
     try {
       chrome.tabs.sendMessage(activeTab.id, { action: 'GET_SERP_PACK' }, (response) => {
         if (chrome.runtime.lastError || !response || !response.success) {
-          // If content script was not injected on an already-open tab, try injecting it on the fly
+          // Inject content script on the fly if needed
           chrome.scripting.executeScript({
             target: { tabId: activeTab.id },
             files: ['content.js']
           }, () => {
             if (chrome.runtime.lastError) {
               showEmptyState('Could not read Google search tab. Please refresh the Google tab.');
+              if (onDone) onDone(false, null);
               return;
             }
-            // Retry message
             setTimeout(() => {
               chrome.tabs.sendMessage(activeTab.id, { action: 'GET_SERP_PACK' }, (retryRes) => {
                 if (retryRes && retryRes.success) {
                   renderPackData(retryRes.data);
+                  if (onDone) onDone(true, retryRes.data);
                 } else {
-                  showEmptyState('No Local 3-Pack found on this query. Try a query with local intent (e.g. "lawyer in chicago" or "dentist near me").');
+                  showEmptyState('No Local 3-Pack found on this query. Try a query with local intent (e.g. "plumber in london" or "dentist near me").');
+                  if (onDone) onDone(false, null);
                 }
               });
             }, 300);
@@ -175,82 +211,97 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         renderPackData(response.data);
+        if (onDone) onDone(true, response.data);
       });
     } catch (err) {
       showEmptyState(`Error connecting to tab: ${err.message}`);
+      if (onDone) onDone(false, null);
     }
   }
 
   function renderPackData(data) {
-    packQueryLabel.textContent = `Query: "${data.currentQuery || 'Google Search'}"`;
-    packLocLabel.textContent = `SERP Geo: ${data.googleDetectedLocation || 'Detected'}`;
+    latestPackData = data;
+    packQueryLabel.textContent = `"${data.currentQuery || 'Google Search'}"`;
+    packLocLabel.textContent = `Geo: ${data.googleDetectedLocation || 'Detected'} &bull; ${data.competitors.length} Competitors`;
 
     if (!data.competitors || data.competitors.length === 0) {
-      showEmptyState('No Local 3-Pack found on this search page. Try queries with local intent like "hvac repair", "electrician near me", or "seo company".');
+      showEmptyState('No Local 3-Pack found on this search page. Try queries with local intent like "hvac repair", "electrician near me", or "plumber near me".');
       return;
     }
 
     competitorsList.innerHTML = '';
-    
-    // Header row with Export CSV button
-    const toolsRow = document.createElement('div');
-    toolsRow.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;';
-    toolsRow.innerHTML = `
-      <span style="font-size:11px; font-weight:700; color:#38bdf8;">Found ${data.competitors.length} Ranking Competitors:</span>
-      <button id="btn-export-pack-csv" class="btn-chip" style="color:#34d399; border-color:#10b981;">Export to CSV 📥</button>
-    `;
-    competitorsList.appendChild(toolsRow);
-
-    document.getElementById('btn-export-pack-csv').addEventListener('click', () => {
-      exportPackToCsv(data);
-    });
 
     data.competitors.forEach((c) => {
       const card = document.createElement('div');
       card.className = 'competitor-card';
+      const cleanRating = (c.rating || '').replace(/[^0-9.]/g, '') || '5.0';
+      const cleanReviews = (c.reviews || '').replace(/[^0-9]/g, '') || '0';
+      const webUrl = c.websiteUrl || 'Not Listed';
+      const phoneNum = c.phone || 'Not Listed';
+
       card.innerHTML = `
         <div class="comp-header">
           <span class="comp-rank-badge">#${c.rank}</span>
           <span class="comp-name">${escapeHtml(c.name)}</span>
-          <span class="comp-rating">★ ${escapeHtml(c.rating.replace(/[^0-9.]/g, '') || '5.0')}</span>
+          <span class="comp-rating">★ ${cleanRating}</span>
         </div>
         <div class="comp-meta">
-          <span>${escapeHtml(c.reviews)} reviews</span>
+          <span>${cleanReviews} reviews</span>
           <span>&bull;</span>
           <span class="comp-category">${escapeHtml(c.category)}</span>
         </div>
-        <div class="comp-signals">
-          <span class="signal-pill ${c.hasWebsite ? 'yes' : 'no'}">${c.hasWebsite ? '✓ Website Linked' : '✗ No Website'}</span>
-          <span class="signal-pill ${c.hasPhone ? 'yes' : 'no'}">${c.hasPhone ? '✓ Phone Signal' : '✗ No Phone'}</span>
+        <div style="margin-top:8px; padding-top:6px; border-top:1px dashed #334155; font-size:11px; display:flex; flex-direction:column; gap:4px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="color:#94a3b8; font-weight:600;">📞 Phone:</span>
+            ${phoneNum !== 'Not Listed' ? `<a href="tel:${escapeHtml(phoneNum)}" style="color:#38bdf8; font-family:monospace; font-weight:700; text-decoration:none;">${escapeHtml(phoneNum)}</a>` : '<span style="color:#64748b;">Not Listed</span>'}
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="color:#94a3b8; font-weight:600;">🌐 Website:</span>
+            ${webUrl !== 'Not Listed' ? `<a href="${escapeHtml(webUrl)}" target="_blank" style="color:#34d399; text-decoration:underline; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(webUrl.replace(/^https?:\/\/(www\.)?/, ''))}</a>` : '<span style="color:#ef4444; font-weight:600;">Not Listed</span>'}
+          </div>
         </div>
       `;
       competitorsList.appendChild(card);
     });
   }
 
-  function exportPackToCsv(data) {
-    let csv = 'Rank,Business Name,Rating,Reviews,Category,Has Website,Has Phone,Search Query\n';
-    data.competitors.forEach(c => {
-      csv += `"${c.rank}","${(c.name || '').replace(/"/g, '""')}","${(c.rating || '').replace(/"/g, '""')}","${(c.reviews || '').replace(/"/g, '""')}","${(c.category || '').replace(/"/g, '""')}","${c.hasWebsite ? 'Yes' : 'No'}","${c.hasPhone ? 'Yes' : 'No'}","${(data.currentQuery || '').replace(/"/g, '""')}"\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `local-3pack-${(data.currentQuery || 'query').replace(/[^a-z0-9]/gi, '_')}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
+  // Pure PDF Report Generation (Opens dedicated tab, no popup blockers, no glitching)
+  function openPdfReport() {
+    if (!latestPackData || !latestPackData.competitors || latestPackData.competitors.length === 0) {
+      scanActiveSerpPack((success, scannedData) => {
+        if (success && scannedData && scannedData.competitors && scannedData.competitors.length > 0) {
+          launchReportTab(scannedData);
+        } else {
+          alert('📄 PDF Report:\n\nGoogle Search par koi local query open karein (jaise "plumber in london" ya "dentist near me").\nUske baad "PDF Report" dabayein taake ranking 3-Pack businesses ki PDF report open ho sake!');
+        }
+      });
+      return;
+    }
+    launchReportTab(latestPackData);
   }
 
-  function showEmptyState(msg) {
-    competitorsList.innerHTML = `<div class="empty-state">${escapeHtml(msg)}</div>`;
+  function launchReportTab(data) {
+    chrome.storage.local.set({ wm_latest_report: data }, () => {
+      chrome.tabs.create({ url: chrome.runtime.getURL('report.html') });
+    });
+  }
+
+  if (btnHeaderExportPdf) {
+    btnHeaderExportPdf.addEventListener('click', openPdfReport);
+  }
+
+  if (btnTabExportPdf) {
+    btnTabExportPdf.addEventListener('click', openPdfReport);
   }
 
   if (btnRefreshPack) {
     btnRefreshPack.addEventListener('click', () => {
       scanActiveSerpPack();
     });
+  }
+
+  function showEmptyState(msg) {
+    competitorsList.innerHTML = `<div class="empty-state">${escapeHtml(msg)}</div>`;
   }
 
   function escapeHtml(str) {
