@@ -55,6 +55,9 @@ DirectoryIndex index.html index.php
     RewriteCond %{DOCUMENT_ROOT}/tools/$1/index.html -f
     RewriteRule ^([a-z0-9\-]+)/?$ /tools/$1 [R=301,L]
 
+    # 2d. 301 Permanent Redirect main domain extension paths to official dedicated subdomain
+    RewriteRule ^(extensions|detailed-seo-extension|extensions/detailed-seo-ai)/?$ https://ext.waqasmehmood.com/detailed-seo-ai [R=301,L]
+
     # 3. Route all API requests to the Laravel backend entrypoint
     RewriteCond %{REQUEST_URI} ^/api(/.*)?$
     RewriteRule ^api(/.*)?$ backend/public/index.php [L,QSA]

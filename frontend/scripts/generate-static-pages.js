@@ -37,8 +37,12 @@ const renderHeader = (currentPath) => `
       <a href="/local-seo" class="hover:text-cyan-400 transition-colors ${currentPath === '/local-seo' ? 'text-cyan-400 font-semibold' : ''}">Local SEO</a>
       <a href="/about" class="hover:text-cyan-400 transition-colors ${currentPath === '/about' ? 'text-cyan-400 font-semibold' : ''}">About</a>
       <a href="/contact" class="hover:text-cyan-400 transition-colors ${currentPath === '/contact' ? 'text-cyan-400 font-semibold' : ''}">Contact</a>
+      <a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="hidden xl:inline-flex items-center gap-1 text-cyan-400 hover:text-white font-semibold">Extension ⚡</a>
     </nav>
-    <a href="/contact" class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 text-white hover:opacity-90 transition-all">Hire Waqas</a>
+    <div class="flex items-center gap-3">
+      <a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500 hover:text-slate-950 transition-all">Chrome Extension</a>
+      <a href="/contact" class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 text-white hover:opacity-90 transition-all">Hire Waqas</a>
+    </div>
   </div>
 </header>
 `;
@@ -52,7 +56,7 @@ const renderFooter = () => `
         <span class="w-6 h-6 rounded-lg bg-cyan-500 text-slate-950 flex items-center justify-center text-xs font-black">WM</span>
         Waqas Mehmood
       </div>
-      <p class="leading-relaxed mb-4">Senior SEO Specialist, Growth Engineer & Full-Stack Developer providing high-impact SEO management, technical audits, and 28 free in-house digital marketing tools.</p>
+      <p class="leading-relaxed mb-4">Senior SEO Specialist, Growth Engineer & Full-Stack Developer providing high-impact SEO management, technical audits, and 32 free in-house digital marketing tools.</p>
       
       <div class="mb-4">
         <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block mb-2 font-bold text-cyan-400">Connect & Follow:</span>
@@ -92,6 +96,7 @@ const renderFooter = () => `
         <li><a href="/tools/schema-markup-validator" class="hover:text-cyan-400">Schema Markup Validator</a></li>
         <li><a href="/tools/website-crawler" class="hover:text-cyan-400">Free AI Website Crawler</a></li>
         <li><a href="/tools/ai-math-solver" class="hover:text-cyan-400">Free AI Math Solver</a></li>
+        <li><a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-300 text-cyan-400 font-bold flex items-center gap-1"><span>Detailed SEO Chrome Extension ↗</span></a></li>
       </ul>
     </div>
     <div>
@@ -172,7 +177,11 @@ function generatePageHtml(options) {
 </div>
   `.trim();
 
-  html = html.replace(/<div id="root"><\/div>/s, rootContent);
+  if (html.includes('<div id="root"></div>')) {
+    html = html.replace('<div id="root"></div>', rootContent);
+  } else {
+    html = html.replace(/<div id="root">[\s\S]*?<\/body>/s, `${rootContent}\n  </body>`);
+  }
 
   return html;
 }
@@ -212,12 +221,34 @@ const homeHtml = `
     Waqas Mehmood - Best SEO Expert, SEO Specialist & Growth Engineer
   </h1>
   <p class="text-base md:text-lg text-slate-300 max-w-3xl mb-8 leading-relaxed">
-    Waqas Mehmood is a Senior SEO Specialist and Growth Engineer based in Pakistan, helping global B2B, SaaS, and regional businesses scale compounding search traffic. Specializations include developer-level technical SEO audits, on-page topical siloing, Local SEO 3-Pack rankings, and 27 proprietary in-house SEO diagnostic tools.
+    Waqas Mehmood is a Senior SEO Specialist and Growth Engineer based in Pakistan, helping global B2B, SaaS, and regional businesses scale compounding search traffic. Specializations include developer-level technical SEO audits, on-page topical siloing, Local SEO 3-Pack rankings, and 32 proprietary in-house SEO diagnostic tools.
   </p>
-  <div class="flex flex-wrap items-center gap-4 mb-12">
+  <div class="flex flex-wrap items-center gap-4 mb-8">
     <a href="/services" class="px-6 py-3 rounded-xl font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-lg hover:shadow-cyan-500/25 transition-all">Explore SEO Services</a>
-    <a href="/all-tools" class="px-6 py-3 rounded-xl font-bold bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-white transition-all">Launch 27 Free SEO Tools</a>
+    <a href="/all-tools" class="px-6 py-3 rounded-xl font-bold bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-white transition-all">Launch Free SEO Tools (32)</a>
+    <a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-xl font-bold bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 transition-all flex items-center gap-2"><span>Chrome Extension (Free)</span><span class="text-xs">&rarr;</span></a>
     <a href="/contact" class="px-6 py-3 rounded-xl font-bold bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-white transition-all">Get in Touch</a>
+  </div>
+
+  <!-- PROMO BANNER: EXTENSION ON SUBDOMAIN -->
+  <div class="p-4 rounded-2xl bg-gradient-to-r from-blue-950/70 via-slate-900 to-indigo-950/70 border border-sky-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 mb-12 shadow-xl">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-black text-slate-950 shrink-0 text-sm shadow-md">
+        WM
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-sm text-white">Detailed SEO & AI Engine 2026 (Official Chrome Extension)</span>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">Approved & Free</span>
+        </div>
+        <p class="text-xs text-slate-300 mt-0.5">
+          Inspect On-Page tags, Schema JSON-LD, H1-H6 hierarchy, and 2026 AI Overviews citability in 1 click.
+        </p>
+      </div>
+    </div>
+    <a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all whitespace-nowrap shadow-md">
+      <span>Get Extension on ext.waqasmehmood.com &rarr;</span>
+    </a>
   </div>
 </section>
 
@@ -227,7 +258,7 @@ const homeHtml = `
     <div class="text-xs text-slate-400 font-medium">Digital Marketing & SEO Engineering</div>
   </div>
   <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
-    <div class="text-3xl font-black text-indigo-400 mb-1">27 In-House</div>
+    <div class="text-3xl font-black text-indigo-400 mb-1">32 In-House</div>
     <div class="text-xs text-slate-400 font-medium">Native Free On-Page & Technical SEO Tools</div>
   </div>
   <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
@@ -246,7 +277,7 @@ const homeHtml = `
     <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 mb-2 block">Direct Answer • AEO & Search Intent</span>
     <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">What SEO Services Does Waqas Mehmood Provide?</h2>
     <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
-      Waqas Mehmood provides end-to-end SEO services covering comprehensive technical SEO audits, Core Web Vitals optimization, on-page topical keyword siloing, high-intent Local SEO Google Maps 3-Pack rankings, and dedicated monthly SEO management. Every retainer is paired with 27 free proprietary in-house diagnostic tools built natively for deep DOM analysis.
+      Waqas Mehmood provides end-to-end SEO services covering comprehensive technical SEO audits, Core Web Vitals optimization, on-page topical keyword siloing, high-intent Local SEO Google Maps 3-Pack rankings, and dedicated monthly SEO management. Every retainer is paired with 32 free proprietary in-house diagnostic tools built natively for deep DOM analysis.
     </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
       <a href="/technical-seo" class="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
@@ -387,7 +418,7 @@ const homeHtml = `
   <div class="space-y-4">
     <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
       <h3 class="font-bold text-white text-base mb-2">What SEO services does Waqas Mehmood provide?</h3>
-      <p class="text-slate-300 text-sm leading-relaxed">Waqas Mehmood provides end-to-end SEO services including comprehensive technical SEO audits, Core Web Vitals remediation, on-page topical siloing, Local SEO Google Maps 3-Pack rankings, and 27 proprietary in-house diagnostic tools.</p>
+      <p class="text-slate-300 text-sm leading-relaxed">Waqas Mehmood provides end-to-end SEO services including comprehensive technical SEO audits, Core Web Vitals remediation, on-page topical siloing, Local SEO Google Maps 3-Pack rankings, and 32 proprietary in-house diagnostic tools.</p>
     </div>
     <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
       <h3 class="font-bold text-white text-base mb-2">What is a technical SEO audit and how often should it be conducted?</h3>
@@ -398,8 +429,8 @@ const homeHtml = `
       <p class="text-slate-300 text-sm leading-relaxed">Technical SEO fixes and indexation corrections show diagnostic improvements within 2 to 4 weeks. High-intent commercial rankings typically mature within 3 to 6 months as topical authority builds.</p>
     </div>
     <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
-      <h3 class="font-bold text-white text-base mb-2">What makes your 27 in-house SEO tools different from SaaS tools?</h3>
-      <p class="text-slate-300 text-sm leading-relaxed">Our 27 tools are custom written natively in PHP Laravel without third-party API dependencies or paywalls. They perform direct live DOM parsing, providing transparent and instant SEO insights without sign-up friction.</p>
+      <h3 class="font-bold text-white text-base mb-2">What makes your 32 in-house SEO tools different from SaaS tools?</h3>
+      <p class="text-slate-300 text-sm leading-relaxed">Our 32 tools are custom written natively in PHP Laravel without third-party API dependencies or paywalls. They perform direct live DOM parsing, providing transparent and instant SEO insights without sign-up friction.</p>
     </div>
     <div class="p-6 rounded-2xl bg-slate-900/40 border border-slate-800">
       <h3 class="font-bold text-white text-base mb-2">Can you manage both Google Ads and Organic SEO simultaneously?</h3>
@@ -416,7 +447,7 @@ const homeHtml = `
 writeRouteFile('/', generatePageHtml({
   path: '/',
   title: 'Best SEO Expert & SEO Specialist in 2026 | Waqas Mehmood',
-  description: "Hire Waqas Mehmood, Pakistan's top SEO expert & specialist providing proven enterprise SEO services, technical audits, and 28 free tools. Get a free proposal today!",
+  description: "Hire Waqas Mehmood, Pakistan's top SEO expert & specialist providing proven enterprise SEO services, technical audits, and 32 free tools. Get a free proposal today!",
   contentHtml: homeHtml
 }));
 generatedRoutes.push('/');
@@ -493,7 +524,7 @@ const aboutHtml = `
     <ul class="list-disc pl-5 space-y-2">
       <li><strong>Architectural Technical SEO:</strong> Solving JavaScript rendering bloat, canonical loops, 404 dead ends, and HTTP 410 permanent spam de-indexing.</li>
       <li><strong>Programmatic & Local SEO:</strong> Dominating Google Map Pack 3-Pack and geo-targeted keywords across Hyderabad, Karachi, Lahore, and Islamabad.</li>
-      <li><strong>Full-Stack Tool Development:</strong> Built the 27-tool native suite on waqasmehmood.com with zero third-party API dependencies.</li>
+      <li><strong>Full-Stack Tool Development:</strong> Built the 32-tool native suite on waqasmehmood.com with zero third-party API dependencies.</li>
     </ul>
     <div class="mt-8 pt-6 border-t border-slate-800">
       <a href="/contact" class="px-6 py-3 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 inline-block transition-all">Work with Waqas</a>
@@ -621,23 +652,23 @@ const allToolsHtml = `
 </nav>
 <section class="mb-16">
   <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-6">
-    27 Free SEO Tools & Digital Analyzers
+    32 Free SEO Tools & Digital Analyzers
   </h1>
   <p class="text-base md:text-lg text-slate-300 max-w-3xl mb-8 leading-relaxed">
-    Explore 27 native, high-performance SEO and digital marketing tools developed by Waqas Mehmood. Free forever, zero third-party API dependencies, with instant live DOM parsing.
+    Explore 32 native, high-performance SEO and digital marketing tools developed by Waqas Mehmood. Free forever, zero third-party API dependencies, with instant live DOM parsing.
   </p>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
     <a href="/on-page-seo" class="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/50 transition-all">
-      <h2 class="font-bold text-cyan-400 mb-1">One-Page SEO (10)</h2>
-      <p class="text-xs text-slate-400">Keyword density, meta tags, SERP preview, headings, word counter.</p>
+      <h2 class="font-bold text-cyan-400 mb-1">One-Page SEO (11)</h2>
+      <p class="text-xs text-slate-400">Keyword density, meta tags, SERP preview, headings, word counter, AI bot audit.</p>
     </a>
     <a href="/off-page-seo" class="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-indigo-500/50 transition-all">
       <h2 class="font-bold text-indigo-400 mb-1">Off-Page SEO (5)</h2>
       <p class="text-xs text-slate-400">Backlink checker, DA/PA, competitor backlink analyzer, anchor text.</p>
     </a>
     <a href="/technical-seo" class="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-emerald-500/50 transition-all">
-      <h2 class="font-bold text-emerald-400 mb-1">Technical SEO (5)</h2>
-      <p class="text-xs text-slate-400">Speed check, sitemap validator, robots.txt tester, JSON-LD schema.</p>
+      <h2 class="font-bold text-emerald-400 mb-1">Technical SEO (6)</h2>
+      <p class="text-xs text-slate-400">Speed check, sitemap validator, robots.txt tester, JSON-LD schema, schema generator.</p>
     </a>
     <a href="/local-seo" class="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-amber-500/50 transition-all">
       <h2 class="font-bold text-amber-400 mb-1">Local SEO (5)</h2>
@@ -649,8 +680,8 @@ const allToolsHtml = `
 
 writeRouteFile('/all-tools', generatePageHtml({
   path: '/all-tools',
-  title: '28 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
-  description: 'Run 28 free in-house SEO tools covering On Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. 100% free with zero third-party dependencies!',
+  title: '32 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
+  description: 'Run 32 free in-house SEO tools covering On Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. 100% free with zero third-party dependencies!',
   contentHtml: allToolsHtml
 }));
 generatedRoutes.push('/all-tools');
@@ -662,8 +693,8 @@ const PILLARS_CONFIG = [
   {
     path: '/on-page-seo',
     title: 'Best On-Page SEO Tools & Page Analyzers | Waqas Mehmood',
-    description: 'Free On-Page SEO tools: Website SEO checker, keyword density, meta tag analyzer, SERP preview, heading checker, and broken link audit. Test your URLs free!',
-    h1: 'One Page SEO Tools - 10 Free On-Page Analyzers',
+    description: 'Free On-Page SEO tools: Website SEO checker, keyword density, meta tag analyzer, SERP preview, heading checker, open SEO AI bot analyzer, and broken link audit. Test your URLs free!',
+    h1: 'One Page SEO Tools - 11 Free On-Page Analyzers',
     tools: [
       { slug: 'website-seo-checker', name: 'Website SEO Checker' },
       { slug: 'seo-analyzer', name: 'SEO Analyzer' },
@@ -674,7 +705,8 @@ const PILLARS_CONFIG = [
       { slug: 'plagiarism-checker', name: 'Plagiarism Checker' },
       { slug: 'image-alt-checker', name: 'Image ALT Text Checker' },
       { slug: 'heading-checker', name: 'Heading Checker (H1-H6)' },
-      { slug: 'broken-link-checker', name: 'Broken Link Checker' }
+      { slug: 'broken-link-checker', name: 'Broken Link Checker' },
+      { slug: 'open-seo', name: 'Open SEO AI & Bot Analyzer' }
     ]
   },
   {
@@ -772,7 +804,7 @@ for (const p of PILLARS_CONFIG) {
 }
 
 // =========================================================================
-// 11. ALL 27 TOOLS (/tools/:slug)
+// 11. ALL 32 TOOLS (/tools/:slug)
 // =========================================================================
 for (const [slug, data] of Object.entries(TOOLS_SEO_DATA)) {
   const toolRoute = `/tools/${slug}`;
@@ -815,7 +847,7 @@ for (const [slug, data] of Object.entries(TOOLS_SEO_DATA)) {
         ${data.benchmarks.map(b => `
           <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
             <div class="text-xs text-slate-400">${b.label}</div>
-            <div class="text-sm font-bold text-white mt-1">${b.ideal}</div>
+            <div class="text-sm font-bold text-white mt-1">${b.ideal || b.value}</div>
           </div>
         `).join('')}
       </div>

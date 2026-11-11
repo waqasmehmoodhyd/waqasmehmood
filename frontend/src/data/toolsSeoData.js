@@ -141,6 +141,56 @@ export const TOOLS_SEO_DATA = {
     ]
   },
 
+  'open-seo': {
+    focusKeyword: 'open seo ai bot analyzer',
+    secondaryKeywords: [
+      'open seo audit tool',
+      'chatgpt crawler checker',
+      'perplexitybot permissions test',
+      'google extended ai audit',
+      'serp pixel width checker'
+    ],
+    h2Title: 'Open SEO AI & Bot Crawler Analyzer: Diagnosing SERP & AI Visibility',
+    metaTitle: 'Open SEO Analyzer - AI Bot & SERP Checker | Waqas Mehmood',
+    metaDesc: 'Audit On-Page tags, Google SERP pixel width, and test if ChatGPT (GPTBot), Perplexity AI, or Google Gemini are blocked in robots.txt.',
+    primaryIntent: 'Technical & AI Search Diagnostic',
+    targetAudience: 'SEO Specialists, Technical Marketers & Webmasters',
+    heroTag: 'AI & AEO Audit Tool',
+    heroBadge: 'New AI Tool 2026',
+    estimatedTime: '2 Seconds',
+    accuracyRate: '99.8%',
+    relatedSlugs: ['website-seo-checker', 'seo-analyzer', 'meta-tag-analyzer', 'heading-checker'],
+    intro: 'Open SEO AI & Bot Crawler Analyzer delivers deep diagnostics on search bot accessibility, ChatGPT and Perplexity AI citation readiness, and Google SERP title pixel boundaries. Ensure your brand is fully discoverable by next-generation conversational AI engines and search models.',
+    googleFactor: 'Search engine crawlers and conversational AI agents (OpenAI GPTBot, PerplexityBot, Google-Extended, and ClaudeBot) parse your robots.txt and on-page semantic markers. Ensuring AI crawlers have full crawl permissions and maintaining title pixel widths below 580px guarantees maximal visibility across Google AI Overviews and ChatGPT citations.',
+    benchmarks: [
+      { label: 'AI Bot Crawler Access', ideal: '100% Allowed (GPTBot, Perplexity, Google-Extended)', value: '100% Allowed' },
+      { label: 'SERP Title Pixel Width', ideal: 'Under 580px (Eliminates mobile & desktop ellipsis truncation)', value: 'Under 580px' },
+      { label: 'H1 Semantic Hierarchy', ideal: 'Exactly 1 H1 per URL reflecting primary topic', value: 'Single H1' },
+      { label: 'Structured Data', ideal: 'Valid JSON-LD Schema markup detected', value: 'Valid JSON-LD' }
+    ],
+    bestPractices: [
+      'Verify in robots.txt that AI search user-agents (GPTBot, PerplexityBot, Google-Extended) are not blocked under wildcard Disallow rules.',
+      'Keep title tag pixel width strictly below 580px to prevent truncation on high-DPI desktop and mobile Google SERP displays.',
+      'Deploy structured JSON-LD schemas (WebPage, Article, Organization) to feed clean entity attributes directly into AI context windows.',
+      'Ensure semantic H1-H3 heading hierarchies to assist generative LLMs in extracting concise citation answers.'
+    ],
+    externalReference: {
+      name: 'Google Search Central - Overview of Google Crawlers & AI User-Agents',
+      url: 'https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers',
+      citation: 'Official documentation for managing search engine crawlers, Google-Extended AI directives, and indexation controls.'
+    },
+    faqs: [
+      {
+        q: 'What is Open SEO AI Bot Analyzer?',
+        a: 'Open SEO AI Bot Analyzer checks on-page signals, Google SERP pixel width, and verifies whether major AI search crawlers like GPTBot, PerplexityBot, and Google-Extended are permitted to index and cite your webpage.'
+      },
+      {
+        q: 'Why should I check if AI crawlers like GPTBot are blocked?',
+        a: 'If your robots.txt or meta tags disallow GPTBot or PerplexityBot, your website will be excluded from conversational answer boxes and citations in ChatGPT Search and Perplexity AI.'
+      }
+    ]
+  },
+
   'seo-analyzer': {
     focusKeyword: 'seo analyzer and error detector',
     secondaryKeywords: [

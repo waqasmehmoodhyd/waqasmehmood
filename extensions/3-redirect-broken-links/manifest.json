@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Waqas Mehmood - Smart Redirect Path & Broken Link Checker",
   "version": "1.0.0",
-  "description": "Inspect HTTP redirect chains (301, 302, 307), detect 404 broken links, and highlight invalid links live on-page with 1-click CSV export by Waqas Mehmood.",
+  "description": "Trace HTTP redirect chains (301, 302), catch 404 broken links, and highlight invalid links live on any webpage in real time.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

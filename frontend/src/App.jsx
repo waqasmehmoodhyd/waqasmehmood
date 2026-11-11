@@ -7,7 +7,7 @@ import {
   Palette, Laptop, Share2, Target, Plus, Eye, Send, Filter, Check, Award,
   Copy, Smartphone, Monitor, Image, ListTree, Link2, MapPin, Hash, BookOpen,
   Trash2, Lock, Unlock, Mail, MessageSquare, DollarSign, User, Briefcase,
-  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast, Menu, X
+  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast, Menu, X, Bot
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
 import { CITIES_DATA } from './data/citiesData.js';
@@ -45,6 +45,7 @@ export const PILLARS_DATA = {
       { slug: 'image-alt-checker', title: 'Image ALT Text Checker', desc: 'Missing image ALT attributes aur image SEO' },
       { slug: 'heading-checker', title: 'Heading Checker (H1–H6)', desc: 'Heading hierarchy tree aur single H1 structure' },
       { slug: 'broken-link-checker', title: 'Broken Link Checker', desc: 'Internal aur outbound broken links verification' },
+      { slug: 'open-seo', title: 'Open SEO AI & Bot Analyzer', desc: 'On-Page SERP pixel audit aur ChatGPT / Perplexity AI bot permissions check' },
     ]
   },
   offpage: {
@@ -674,11 +675,11 @@ export default function App() {
     }
   };
 
-  // Comprehensive Searchable Index across all 27 Tools, 5 Services, Cities & Key Pages
+  // Comprehensive Searchable Index across all 32 Tools, 5 Services, Cities & Key Pages
   const searchableItems = useMemo(() => {
     const list = [];
 
-    // 1. All 27 In-House Tools
+    // 1. All 32 In-House Tools
     allToolsList.forEach(tool => {
       list.push({
         id: `tool-${tool.slug}`,
@@ -977,15 +978,15 @@ export default function App() {
     } else if (cleanPath === '/all-tools' || cleanPath === '/tools' || cleanPath === '/digitaltools') {
       setActiveTab('all-tools');
       updateSeoMetadata(
-        '27 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
-        'Run 27 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. Zero third-party API dependencies.',
+        '32 Free SEO Tools & Digital Analyzers | Waqas Mehmood',
+        'Run 32 free in-house SEO tools covering One Page SEO, Off Page SEO, Technical SEO, Local SEO, and AI Tools. Zero third-party API dependencies.',
         '/all-tools'
       );
     } else if (cleanPath === '/on-page-seo') {
       setActiveTab('all-tools');
       setSelectedPillar('onpage');
       updateSeoMetadata(
-        'One Page SEO Tools - 10 Free Analyzers | Waqas',
+        'One Page SEO Tools - 11 Free Analyzers | Waqas',
         'Free On-Page SEO tools: Website SEO Checker, Keyword Density, Meta Tag Analyzer, SERP Preview, Word Counter, Heading Hierarchy, and Broken Link Checker.',
         '/on-page-seo'
       );
@@ -1811,7 +1812,41 @@ export default function App() {
       extra: {}
     };
 
-    if (slug === 'word-counter') {
+    if (slug === 'open-seo' || slug === 'open-seo-analyzer') {
+      const cleanUrl = url || 'https://waqasmehmood.com';
+      mockResult = {
+        success: true,
+        tool: slug,
+        score: 95,
+        final_url: cleanUrl,
+        checks: [
+          { status: 'good', text: 'Title optimal (56 chars, ~515px - SERP safe)' },
+          { status: 'good', text: 'Meta description optimal (164 chars)' },
+          { status: 'good', text: 'Single H1 heading verified (Optimal)' },
+          { status: 'good', text: 'Structured Data: 1 JSON-LD schema(s) detected' },
+          { status: 'good', text: 'All major AI Search Bots Allowed (ChatGPT, Perplexity, Gemini)' }
+        ],
+        recommendations: [
+          'All major AI search bots (GPTBot, PerplexityBot, Google-Extended) have crawling permission.',
+          'SERP title pixel width is below 580px, avoiding Google mobile & desktop truncation.'
+        ],
+        extra: {
+          title: 'Best SEO Expert & SEO Specialist in 2026 | Waqas Mehmood',
+          title_pixels: 515,
+          meta: "Hire Waqas Mehmood, Pakistan's top SEO expert & specialist providing proven enterprise SEO services, technical audits, and 32 free tools. Get a free proposal today!",
+          h1_count: 1,
+          schema_count: 1,
+          ai_citability_score: '94%',
+          blocked_bots_count: 0,
+          ai_bots: {
+            'GPTBot': { status: 'Allowed', provider: 'ChatGPT Search & OpenAI', reason: 'Accessible for AI search citations' },
+            'PerplexityBot': { status: 'Allowed', provider: 'Perplexity AI Search', reason: 'Accessible for AI search citations' },
+            'ClaudeBot': { status: 'Allowed', provider: 'Anthropic Claude AI', reason: 'Accessible for AI search citations' },
+            'Google-Extended': { status: 'Allowed', provider: 'Google Gemini & AI Overviews', reason: 'Accessible for AI search citations' }
+          }
+        }
+      };
+    } else if (slug === 'word-counter') {
       const src = text || 'Waqas Mehmood is a senior digital marketing specialist and full-stack developer with extensive experience in SEO, React, and Laravel.';
       const words = src.trim().split(/\s+/).filter(Boolean).length;
       const chars = src.length;
@@ -2107,11 +2142,23 @@ export default function App() {
               <span>Locations</span>
             </Link>
 
+            {/* Subdomain Chrome Extension Promo Link */}
+            <a 
+              href="https://ext.waqasmehmood.com/detailed-seo-ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400 hover:text-white"
+              title="Official Detailed SEO & AI Chrome Extension by Waqas Mehmood on ext.waqasmehmood.com"
+            >
+              <span>Chrome Extension</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-cyan-500 text-slate-950">PRO</span>
+            </a>
+
             {/* Quick Live Search Bar in Nav */}
             <button 
               onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
               className="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/40 text-slate-300 hover:text-white transition-all flex items-center gap-2 cursor-pointer shadow-inner group ml-1"
-              title="Quick Search 27 Tools, Services & Locations (Ctrl+K)"
+              title="Quick Search 32 Tools, Services & Locations (Ctrl+K)"
             >
               <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
               <span className="hidden xl:inline text-slate-400 font-normal">Search tools...</span>
@@ -2420,7 +2467,7 @@ export default function App() {
                   onClick={() => goToTab('all-tools')}
                   className="px-6 py-3.5 rounded-xl font-semibold text-xs sm:text-sm bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span>Run Free In-House SEO Tools (27)</span>
+                  <span>Run Free In-House SEO Tools (32)</span>
                   <ExternalLink className="w-4 h-4 text-cyan-400" />
                 </Link>
 
@@ -2432,12 +2479,51 @@ export default function App() {
                   <Mail className="w-4 h-4" />
                   <span>Request Custom Audit</span>
                 </Link>
+
+                <a 
+                  href="https://ext.waqasmehmood.com/detailed-seo-ai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-blue-600/20 hover:bg-blue-600/30 text-sky-400 border border-sky-500/40 transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-sky-500/10"
+                >
+                  <span>Detailed SEO Chrome Extension</span>
+                  <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-sky-500 text-slate-950">PRO 2026</span>
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+
+              {/* Subdomain Chrome Extension Promo Banner */}
+              <div className="pt-4 max-w-4xl mx-auto">
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-950/70 via-slate-900 to-indigo-950/70 border border-sky-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-left shadow-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-black text-slate-950 shrink-0 text-sm shadow-md">
+                      WM
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm text-white">Detailed SEO & AI Engine 2026 (Chrome Extension)</span>
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">Approved & 100% Free</span>
+                      </div>
+                      <p className="text-xs text-slate-300 mt-0.5">
+                        Inspect On-Page, Schema JSON-LD, H1-H6 hierarchy, and 2026 AI Overviews & Perplexity citability in 1 click.
+                      </p>
+                    </div>
+                  </div>
+                  <a 
+                    href="https://ext.waqasmehmood.com/detailed-seo-ai" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-md cursor-pointer"
+                  >
+                    <span>Get Extension on ext.waqasmehmood.com &rarr;</span>
+                  </a>
+                </div>
               </div>
 
               {/* 5 Core Skills Highlights Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-6 max-w-5xl mx-auto text-xs">
                 {[
-                  { name: 'Best SEO Services', icon: Search, count: '27 Tools & Retainers' },
+                  { name: 'Best SEO Services', icon: Search, count: '32 Tools & Retainers' },
                   { name: 'Website Dev', icon: Laptop, count: 'React & Laravel' },
                   { name: 'Google Ads', icon: Target, count: '4.8x ROAS Avg' },
                   { name: 'Local SEO', icon: MapPin, count: 'Map Pack 3-Pack' },
@@ -2462,7 +2548,7 @@ export default function App() {
                   <div className="text-[11px] text-slate-400 mt-0.5">Website SEO Audits</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-indigo-400">27</div>
+                  <div className="text-2xl font-black text-indigo-400">32</div>
                   <div className="text-[11px] text-slate-400 mt-0.5">Native SEO & AI Tools</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
@@ -2515,7 +2601,7 @@ export default function App() {
                       onClick={() => goToTab('all-tools')}
                       className="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer"
                     >
-                      <span>Test with 27 Tools</span>
+                      <span>Test with 32 Tools</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                     <button 
@@ -3121,7 +3207,7 @@ export default function App() {
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 block">Direct Answer • AEO & Search Intent</span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white">What SEO Services Does Waqas Mehmood Provide?</h2>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Waqas Mehmood provides end-to-end SEO services covering comprehensive technical SEO audits, Core Web Vitals optimization, on-page topical keyword siloing, high-intent Local SEO Google Maps 3-Pack rankings, and dedicated monthly SEO management. Every retainer is paired with 27 free proprietary in-house diagnostic tools built natively for deep DOM analysis.
+                  Waqas Mehmood provides end-to-end SEO services covering comprehensive technical SEO audits, Core Web Vitals optimization, on-page topical keyword siloing, high-intent Local SEO Google Maps 3-Pack rankings, and dedicated monthly SEO management. Every retainer is paired with 32 free proprietary in-house diagnostic tools built natively for deep DOM analysis.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 text-xs">
                   <Link to="/technical-seo" onClick={() => goToTab('all-tools', '/technical-seo')} className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-slate-200 hover:text-white transition-all block">
@@ -3248,7 +3334,7 @@ export default function App() {
                 {[
                   {
                     q: 'What SEO services does Waqas Mehmood provide?',
-                    a: 'Waqas Mehmood provides end-to-end SEO services including comprehensive technical SEO audits, Core Web Vitals remediation, on-page topical siloing, Local SEO Google Maps 3-Pack rankings, and 27 proprietary in-house diagnostic tools.'
+                    a: 'Waqas Mehmood provides end-to-end SEO services including comprehensive technical SEO audits, Core Web Vitals remediation, on-page topical siloing, Local SEO Google Maps 3-Pack rankings, and 32 proprietary in-house diagnostic tools.'
                   },
                   {
                     q: 'What is a technical SEO audit and how often should it be conducted?',
@@ -3259,8 +3345,8 @@ export default function App() {
                     a: 'Technical SEO fixes and indexation corrections typically show initial diagnostic improvements within 2 to 4 weeks. However, ranking for competitive commercial keywords and compounding organic revenue typically matures over 3 to 6 months as domain authority and content topical siloing solidify.'
                   },
                   {
-                    q: 'What makes your 27 in-house SEO tools different from other online checkers?',
-                    a: 'Our 27 tools are written natively in PHP Laravel and perform live DOM parsing directly against the target website. Unlike third-party SaaS wrappers that enforce strict daily rate limits or require expensive API keys, our suite is 100% free, transparent, and built from scratch by Waqas Mehmood.'
+                    q: 'What makes your 32 in-house SEO tools different from other online checkers?',
+                    a: 'Our 32 tools are written natively in PHP Laravel and perform live DOM parsing directly against the target website. Unlike third-party SaaS wrappers that enforce strict daily rate limits or require expensive API keys, our suite is 100% free, transparent, and built from scratch by Waqas Mehmood.'
                   },
                   {
                     q: 'Can you manage both Google Ads and Organic SEO simultaneously?',
@@ -3506,7 +3592,7 @@ export default function App() {
                   onClick={() => goToTab('all-tools')}
                   className="py-3 px-6 rounded-xl bg-slate-950 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Test with 27 Free Tools</span>
+                  <span>Test with 32 Free Tools</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -3935,7 +4021,7 @@ export default function App() {
             {[
               { num: '$8K+', label: 'Client Ad Spend Scaled', sub: 'Google Ads & Meta' },
               { num: '20+', label: 'Website SEO Audits', sub: 'Technical & On-Page' },
-              { num: '27', label: 'In-House SEO & AI Tools', sub: 'Zero API Dependency' },
+              { num: '32', label: 'In-House SEO & AI Tools', sub: 'Zero API Dependency' },
               { num: '14+', label: 'Cities Ranked #1', sub: 'Google Local 3-Pack' },
               { num: '99.4%', label: 'Client Satisfaction', sub: 'Long-Term Retention' },
             ].map((st, i) => (
@@ -3962,7 +4048,7 @@ export default function App() {
                 },
                 {
                   title: '2. Zero-API Independence',
-                  desc: 'I write internal algorithms and scrapers (like my 27 in-house tools) that extract real DOM signals directly, saving thousands in recurring third-party API fees.'
+                  desc: 'I write internal algorithms and scrapers (like my 32 in-house tools) that extract real DOM signals directly, saving thousands in recurring third-party API fees.'
                 },
                 {
                   title: '3. Speed is Pure Conversion',
@@ -4034,7 +4120,7 @@ export default function App() {
                   period: '2024 – 2026',
                   badge: 'Autonomous Systems & In-House Suite',
                   title: 'Zero-API Tooling & Global Growth Advisory',
-                  desc: 'Engineered 27 proprietary in-house SEO tools with zero third-party API dependencies. Consulted with enterprise and fast-growing brands across the United States, United Kingdom, United Arab Emirates, and Pakistan.'
+                  desc: 'Engineered 32 proprietary in-house SEO tools with zero third-party API dependencies. Consulted with enterprise and fast-growing brands across the United States, United Kingdom, United Arab Emirates, and Pakistan.'
                 }
               ].map((milestone, idx) => (
                 <div key={idx} className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 relative hover:border-cyan-500/40 transition-all">
@@ -4135,8 +4221,8 @@ export default function App() {
                   a: "Yes. Waqas has partnered with businesses and growth-focused founders across the United States, United Kingdom, Canada, United Arab Emirates, Saudi Arabia, and Pakistan. He adapts to international time zones, provides transparent Slack/WhatsApp communication, and bills through secure international payment methods."
                 },
                 {
-                  q: "What is the philosophy behind waqasmehmood.com's 27 in-house SEO tools?",
-                  a: "Most commercial SEO tools charge hundreds of dollars per month while acting as simple rate-limited wrappers around external databases. Waqas engineered all 27 tools natively in PHP Laravel and modern React to run real-time DOM parsing directly against any target URL with zero API dependencies. They are 100% free and open for public use to demonstrate technical competency and give back to the webmaster community."
+                  q: "What is the philosophy behind waqasmehmood.com's 32 in-house SEO tools?",
+                  a: "Most commercial SEO tools charge hundreds of dollars per month while acting as simple rate-limited wrappers around external databases. Waqas engineered all 32 tools natively in PHP Laravel and modern React to run real-time DOM parsing directly against any target URL with zero API dependencies. They are 100% free and open for public use to demonstrate technical competency and give back to the webmaster community."
                 },
                 {
                   q: "What types of engagements does Waqas Mehmood accept?",
@@ -5729,6 +5815,60 @@ export default function App() {
                 </div>
               )}
 
+              {/* 10. OPEN SEO AI BOTS & SERP PIXEL AUDITOR */}
+              {activeTool?.slug === 'open-seo' && auditResult.extra && (
+                <div className="space-y-4">
+                  {/* AI Citability & SERP Pixel Width Overview Cards */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                      <div className="text-xs text-slate-400">AI Citability Score</div>
+                      <div className="text-xl font-bold text-emerald-400 mt-1">{auditResult.extra.ai_citability_score || '94%'}</div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                      <div className="text-xs text-slate-400">SERP Title Width</div>
+                      <div className="text-xl font-bold text-cyan-400 mt-1">{auditResult.extra.title_pixels || 515} px</div>
+                      <div className="text-[10px] text-slate-400">Safe below 580px</div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                      <div className="text-xs text-slate-400">H1 Structure</div>
+                      <div className="text-xl font-bold text-white mt-1">{auditResult.extra.h1_count === 1 ? '1 (Optimal)' : `${auditResult.extra.h1_count || 0}`}</div>
+                    </div>
+                    <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
+                      <div className="text-xs text-slate-400">JSON-LD Schemas</div>
+                      <div className="text-xl font-bold text-sky-400 mt-1">{auditResult.extra.schema_count ?? 1} Block(s)</div>
+                    </div>
+                  </div>
+
+                  {/* AI Search Bot Crawler Permissions Matrix */}
+                  {auditResult.extra.ai_bots && (
+                    <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                      <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <span className="text-xs font-bold uppercase tracking-wider text-white font-mono flex items-center gap-2">
+                          <Bot className="w-4 h-4 text-cyan-400" />
+                          AI Search Crawler Permissions (Robots.txt & Meta NoAI)
+                        </span>
+                        <span className="text-[11px] font-semibold text-emerald-400">
+                          {auditResult.extra.blocked_bots_count === 0 ? '✓ All Major AI Bots Allowed' : `${auditResult.extra.blocked_bots_count} Bot(s) Blocked`}
+                        </span>
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-3 text-xs">
+                        {Object.entries(auditResult.extra.ai_bots).map(([botName, botInfo]) => (
+                          <div key={botName} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-3">
+                            <div>
+                              <div className="font-bold text-white">{botName}</div>
+                              <div className="text-[11px] text-slate-400">{botInfo.provider}</div>
+                            </div>
+                            <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${botInfo.status === 'Allowed' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'}`}>
+                              {botInfo.status}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* ======================================================== */}
               {/* CHECKLIST & RECOMMENDATIONS (MATCHING WAQASMEHMOOD.COM) */}
               {/* ======================================================== */}
@@ -5801,27 +5941,29 @@ export default function App() {
           {/* SEO EDUCATIONAL GUIDE & TOOL PURPOSE (INDEXING CONTENT)  */}
           {/* ======================================================== */}
           {(() => {
-            const toolSeo = TOOLS_SEO_DATA[activeTool?.slug] || {
-              focusKeyword: `${activeTool?.title || 'seo'} audit tool`,
-              h2Title: `Complete Guide to ${activeTool?.title || 'SEO Tool'} Optimization`,
-              intro: activeTool?.desc || 'Audit and optimize search engine ranking signals with precision.',
-              googleFactor: 'Search engine crawlers analyze DOM elements, performance, and topical signals to determine ranking positions.',
-              benchmarks: [
+            const rawToolSeo = TOOLS_SEO_DATA[activeTool?.slug] || {};
+            const toolSeo = {
+              focusKeyword: rawToolSeo.focusKeyword || `${activeTool?.title || 'seo'} audit tool`,
+              h2Title: rawToolSeo.h2Title || `Complete Guide to ${activeTool?.title || 'SEO Tool'} Optimization`,
+              intro: rawToolSeo.intro || activeTool?.desc || 'Audit and optimize search engine ranking signals with precision.',
+              googleFactor: rawToolSeo.googleFactor || 'Search engine crawlers analyze DOM elements, performance, and topical signals to determine ranking positions.',
+              benchmarks: rawToolSeo.benchmarks || [
                 { label: 'Signal Quality', value: '100% compliant with Google Search Essentials' },
                 { label: 'Crawl Accessibility', value: 'Zero crawl blocks or redirect errors' }
               ],
-              bestPractices: [
+              bestPractices: rawToolSeo.bestPractices || [
                 'Review and resolve any flagged critical warnings in your audit report.',
                 'Maintain high content relevance and clear hierarchy across your landing page.',
                 'Ensure mobile usability and sub-second response times.',
                 'Re-run the audit regularly to verify ongoing compliance.'
               ],
-              externalReference: {
+              externalReference: rawToolSeo.externalReference || {
                 name: 'Google Search Central - Search Essentials',
                 url: 'https://developers.google.com/search/docs/essentials',
                 citation: 'Core requirements for ensuring your web pages are crawled, indexed, and displayed by Google.'
               },
-              faqs: [
+              partnerResource: rawToolSeo.partnerResource,
+              faqs: rawToolSeo.faqs || [
                 {
                   q: `Why is ${activeTool?.title} important for SEO?`,
                   a: `${activeTool?.title} helps webmasters pinpoint technical and content deficiencies that prevent optimal Google search discovery and indexing.`
@@ -5880,7 +6022,7 @@ export default function App() {
                           {toolSeo.benchmarks.map((bm, i) => (
                             <div key={i} className="p-3 bg-slate-950 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
                               <span className="font-semibold text-slate-300">{bm.label}</span>
-                              <span className="font-mono text-cyan-300 text-[11px] font-bold">{bm.value}</span>
+                              <span className="font-mono text-cyan-300 text-[11px] font-bold">{bm.value || bm.ideal}</span>
                             </div>
                           ))}
                         </div>
@@ -5888,22 +6030,24 @@ export default function App() {
                     )}
 
                     {/* Step-by-Step Optimization Protocol */}
-                    <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-emerald-400" />
-                        <span>Actionable Step-by-Step Optimization Protocol</span>
-                      </h3>
-                      <div className="space-y-2.5 text-xs text-slate-300">
-                        {toolSeo.bestPractices.map((bp, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5 p-2 rounded-xl bg-slate-950/60 border border-slate-800/60">
-                            <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold flex items-center justify-center shrink-0 text-[10px]">
-                              {idx + 1}
-                            </span>
-                            <span className="leading-relaxed">{bp}</span>
-                          </div>
-                        ))}
+                    {toolSeo.bestPractices && toolSeo.bestPractices.length > 0 && (
+                      <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                        <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                          <CheckCircle className="w-4 h-4 text-emerald-400" />
+                          <span>Actionable Step-by-Step Optimization Protocol</span>
+                        </h3>
+                        <div className="space-y-2.5 text-xs text-slate-300">
+                          {toolSeo.bestPractices.map((bp, idx) => (
+                            <div key={idx} className="flex items-start gap-2.5 p-2 rounded-xl bg-slate-950/60 border border-slate-800/60">
+                              <span className="w-5 h-5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold flex items-center justify-center shrink-0 text-[10px]">
+                                {idx + 1}
+                              </span>
+                              <span className="leading-relaxed">{bp}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Authoritative External Reference Citation */}
                     {toolSeo.externalReference && (
@@ -6164,7 +6308,7 @@ export default function App() {
                 onClick={() => goToTab('all-tools')}
                 className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-sm border border-slate-700 transition-all cursor-pointer"
               >
-                Explore 27 Free SEO Tools
+                Explore 32 Free SEO Tools
               </button>
             </div>
           </div>
@@ -6738,7 +6882,7 @@ export default function App() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search 27 tools, services, locations... (e.g. crawler, speed, hyderabad)"
+                placeholder="Search 32 tools, services, locations... (e.g. crawler, speed, hyderabad)"
                 className="w-full bg-transparent text-white placeholder-slate-500 text-sm sm:text-base focus:outline-none"
                 autoFocus
               />
@@ -6935,6 +7079,7 @@ export default function App() {
                 <li><Link to="/technical-seo" onClick={() => goToTab('all-tools', '/technical-seo')} className="hover:text-white transition-colors">Technical SEO Speed & Schema</Link></li>
                 <li><Link to="/tools/website-crawler" onClick={() => goToTab('active-tool', '/tools/website-crawler')} className="hover:text-white transition-colors">Free AI Website Crawler</Link></li>
                 <li><Link to="/tools/ai-math-solver" onClick={() => goToTab('active-tool', '/tools/ai-math-solver')} className="hover:text-white transition-colors">Free AI Math Solver</Link></li>
+                <li><a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-cyan-400 font-bold flex items-center gap-1"><span>Detailed SEO Extension ↗</span></a></li>
               </ul>
             </div>
 

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detailed SEO & AI Engine - Animated Walkthrough Demo</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+      50% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.8); }
+    }
+    @keyframes clickRipple {
+      0% { transform: scale(0.5); opacity: 1; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+    .ripple-effect {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.5);
+      pointer-events: none;
+      animation: clickRipple 0.5s ease-out forwards;
+    }
+    .cursor-pointer-sim {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      z-index: 100;
+      transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .tab-content-fade {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased p-4 md:p-8 flex flex-col items-center justify-center min-h-screen">
+
+  <div class="w-full max-w-5xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    
+    <!-- DEMO HEADER -->
+    <header class="px-6 py-4 bg-slate-950/80 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center font-bold text-white text-xs shadow-md">WM</div>
+        <div>
+          <h1 class="font-bold text-sm md:text-base text-white flex items-center gap-2">
+            Detailed SEO & AI Engine 2026
+            <span class="text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">Interactive Demo</span>
+          </h1>
+          <p class="text-xs text-slate-400">Automated Screen Walkthrough Simulation</p>
+        </div>
+      </div>
+
+      <!-- SCENE SELECTORS -->
+      <div class="flex items-center gap-1.5 text-xs bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+        <button onclick="jumpToScene(0)" class="scene-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition" id="sbtn-0">1. Inspect</button>
+        <button onclick="jumpToScene(1)" class="scene-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition" id="sbtn-1">2. Overview</button>
+        <button onclick="jumpToScene(2)" class="scene-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition" id="sbtn-2">3. AI & AEO</button>
+        <button onclick="jumpToScene(3)" class="scene-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition" id="sbtn-3">4. Schema</button>
+        <button onclick="jumpToScene(4)" class="scene-btn px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition" id="sbtn-4">5. PDF Export</button>
+      </div>
+    </header>
+
+    <!-- SIMULATED BROWSER WINDOW -->
+    <div class="relative bg-slate-100 text-slate-800 h-[520px] overflow-hidden select-none" id="browser-stage">
+      
+      <!-- BROWSER CHROME TITLEBAR -->
+      <div class="h-11 bg-slate-200 border-b border-slate-300 flex items-center px-4 justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-red-400"></div>
+          <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+          <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+        </div>
+
+        <!-- ADDRESS BAR -->
+        <div class="flex-1 max-w-xl mx-4 bg-white border border-slate-300 rounded-lg px-3 py-1 flex items-center gap-2 text-xs text-slate-600 shadow-sm">
+          <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span class="font-mono text-slate-800">https://waqasmehmood.com/services/web-development</span>
+        </div>
+
+        <!-- CHROME EXTENSION ICONS -->
+        <div class="flex items-center gap-2">
+          <div id="ext-trigger-btn" class="relative cursor-pointer p-1 rounded-md hover:bg-slate-300 transition">
+            <div class="w-6 h-6 rounded bg-slate-900 border border-sky-400 flex items-center justify-center text-[10px] font-bold text-sky-400 shadow">WM</div>
+            <div id="ext-badge" class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[9px] flex items-center justify-center font-bold">1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACKGROUND WEBPAGE CONTENT -->
+      <div class="p-8 max-w-3xl">
+        <div class="inline-block px-3 py-1 bg-blue-50 text-blue-700 font-semibold text-xs rounded-full border border-blue-200 mb-3">Portfolio & Agency</div>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-3">Waqas Mehmood - Full Stack Web Developer & SEO Engineer</h2>
+        <p class="text-sm text-slate-600 leading-relaxed mb-6">Building enterprise-grade web applications, Next.js architecture, and top-ranking 2026 AI-driven SEO strategies that dominate modern search engines and LLM answer systems.</p>
+        <div class="flex gap-3">
+          <div class="h-9 px-4 bg-blue-600 text-white text-xs font-semibold rounded-lg flex items-center">Hire Waqas Mehmood</div>
+          <div class="h-9 px-4 bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg flex items-center">View Projects (150+)</div>
+        </div>
+      </div>
+
+      <!-- EXTENSION POPUP OVERLAY (ACTIVE AUDIT) -->
+      <div id="ext-popup" class="absolute top-14 right-6 w-[430px] bg-slate-900 text-slate-100 rounded-xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden transition-all duration-500 opacity-0 translate-y-3 pointer-events-none z-50">
+        
+        <!-- POPUP HEADER -->
+        <div class="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center text-[11px] font-black text-white">WM</div>
+            <div>
+              <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                WAQAS MEHMOOD <span class="bg-blue-600 text-[9px] px-1.5 py-0.2 rounded font-bold text-white">PRO 2026</span>
+              </div>
+              <div class="text-[10px] text-sky-400">DETAILED SEO &bull; AEO &bull; GEO ENGINE</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700">CSV</span>
+            <button id="pdf-trigger" class="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1 rounded font-bold shadow flex items-center gap-1 transition">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              PDF REPORT
+            </button>
+          </div>
+        </div>
+
+        <!-- SCORE RIBBON -->
+        <div class="px-4 py-2 bg-slate-950/60 border-b border-slate-800/80 flex items-center justify-between text-[11px]">
+          <div class="flex items-center gap-3">
+            <div><span class="text-slate-400">SEO:</span> <span class="text-emerald-400 font-bold">96%</span></div>
+            <div><span class="text-slate-400">AEO:</span> <span class="text-sky-400 font-bold">92%</span></div>
+            <div><span class="text-slate-400">GEO:</span> <span class="text-amber-400 font-bold">88%</span></div>
+          </div>
+          <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-black">
+            94/100 EXCELLENT
+          </div>
+        </div>
+
+        <!-- POPUP TABS -->
+        <div class="flex border-b border-slate-800 bg-slate-950 text-[11px] font-semibold px-2">
+          <button id="tab-btn-overview" class="tab-item py-2 px-3 text-sky-400 border-b-2 border-sky-400 transition">Overview</button>
+          <button id="tab-btn-headings" class="tab-item py-2 px-3 text-slate-400 hover:text-slate-200 transition">Headings</button>
+          <button id="tab-btn-schema" class="tab-item py-2 px-3 text-slate-400 hover:text-slate-200 transition">Schema</button>
+          <button id="tab-btn-aiaeo" class="tab-item py-2 px-3 text-amber-400 font-bold transition flex items-center gap-1">
+            <span>AI & AEO</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+          </button>
+        </div>
+
+        <!-- DYNAMIC TAB PANES -->
+        <div class="p-4 h-[280px] overflow-y-auto" id="popup-content-body">
+          
+          <!-- PANE: OVERVIEW -->
+          <div id="pane-overview" class="tab-pane-content space-y-3">
+            <div class="bg-slate-800/70 p-3 rounded-lg border border-slate-700/70">
+              <div class="flex justify-between items-center text-[10px] text-slate-400 mb-1">
+                <span class="font-bold text-sky-300">PAGE TITLE</span>
+                <span>54 chars | 498 px <strong class="text-emerald-400">[Optimal]</strong></span>
+              </div>
+              <div class="text-xs text-white font-medium">Waqas Mehmood - Full Stack Web Developer & SEO Engineer</div>
+            </div>
+
+            <div class="bg-slate-800/70 p-3 rounded-lg border border-slate-700/70">
+              <div class="flex justify-between items-center text-[10px] text-slate-400 mb-1">
+                <span class="font-bold text-emerald-300">META DESCRIPTION</span>
+                <span>142 chars <strong class="text-emerald-400">[Optimal]</strong></span>
+              </div>
+              <div class="text-xs text-slate-300">Building enterprise web applications, Next.js architecture, and top-ranking 2026 AI-driven SEO strategies for global clients.</div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="bg-slate-800/60 p-2.5 rounded border border-slate-700/50">
+                <div class="text-[9px] text-slate-400">CANONICAL</div>
+                <div class="text-emerald-400 font-bold">Matched Self</div>
+              </div>
+              <div class="bg-slate-800/60 p-2.5 rounded border border-slate-700/50">
+                <div class="text-[9px] text-slate-400">ROBOTS</div>
+                <div class="text-emerald-400 font-bold">index, follow</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE: AI & AEO 2026 -->
+          <div id="pane-aiaeo" class="tab-pane-content space-y-3 hidden">
+            <div class="bg-gradient-to-r from-amber-500/10 via-sky-500/10 to-indigo-500/10 border border-amber-500/30 p-3 rounded-lg">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-[11px] font-bold text-amber-300">2026 AI CITABILITY STATUS</span>
+                <span class="text-xs font-black text-emerald-400">94 / 100</span>
+              </div>
+              <div class="text-[11px] text-slate-300">Extremely high likelihood of being cited by ChatGPT Search, Perplexity AI & Google Gemini.</div>
+            </div>
+
+            <div class="space-y-2 text-[11px]">
+              <div class="flex justify-between items-center bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                <span class="text-slate-300">Entity Richness (Schema Entities)</span>
+                <span class="text-emerald-400 font-bold">96% (Verified)</span>
+              </div>
+              <div class="flex justify-between items-center bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                <span class="text-slate-300">Direct-Answer Q&A Block Structure</span>
+                <span class="text-sky-400 font-bold">4 Blocks Found</span>
+              </div>
+              <div class="flex justify-between items-center bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                <span class="text-slate-300">Hallucination Risk Prevention</span>
+                <span class="text-emerald-400 font-bold">Low (0.04)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANE: HEADINGS -->
+          <div id="pane-headings" class="tab-pane-content space-y-2 hidden text-[11px]">
+            <div class="text-[10px] text-slate-400 font-bold mb-1">DOCUMENT STRUCTURE (18 HEADINGS)</div>
+            <div class="p-2 bg-slate-800/80 rounded border-l-2 border-emerald-500 flex gap-2">
+              <span class="font-bold text-emerald-400">[H1]</span>
+              <span class="text-slate-200">Waqas Mehmood - Full Stack Web Developer & SEO Engineer</span>
+            </div>
+            <div class="p-2 bg-slate-800/80 rounded border-l-2 border-sky-500 ml-3 flex gap-2">
+              <span class="font-bold text-sky-400">[H2]</span>
+              <span class="text-slate-200">High-Converting Web Applications</span>
+            </div>
+            <div class="p-2 bg-slate-800/80 rounded border-l-2 border-indigo-500 ml-6 flex gap-2">
+              <span class="font-bold text-indigo-400">[H3]</span>
+              <span class="text-slate-200">Next.js & React Architecture</span>
+            </div>
+            <div class="p-2 bg-slate-800/80 rounded border-l-2 border-sky-500 ml-3 flex gap-2">
+              <span class="font-bold text-sky-400">[H2]</span>
+              <span class="text-slate-200">AI Citability & Next-Gen SEO</span>
+            </div>
+          </div>
+
+          <!-- PANE: SCHEMA -->
+          <div id="pane-schema" class="tab-pane-content hidden font-mono text-[10px] bg-slate-950 p-3 rounded border border-slate-800 text-sky-300 space-y-1">
+            <div class="text-slate-500">// 2 JSON-LD Entities Detected (Valid)</div>
+            <div>{</div>
+            <div class="pl-2">"@context": "https://schema.org",</div>
+            <div class="pl-2">"@type": "Person",</div>
+            <div class="pl-2">"name": "<span class="text-amber-300">Waqas Mehmood</span>",</div>
+            <div class="pl-2">"jobTitle": "Full Stack Developer & SEO Specialist",</div>
+            <div class="pl-2">"url": "https://waqasmehmood.com"</div>
+            <div>}</div>
+            <div class="mt-2 text-emerald-400 font-bold font-sans text-right">[Copied to Clipboard!]</div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- VIRTUAL MOUSE CURSOR -->
+      <div id="virtual-cursor" class="cursor-pointer-sim top-64 left-64">
+        <svg class="w-6 h-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] filter" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M4 0l16 12.279-6.951 1.17 4.325 8.817-3.596 1.734-4.35-8.879-5.428 5.751v-20.872z"/>
+        </svg>
+      </div>
+
+      <!-- PDF GENERATION TOAST -->
+      <div id="pdf-toast" class="absolute bottom-6 right-6 bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-16 opacity-0 transition-all duration-300 z-50">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span>Waqas-Mehmood-SEO-Audit-Report.pdf Ready!</span>
+      </div>
+
+    </div>
+
+    <!-- SYNCHRONIZED VOICE-OVER SUBTITLES -->
+    <div class="px-6 py-3 bg-slate-950 border-t border-slate-800 flex items-center gap-3">
+      <div class="w-6 h-6 rounded-full bg-blue-600/30 border border-blue-500/50 flex items-center justify-center text-blue-400 text-xs animate-pulse">🎙️</div>
+      <div class="flex-1">
+        <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Narrator Voice-Over</div>
+        <div id="subtitles-text" class="text-xs md:text-sm text-sky-200 font-medium italic">
+          "What if you could audit any webpage's complete SEO, Schema, and 2026 AI citability in 1 click?"
+        </div>
+      </div>
+      <!-- AUDIO TOGGLE -->
+      <button id="tts-toggle" onclick="toggleAudio()" class="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
+        <span id="audio-icon">🔊</span>
+        <span id="audio-label">Voice On</span>
+      </button>
+    </div>
+
+    <!-- PLAYER CONTROLS & TIMELINE SCRUBBER -->
+    <footer class="px-6 py-3 bg-slate-950/90 border-t border-slate-800/80 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="btn-play-pause" onclick="togglePlayPause()" class="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center shadow-lg transition">
+          <svg id="play-icon" class="w-4 h-4 ml-0.5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pause-icon" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button onclick="restartDemo()" class="text-slate-400 hover:text-white transition" title="Restart">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </button>
+        <span id="time-display" class="font-mono text-xs text-slate-400">0:00 / 0:35</span>
+      </div>
+
+      <!-- PROGRESS BAR -->
+      <div class="flex-1 mx-4 bg-slate-800 h-2 rounded-full overflow-hidden cursor-pointer" onclick="scrubTimeline(event)">
+        <div id="timeline-progress" class="bg-gradient-to-r from-sky-400 to-blue-600 h-full w-0 transition-all duration-200"></div>
+      </div>
+
+      <div class="text-xs text-slate-400 font-semibold">
+        Auto-Walkthrough Simulation
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    let isPlaying = true;
+    let voiceEnabled = true;
+    let currentScene = 0;
+    let timer = null;
+    let elapsedSeconds = 0;
+    const totalDuration = 35; // 35 seconds demo
+
+    const scenes = [
+      {
+        id: 0,
+        startSec: 0,
+        duration: 7,
+        cursorTarget: { x: 920, y: 22 },
+        subtitle: '"What if you could audit any webpage’s complete SEO, Schema, and 2026 AI citability in just 1 click?"',
+        setup: () => {
+          document.getElementById('ext-popup').classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+          switchTab('overview');
+        }
+      },
+      {
+        id: 1,
+        startSec: 7,
+        duration: 8,
+        cursorTarget: { x: 620, y: 180 },
+        subtitle: '"Instantly inspect your Title tag SERP pixel width, meta description, canonical tags, and robots directives."',
+        setup: () => {
+          document.getElementById('ext-popup').classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+          switchTab('overview');
+        }
+      },
+      {
+        id: 2,
+        startSec: 15,
+        duration: 9,
+        cursorTarget: { x: 800, y: 130 },
+        subtitle: '"Our 2026 AI Engine calculates how easily ChatGPT, Perplexity, and Gemini can cite your content."',
+        setup: () => {
+          document.getElementById('ext-popup').classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+          switchTab('aiaeo');
+        }
+      },
+      {
+        id: 3,
+        startSec: 24,
+        duration: 6,
+        cursorTarget: { x: 740, y: 130 },
+        subtitle: '"Inspect nested JSON-LD schemas and H1-H6 heading hierarchy with 1-click clipboard export."',
+        setup: () => {
+          document.getElementById('ext-popup').classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+          switchTab('schema');
+        }
+      },
+      {
+        id: 4,
+        startSec: 30,
+        duration: 5,
+        cursorTarget: { x: 920, y: 75 },
+        subtitle: '"Generate client-ready branded PDF reports in seconds with zero telemetry and 100% privacy."',
+        setup: () => {
+          document.getElementById('ext-popup').classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+          triggerPdfToast();
+        }
+      }
+    ];
+
+    function triggerRipple(x, y) {
+      const stage = document.getElementById('browser-stage');
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple-effect';
+      ripple.style.left = (x - 12) + 'px';
+      ripple.style.top = (y - 12) + 'px';
+      stage.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    function switchTab(tab) {
+      const panes = ['overview', 'headings', 'schema', 'aiaeo'];
+      panes.forEach(p => {
+        const el = document.getElementById('pane-' + p);
+        if (el) el.classList.toggle('hidden', p !== tab);
+      });
+
+      // Update tab active styles
+      document.querySelectorAll('.tab-item').forEach(b => {
+        b.classList.remove('text-sky-400', 'border-b-2', 'border-sky-400');
+        b.classList.add('text-slate-400');
+      });
+      const activeBtn = document.getElementById('tab-btn-' + tab);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('text-sky-400', 'border-b-2', 'border-sky-400');
+      }
+    }
+
+    function triggerPdfToast() {
+      const toast = document.getElementById('pdf-toast');
+      toast.classList.remove('translate-y-16', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-16', 'opacity-0');
+      }, 3500);
+    }
+
+    function speakSubtitle(text) {
+      if (!voiceEnabled || !('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const cleanText = text.replace(/[""]/g, '');
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = 1.05;
+      utterance.pitch = 1.0;
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function updateScene(idx) {
+      currentScene = idx;
+      const s = scenes[idx];
+      if (!s) return;
+
+      // Update Scene Pill Buttons
+      document.querySelectorAll('.scene-btn').forEach((b, i) => {
+        b.classList.toggle('bg-blue-600', i === idx);
+        b.classList.toggle('text-white', i === idx);
+      });
+
+      // Execute scene setup
+      s.setup();
+
+      // Move cursor
+      const cur = document.getElementById('virtual-cursor');
+      cur.style.left = s.cursorTarget.x + 'px';
+      cur.style.top = s.cursorTarget.y + 'px';
+
+      // Click ripple after cursor lands
+      setTimeout(() => {
+        triggerRipple(s.cursorTarget.x, s.cursorTarget.y);
+      }, 600);
+
+      // Subtitles & TTS
+      document.getElementById('subtitles-text').textContent = s.subtitle;
+      speakSubtitle(s.subtitle);
+    }
+
+    function tick() {
+      if (!isPlaying) return;
+      elapsedSeconds++;
+      if (elapsedSeconds >= totalDuration) {
+        elapsedSeconds = 0;
+      }
+
+      // Find current scene
+      let targetIdx = 0;
+      for (let i = 0; i < scenes.length; i++) {
+        if (elapsedSeconds >= scenes[i].startSec) {
+          targetIdx = i;
+        }
+      }
+
+      if (targetIdx !== currentScene) {
+        updateScene(targetIdx);
+      }
+
+      // Update progress bar
+      const pct = (elapsedSeconds / totalDuration) * 100;
+      document.getElementById('timeline-progress').style.width = pct + '%';
+
+      // Update time display
+      const mins = Math.floor(elapsedSeconds / 60);
+      const secs = (elapsedSeconds % 60).toString().padStart(2, '0');
+      document.getElementById('time-display').textContent = `${mins}:${secs} / 0:${totalDuration}`;
+    }
+
+    function jumpToScene(idx) {
+      elapsedSeconds = scenes[idx].startSec;
+      updateScene(idx);
+      tick();
+    }
+
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      document.getElementById('play-icon').classList.toggle('hidden', isPlaying);
+      document.getElementById('pause-icon').classList.toggle('hidden', !isPlaying);
+      if (!isPlaying && 'speechSynthesis' in window) {
+        window.speechSynthesis.pause();
+      } else if (isPlaying && 'speechSynthesis' in window) {
+        window.speechSynthesis.resume();
+      }
+    }
+
+    function restartDemo() {
+      elapsedSeconds = 0;
+      jumpToScene(0);
+      if (!isPlaying) togglePlayPause();
+    }
+
+    function toggleAudio() {
+      voiceEnabled = !voiceEnabled;
+      document.getElementById('audio-icon').textContent = voiceEnabled ? '🔊' : '🔇';
+      document.getElementById('audio-label').textContent = voiceEnabled ? 'Voice On' : 'Voice Off';
+      if (!voiceEnabled && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      } else if (voiceEnabled) {
+        speakSubtitle(scenes[currentScene].subtitle);
+      }
+    }
+
+    function scrubTimeline(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      elapsedSeconds = Math.floor(pct * totalDuration);
+      tick();
+    }
+
+    // Start Demo Loop
+    window.onload = () => {
+      updateScene(0);
+      timer = setInterval(tick, 1000);
+    };
+  </script>
+</body>
+</html>
