@@ -1201,6 +1201,16 @@ writeRouteFile('/blog', generatePageHtml({
 }));
 generatedRoutes.push('/blog');
 
+// Markdown anchor link helper
+function formatMd(str) {
+  if (!str || typeof str !== 'string') return '';
+  return str.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
+    const isExt = url.startsWith('http');
+    const attrs = isExt ? ' target="_blank" rel="noopener noreferrer"' : '';
+    return `<a href="${url}"${attrs} class="text-cyan-400 hover:text-cyan-300 underline font-semibold">${label}</a>`;
+  });
+}
+
 // B. Individual Blog Posts (/blog/:slug)
 for (const post of BLOG_POSTS) {
   const postRoute = `/blog/${post.slug}`;
@@ -1293,18 +1303,46 @@ for (const post of BLOG_POSTS) {
     </div>
   </header>
 
-  <div class="space-y-8 text-sm text-slate-300 leading-relaxed">
+  <div class="space-y-10 text-sm text-slate-300 leading-relaxed">
     ${post.sections.map(section => `
-      <section id="${section.id}" class="space-y-4">
-        <h2 class="text-2xl font-bold text-white tracking-tight border-b border-slate-800/80 pb-2">${section.title}</h2>
-        <p class="leading-relaxed text-slate-300">${section.content}</p>
+      <section id="${section.id}" class="space-y-4 pt-4">
+        <h2 id="${section.id}" class="text-2xl font-bold text-white tracking-tight border-b border-slate-800/80 pb-2">${section.title}</h2>
+        
+        ${section.directAnswer ? `
+          <p class="text-sm sm:text-base font-semibold text-cyan-200/95 bg-slate-900/90 border-l-4 border-cyan-400 p-4 rounded-r-xl leading-relaxed my-3">${formatMd(section.directAnswer)}</p>
+        ` : ''}
+
+        ${section.content ? `
+          <div class="space-y-3.5 text-slate-300 leading-relaxed">
+            ${section.content.split('\n\n').map(p => `<p class="leading-relaxed">${formatMd(p.trim())}</p>`).join('')}
+          </div>
+        ` : ''}
+
+        ${section.table ? `
+          <div class="overflow-x-auto my-6 rounded-2xl border border-slate-800 bg-slate-950/80 shadow-xl">
+            <table class="w-full text-left text-xs sm:text-sm border-collapse">
+              <thead>
+                <tr class="bg-slate-900/90 border-b border-slate-800 text-cyan-300 font-mono">
+                  ${section.table.headers.map(th => `<th class="p-3 sm:p-4 font-bold uppercase tracking-wider">${th}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                ${section.table.rows.map(row => `
+                  <tr class="hover:bg-slate-900/40 transition-colors">
+                    ${row.map(cell => `<td class="p-3 sm:p-4 leading-relaxed">${formatMd(cell)}</td>`).join('')}
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        ` : ''}
         
         ${section.checklist ? `
           <ul class="space-y-2.5 my-4">
             ${section.checklist.map(item => `
               <li class="flex items-start gap-2.5">
                 <span class="text-cyan-400 font-bold">&check;</span>
-                <span class="text-slate-200">${item}</span>
+                <span class="text-slate-200">${formatMd(item)}</span>
               </li>
             `).join('')}
           </ul>
@@ -1313,7 +1351,7 @@ for (const post of BLOG_POSTS) {
         ${section.callout ? `
           <div class="p-4 rounded-xl bg-cyan-950/30 border border-cyan-800/40 text-xs my-4">
             <strong class="text-cyan-300 block mb-1 uppercase font-mono">${section.callout.title}</strong>
-            <p class="text-slate-300">${section.callout.text}</p>
+            <p class="text-slate-300">${formatMd(section.callout.text)}</p>
           </div>
         ` : ''}
       </section>
@@ -1327,6 +1365,29 @@ for (const post of BLOG_POSTS) {
         <p class="text-xs text-slate-400">Put this strategy to work immediately with 100% free browser execution.</p>
       </div>
       <a href="/tools/${post.toolCta.toolSlug}" class="px-5 py-2.5 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs transition-all">${post.toolCta.buttonText} &rarr;</a>
+    </div>
+  ` : ''}
+
+  ${post.relatedResources && post.relatedResources.length > 0 ? `
+    <div class="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4">
+      <div class="text-white font-bold text-base flex items-center gap-2">
+        <span>Recommended In-House Tools & Related Playbooks</span>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed">
+        Strengthen your search visibility by combining this playbook with our related diagnostic tools and sibling strategic guides:
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+        ${post.relatedResources.map(res => `
+          <a href="${res.url}" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-900/70 transition-all block space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono uppercase font-bold text-cyan-400">${res.type}</span>
+              <span class="text-xs text-cyan-400">&rarr;</span>
+            </div>
+            <div class="text-sm font-bold text-white">${res.title}</div>
+            <p class="text-xs text-slate-400 leading-relaxed">${res.desc}</p>
+          </a>
+        `).join('')}
+      </div>
     </div>
   ` : ''}
 

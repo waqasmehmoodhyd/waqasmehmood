@@ -14,6 +14,8 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
   const post = allPosts.find(p => p.slug === postSlug) || allPosts[0];
   const relatedPosts = allPosts.filter(p => p.slug !== post.slug).slice(0, 2);
 
+  const isOwner = typeof window !== 'undefined' && localStorage.getItem('wm_admin_active') === 'true';
+
   const handleShare = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
@@ -22,28 +24,38 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
     }
   };
 
-  const postStats = React.useMemo(() => {
-    if (!post) return { words: 0, chars: 0, score: 95 };
-    let fullText = (post.title || '') + ' ' + (post.excerpt || '');
-    (post.sections || []).forEach(sec => {
-      fullText += ' ' + (sec.title || '') + ' ' + (sec.content || '');
-      (sec.checklist || []).forEach(chk => { fullText += ' ' + chk; });
-      if (sec.callout) fullText += ' ' + (sec.callout.title || '') + ' ' + (sec.callout.text || '');
-    });
-    (post.faqs || []).forEach(f => {
-      fullText += ' ' + f.q + ' ' + f.a;
-    });
-    const words = fullText.trim().split(/\s+/).filter(Boolean).length;
-    const chars = fullText.length;
-    let score = 70;
-    if (words >= 1000) score += 10;
-    else if (words >= 600) score += 6;
-    if (post.title && post.title.length <= 70) score += 5;
-    if (post.sections && post.sections.length >= 3) score += 5;
-    if (post.faqs && post.faqs.length >= 2) score += 5;
-    if (post.toolCta && post.toolCta.toolSlug) score += 5;
-    return { words, chars, score: Math.min(100, score) };
-  }, [post]);
+  // Helper to parse markdown links [Anchor](/target) into interactive clickable links
+  const renderFormattedText = (text) => {
+    if (!text || typeof text !== 'string') return text;
+    const parts = [];
+    let lastIndex = 0;
+    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.substring(lastIndex, match.index));
+      }
+      const label = match[1];
+      const url = match[2];
+      const isExternal = url.startsWith('http');
+      parts.push(
+        <a 
+          key={match.index} 
+          href={url}
+          target={isExternal ? '_blank' : undefined}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
+          className="text-cyan-400 hover:text-cyan-300 underline underline-offset-4 decoration-cyan-500/50 font-semibold transition-colors"
+        >
+          {label}
+        </a>
+      );
+      lastIndex = regex.lastIndex;
+    }
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+    return parts;
+  };
 
   return (
     <article className="max-w-4xl mx-auto py-10 px-4 sm:px-6 space-y-10">
@@ -59,6 +71,17 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
         </button>
 
         <div className="flex items-center gap-2">
+          {isOwner && onEditInStudio && (
+            <button
+              onClick={() => onEditInStudio(post.slug)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500 hover:text-slate-950 font-mono text-xs font-bold transition-all cursor-pointer"
+              title="Open Blog Admin Studio to edit this post"
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              <span>Studio Editor</span>
+            </button>
+          )}
+
           <button
             onClick={handleShare}
             className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-slate-300 hover:text-white cursor-pointer transition-colors"
@@ -107,59 +130,6 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
           </div>
         </div>
 
-        {/* Live On-Page SEO & Rank Math Scoreboard Badge */}
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-slate-800 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
-            <div className="flex items-center gap-3.5">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex flex-col items-center justify-center font-black text-slate-950 shadow-lg shadow-emerald-500/20 shrink-0">
-                <span className="text-xl leading-none">{postStats.score}</span>
-                <span className="text-[9px] uppercase tracking-wider font-mono">/ 100</span>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-bold text-white text-sm">On-Page SEO & Rank Math Score</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">✓ High Authority Grade</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  100% compliant with 2026 Google Search Essentials, single H1 outline & Helpful Content criteria
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => onEditInStudio ? onEditInStudio(post.slug) : window.location.href = '/blog-admin'}
-              className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-md transition-all self-start sm:self-auto shrink-0"
-              title="Open Blog Admin Studio to edit text or run real-time SEO scoring"
-            >
-              <Sliders className="w-3.5 h-3.5" />
-              <span>Edit & Score in Studio &rarr;</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs">
-            <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div className="text-[10px] uppercase font-mono text-slate-400">Word Count</div>
-              <div className="text-base font-bold text-cyan-400 mt-0.5">{postStats.words.toLocaleString()} words</div>
-              <div className="text-[10px] text-emerald-400 font-medium">✓ Deep Pillar Content</div>
-            </div>
-            <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div className="text-[10px] uppercase font-mono text-slate-400">Reading Level</div>
-              <div className="text-base font-bold text-emerald-400 mt-0.5">Grade 6 (Easy)</div>
-              <div className="text-[10px] text-slate-300">Simple English for Everyone</div>
-            </div>
-            <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div className="text-[10px] uppercase font-mono text-slate-400">Headings Tree</div>
-              <div className="text-base font-bold text-white mt-0.5">1 H1 + {post.sections?.length || 0} H2s</div>
-              <div className="text-[10px] text-emerald-400 font-medium">✓ No Skipped Levels</div>
-            </div>
-            <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-              <div className="text-[10px] uppercase font-mono text-slate-400">Structured Data</div>
-              <div className="text-base font-bold text-sky-400 mt-0.5">BlogPosting + FAQ</div>
-              <div className="text-[10px] text-emerald-400 font-medium">✓ Rich Snippets Active</div>
-            </div>
-          </div>
-        </div>
-
         {/* Cover Image */}
         <div className="relative rounded-3xl overflow-hidden h-72 sm:h-96 w-full shadow-2xl border border-slate-800">
           <img 
@@ -196,16 +166,54 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
       )}
 
       {/* Article Body Content */}
-      <div className="space-y-10 text-slate-200 leading-relaxed text-sm sm:text-base">
+      <div className="space-y-12 text-slate-200 leading-relaxed text-sm sm:text-base">
         {post.sections.map((sec) => (
-          <section key={sec.id} id={sec.id} className="space-y-4 pt-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight border-b border-slate-800/80 pb-2">
+          <section key={sec.id} id={sec.id} className="space-y-4 pt-4 scroll-mt-24">
+            <h2 id={sec.id} className="text-xl sm:text-2xl font-bold text-white tracking-tight border-b border-slate-800/80 pb-2">
               {sec.title}
             </h2>
 
-            <p className="text-slate-300 leading-relaxed whitespace-pre-line">
-              {sec.content}
-            </p>
+            {/* Direct Answer AEO Snippet (concise 40-55 words for Google AI Overviews & Perplexity) */}
+            {sec.directAnswer && (
+              <p className="text-sm sm:text-base font-semibold text-cyan-200/95 bg-slate-900/90 border-l-4 border-cyan-400 p-4 rounded-r-xl leading-relaxed my-3 shadow-md">
+                {renderFormattedText(sec.directAnswer)}
+              </p>
+            )}
+
+            {/* Multi-Paragraph Content with formatted internal links */}
+            {sec.content && (
+              <div className="space-y-3.5 text-slate-300 leading-relaxed">
+                {sec.content.split('\n\n').map((para, pi) => (
+                  <p key={pi} className="leading-relaxed">
+                    {renderFormattedText(para.trim())}
+                  </p>
+                ))}
+              </div>
+            )}
+
+            {/* Factual Comparison Table (th headers for LLMs & AI Engines) */}
+            {sec.table && (
+              <div className="overflow-x-auto my-6 rounded-2xl border border-slate-800 bg-slate-950/80 shadow-xl">
+                <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                  <thead>
+                    <tr className="bg-slate-900/90 border-b border-slate-800 text-cyan-300 font-mono">
+                      {sec.table.headers.map((th, thi) => (
+                        <th key={thi} className="p-3 sm:p-4 font-bold uppercase tracking-wider">{th}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                    {sec.table.rows.map((row, ri) => (
+                      <tr key={ri} className="hover:bg-slate-900/40 transition-colors">
+                        {row.map((cell, ci) => (
+                          <td key={ci} className="p-3 sm:p-4 leading-relaxed">{renderFormattedText(cell)}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {/* Callout Box if present */}
             {sec.callout && (
@@ -223,7 +231,7 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
                   <span>{sec.callout.title}</span>
                 </div>
                 <p className="leading-relaxed opacity-90">
-                  {sec.callout.text}
+                  {renderFormattedText(sec.callout.text)}
                 </p>
               </div>
             )}
@@ -234,7 +242,7 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
                 {sec.checklist.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs sm:text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span>{item}</span>
+                    <span>{renderFormattedText(item)}</span>
                   </div>
                 ))}
               </div>
@@ -265,6 +273,39 @@ export default function BlogPostView({ postSlug, onBackToHub, onSelectPost, onOp
             <span>{post.toolCta.buttonText}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
+        </div>
+      )}
+
+      {/* Internal Linking: High-Relevance Native Tools & Sister Playbooks */}
+      {post.relatedResources && post.relatedResources.length > 0 && (
+        <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4">
+          <div className="flex items-center gap-2 text-white font-bold text-base">
+            <Sparkles className="w-5 h-5 text-cyan-400" />
+            <span>Recommended In-House Tools & Related Playbooks</span>
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Strengthen your search visibility by combining this playbook with our related diagnostic tools and sibling strategic guides:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+            {post.relatedResources.map((res, ri) => (
+              <a
+                key={ri}
+                href={res.url}
+                className="p-4 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-500/50 hover:bg-slate-900/70 transition-all group block space-y-1.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase font-bold text-cyan-400">{res.type}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+                </div>
+                <div className="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  {res.title}
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  {res.desc}
+                </p>
+              </a>
+            ))}
+          </div>
         </div>
       )}
 
