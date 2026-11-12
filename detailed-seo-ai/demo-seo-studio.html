@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detailed SEO & AI Engine - Product Demo & Results Analyzer</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes ripple {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+    .click-ripple {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(14, 165, 233, 0.6);
+      pointer-events: none;
+      animation: ripple 0.5s ease-out forwards;
+    }
+    .sim-cursor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      z-index: 100;
+      transition: all 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .metric-badge {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased p-3 md:p-6 flex flex-col items-center justify-center min-h-screen">
+
+  <div class="w-full max-w-6xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+    
+    <!-- DEMO TOP BAR -->
+    <header class="px-6 py-4 bg-slate-950 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-400 via-indigo-500 to-amber-500 flex items-center justify-center font-black text-white text-sm shadow-lg">WM</div>
+        <div>
+          <h1 class="font-bold text-base md:text-lg text-white flex items-center gap-2">
+            Detailed SEO & AI Engine
+            <span class="text-xs bg-blue-600/30 text-sky-400 border border-blue-500/40 px-2 py-0.5 rounded-full font-semibold">Demo Studio v1.0</span>
+          </h1>
+          <p class="text-xs text-slate-400">Step-by-step Screen Simulation & Deep Result Analysis</p>
+        </div>
+      </div>
+
+      <!-- FREE VOICE ENGINE INDICATOR -->
+      <div class="flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700 text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-300">Voice Engine:</span>
+        <strong class="text-emerald-400">Microsoft Neural / Kokoro AI</strong>
+        <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.2 rounded font-mono">100% Free</span>
+      </div>
+    </header>
+
+    <!-- MAIN TWO-COLUMN WORKSPACE: LEFT = SCREEN RECORDER SIMULATOR, RIGHT = LIVE RESULTS BREAKDOWN -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
+      
+      <!-- LEFT 7 COLS: INTERACTIVE SCREEN RECORDER -->
+      <div class="lg:col-span-7 bg-slate-950 border-r border-slate-800 flex flex-col justify-between">
+        
+        <!-- BROWSER SIMULATION FRAME -->
+        <div class="relative bg-slate-100 h-[500px] overflow-hidden select-none" id="demo-stage">
+          
+          <!-- BROWSER HEADER -->
+          <div class="h-10 bg-slate-200 border-b border-slate-300 flex items-center px-3 justify-between">
+            <div class="flex items-center gap-1.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+            </div>
+            
+            <div class="flex-1 mx-3 bg-white border border-slate-300 rounded px-2.5 py-1 text-[11px] text-slate-700 font-mono truncate shadow-xs flex items-center gap-1.5">
+              <svg class="w-3 h-3 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <span>https://waqasmehmood.com/services/seo-ai</span>
+            </div>
+
+            <div id="ext-icon-anchor" class="cursor-pointer p-1 rounded hover:bg-slate-300 transition">
+              <div class="w-6 h-6 rounded bg-slate-900 border border-sky-400 flex items-center justify-center text-[10px] font-bold text-sky-400">WM</div>
+            </div>
+          </div>
+
+          <!-- MOCK WEBPAGE IN BACKGROUND -->
+          <div class="p-6 text-slate-800 max-w-sm opacity-60">
+            <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider">On-Page Inspection Target</span>
+            <h3 class="text-xl font-bold mt-1 text-slate-900 leading-snug">Waqas Mehmood - Full Stack Web Developer & SEO Engineer</h3>
+            <p class="text-xs text-slate-600 mt-2 line-clamp-3">Enterprise React, Next.js architecture, and 2026 AI/AEO citability optimization that drives top organic rankings.</p>
+          </div>
+
+          <!-- EXTENSION POPUP WINDOW (ACTIVE MOCKUP) -->
+          <div id="demo-popup" class="absolute top-12 right-4 w-[390px] bg-slate-900 text-slate-100 rounded-xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden transition-all duration-500 opacity-0 translate-y-3 pointer-events-none z-40">
+            
+            <!-- POPUP HEADER -->
+            <div class="px-3.5 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center text-[10px] font-black text-white">WM</div>
+                <div>
+                  <div class="text-[11px] font-bold text-white flex items-center gap-1">
+                    WAQAS MEHMOOD <span class="bg-blue-600 text-[8px] px-1 py-0.2 rounded font-bold">PRO 2026</span>
+                  </div>
+                  <div class="text-[9px] text-sky-400 font-medium">DETAILED SEO &bull; AEO ENGINE</div>
+                </div>
+              </div>
+              <button id="btn-demo-pdf" class="text-[10px] bg-blue-600 hover:bg-blue-500 text-white px-2 py-0.5 rounded font-bold shadow flex items-center gap-1 transition">
+                <span>PDF REPORT</span>
+              </button>
+            </div>
+
+            <!-- SCORE RIBBON -->
+            <div class="px-3 py-1.5 bg-slate-950/70 border-b border-slate-800 flex items-center justify-between text-[10px]">
+              <div class="flex items-center gap-2.5">
+                <div>SEO: <strong class="text-emerald-400">96%</strong></div>
+                <div>AEO: <strong class="text-sky-400">92%</strong></div>
+                <div>GEO: <strong class="text-amber-400">88%</strong></div>
+              </div>
+              <div class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1.5 py-0.2 rounded font-bold">
+                94/100 EXCELLENT
+              </div>
+            </div>
+
+            <!-- TAB STRIP -->
+            <div class="flex border-b border-slate-800 bg-slate-950 text-[10px] font-semibold px-2">
+              <button id="dtab-overview" class="tab-dbtn py-1.5 px-2.5 text-sky-400 border-b-2 border-sky-400">Overview</button>
+              <button id="dtab-ai" class="tab-dbtn py-1.5 px-2.5 text-amber-400 font-bold">AI & AEO 2026</button>
+              <button id="dtab-headings" class="tab-dbtn py-1.5 px-2.5 text-slate-400">Headings</button>
+              <button id="dtab-schema" class="tab-dbtn py-1.5 px-2.5 text-slate-400">Schema</button>
+            </div>
+
+            <!-- TAB BODY -->
+            <div class="p-3 h-[270px] overflow-y-auto text-[11px]" id="popup-body">
+              
+              <!-- PANE: OVERVIEW -->
+              <div id="dpane-overview" class="space-y-2.5">
+                <div class="bg-slate-800/80 p-2.5 rounded-lg border border-slate-700/70">
+                  <div class="flex justify-between items-center text-[9px] text-slate-400 mb-0.5">
+                    <span class="font-bold text-sky-300 uppercase">PAGE TITLE</span>
+                    <span>54 chars | <strong class="text-emerald-400">498 px (SERP Safe)</strong></span>
+                  </div>
+                  <div class="text-xs text-white font-medium">Waqas Mehmood - Full Stack Web Developer & SEO Engineer</div>
+                  <div class="w-full bg-slate-700 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                    <div class="bg-emerald-400 h-full w-[82%]"></div>
+                  </div>
+                </div>
+
+                <div class="bg-slate-800/80 p-2.5 rounded-lg border border-slate-700/70">
+                  <div class="flex justify-between items-center text-[9px] text-slate-400 mb-0.5">
+                    <span class="font-bold text-emerald-300 uppercase">META DESCRIPTION</span>
+                    <span>142 chars <strong class="text-emerald-400">[Optimal]</strong></span>
+                  </div>
+                  <div class="text-[11px] text-slate-300 leading-snug">Hire Waqas Mehmood for high-converting web apps, Next.js architecture, and top-ranking 2026 AI-driven SEO strategies.</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-[10px]">
+                  <div class="bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                    <div class="text-[8px] text-slate-400 uppercase">CANONICAL STATUS</div>
+                    <div class="text-emerald-400 font-bold">Matched Self (No Loop)</div>
+                  </div>
+                  <div class="bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                    <div class="text-[8px] text-slate-400 uppercase">ROBOTS DIRECTIVES</div>
+                    <div class="text-emerald-400 font-bold">index, follow</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE: AI & AEO 2026 -->
+              <div id="dpane-ai" class="space-y-2.5 hidden">
+                <div class="bg-gradient-to-r from-amber-500/10 via-sky-500/10 to-indigo-500/10 border border-amber-500/30 p-2.5 rounded-lg">
+                  <div class="flex justify-between items-center mb-0.5">
+                    <span class="text-[10px] font-bold text-amber-300">2026 AI CITABILITY STATUS</span>
+                    <span class="text-xs font-black text-emerald-400">94 / 100</span>
+                  </div>
+                  <div class="text-[10px] text-slate-300">Target page has high probability of being referenced in ChatGPT Search & Perplexity citations.</div>
+                </div>
+
+                <div class="space-y-1.5 text-[10px]">
+                  <div class="flex justify-between items-center bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                    <span class="text-slate-300">Entity Richness (Schema.org)</span>
+                    <strong class="text-emerald-400">96% (Verified)</strong>
+                  </div>
+                  <div class="flex justify-between items-center bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                    <span class="text-slate-300">Direct-Answer Q&A Block Structure</span>
+                    <strong class="text-sky-400">4 Blocks Found</strong>
+                  </div>
+                  <div class="flex justify-between items-center bg-slate-800/60 p-2 rounded border border-slate-700/50">
+                    <span class="text-slate-300">Hallucination Risk Prevention</span>
+                    <strong class="text-emerald-400">Low (0.04)</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANE: HEADINGS -->
+              <div id="dpane-headings" class="space-y-1.5 hidden text-[10px]">
+                <div class="text-[9px] text-slate-400 font-bold">DOCUMENT STRUCTURE (18 HEADINGS)</div>
+                <div class="p-1.5 bg-slate-800 rounded border-l-2 border-emerald-500 flex gap-1.5">
+                  <span class="font-bold text-emerald-400">[H1]</span>
+                  <span class="text-slate-200">Waqas Mehmood - Full Stack Web Developer</span>
+                </div>
+                <div class="p-1.5 bg-slate-800 rounded border-l-2 border-sky-500 ml-2 flex gap-1.5">
+                  <span class="font-bold text-sky-400">[H2]</span>
+                  <span class="text-slate-200">High-Converting Web Applications</span>
+                </div>
+                <div class="p-1.5 bg-slate-800 rounded border-l-2 border-indigo-500 ml-4 flex gap-1.5">
+                  <span class="font-bold text-indigo-400">[H3]</span>
+                  <span class="text-slate-200">Next.js & React Architecture</span>
+                </div>
+              </div>
+
+              <!-- PANE: SCHEMA -->
+              <div id="dpane-schema" class="hidden font-mono text-[9px] bg-slate-950 p-2.5 rounded border border-slate-800 text-sky-300 space-y-1">
+                <div class="text-slate-500">// JSON-LD Person & Service Schema</div>
+                <div>{ "@type": "Person", "name": "Waqas Mehmood", "jobTitle": "SEO Specialist" }</div>
+                <div class="text-emerald-400 font-sans font-bold text-[10px] mt-2">[V] Valid Schema Detected</div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- SIMULATED MOUSE CURSOR -->
+          <div id="demo-cursor" class="sim-cursor top-52 left-44">
+            <svg class="w-6 h-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4 0l16 12.279-6.951 1.17 4.325 8.817-3.596 1.734-4.35-8.879-5.428 5.751v-20.872z"/>
+            </svg>
+          </div>
+
+        </div>
+
+        <!-- VOICE OVER SUBTITLE BANNER -->
+        <div class="px-5 py-3 bg-slate-950 border-t border-slate-800 flex items-center gap-3">
+          <div class="w-7 h-7 rounded-full bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-400 text-xs flex-shrink-0 animate-pulse">🎙️</div>
+          <div class="flex-1">
+            <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold">Narration Subtitle (Human Voice)</div>
+            <div id="demo-subtitle" class="text-xs md:text-sm text-sky-200 font-medium italic">
+              "Click the WM icon to inspect the page in real-time."
+            </div>
+          </div>
+          <button onclick="toggleAudioDemo()" id="audio-demo-btn" class="px-2.5 py-1 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded border border-slate-700 transition">
+            🔊 Sound On
+          </button>
+        </div>
+
+        <!-- TIMELINE SCRUBBER -->
+        <div class="px-5 py-3 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between gap-3 text-xs">
+          <button onclick="togglePlay()" id="btn-demo-play" class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+            ❚❚
+          </button>
+          <span id="demo-timer" class="font-mono text-slate-400">0:00 / 0:30</span>
+          <div class="flex-1 bg-slate-800 h-2 rounded-full overflow-hidden cursor-pointer" onclick="seekDemo(event)">
+            <div id="demo-prog" class="bg-gradient-to-r from-sky-400 to-blue-600 h-full w-0"></div>
+          </div>
+          <button onclick="restartDemoLoop()" class="text-slate-400 hover:text-white transition">↺ Replay</button>
+        </div>
+
+      </div>
+
+      <!-- RIGHT 5 COLS: DEEP DIVE RESULTS EXPLANATION PANEL -->
+      <div class="lg:col-span-5 bg-slate-900 p-5 flex flex-col justify-between overflow-y-auto max-h-[580px]">
+        <div>
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div>
+              <h2 class="text-sm font-bold text-white uppercase tracking-wider" id="analysis-title">Phase 1: How To Use</h2>
+              <p class="text-xs text-sky-400" id="analysis-step">Step 1 of 4 • Browser Activation</p>
+            </div>
+            <span class="text-xs bg-slate-800 text-slate-300 px-2 py-1 rounded font-mono" id="analysis-tag">DOM Ready</span>
+          </div>
+
+          <!-- DETAILED RESULT EXPLANATION CONTENT -->
+          <div id="analysis-body" class="space-y-4 text-xs text-slate-300 leading-relaxed">
+            <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+              <strong class="text-white block mb-1">1. How The User Runs The Tool:</strong>
+              The user opens any page in Chrome and clicks the <strong>WM Extension Icon</strong> in the browser toolbar. It executes instantly via client-side DOM scripting—no page reload, no waiting for slow external SaaS crawlers.
+            </div>
+
+            <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+              <strong class="text-white block mb-1">2. What Happens In The Background:</strong>
+              In less than 120 milliseconds, the script parses the HTML document, evaluates SERP title pixel length, reads robots headers, scans all JSON-LD script tags, and calculates the 2026 AI Citability Readiness score.
+            </div>
+
+            <div class="p-3 bg-blue-950/30 border border-blue-500/30 rounded-xl">
+              <strong class="text-sky-300 block mb-1">💡 What The Result Means:</strong>
+              Traditional SEO extensions stop at character counts. Detailed SEO & AI Engine evaluates both Google SERP display safety AND LLM semantic extraction.
+            </div>
+          </div>
+        </div>
+
+        <!-- FREE HUMAN VOICEOVER TOOLS BOX -->
+        <div class="mt-6 pt-4 border-t border-slate-800 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+          <div class="text-[11px] font-bold text-emerald-400 flex items-center justify-between mb-1.5">
+            <span>⚡ 100% Free Human Voiceover Generators</span>
+            <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 rounded font-mono">No Credit Card</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mb-2.5">
+            ElevenLabs ke bajaye aap in 2 tools se studio-grade human voice bilkul free generate kar saktay hain:
+          </p>
+          <div class="grid grid-cols-2 gap-2 text-[10px]">
+            <a href="https://huggingface.co/spaces/hexgrad/Kokoro-82M" target="_blank" class="p-2 bg-slate-800 hover:bg-slate-700 text-sky-300 rounded border border-slate-700 text-center font-bold transition">
+              Kokoro-82M (Web Demo) ↗
+            </a>
+            <a href="https://github.com/rany2/edge-tts" target="_blank" class="p-2 bg-slate-800 hover:bg-slate-700 text-emerald-300 rounded border border-slate-700 text-center font-bold transition">
+              Edge-TTS Neural Voice ↗
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    let isPlaying = true;
+    let voiceEnabled = true;
+    let sec = 0;
+    const maxSec = 30;
+    let timer = null;
+
+    const steps = [
+      {
+        start: 0,
+        end: 6,
+        cursor: { x: 345, y: 15 },
+        title: "Phase 1: How To Use (1-Click Trigger)",
+        step: "Step 1 of 4 • Browser Activation",
+        tag: "Active Tab",
+        subtitle: '"To use the tool, simply click the WM icon in your Chrome toolbar. It scans the active page instantly in under 120 milliseconds."',
+        pane: "overview",
+        popupOpen: false,
+        analysis: `
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <strong class="text-white block mb-1">1. How The User Runs The Tool:</strong>
+            Clicking the extension icon injects a lightweight background parser directly into the active browser tab.
+          </div>
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <strong class="text-white block mb-1">2. Zero Telemetry & In-Memory Execution:</strong>
+            Unlike cloud-based tools that send URLs to external servers, all DOM nodes are parsed 100% locally on the user's computer.
+          </div>
+        `
+      },
+      {
+        start: 6,
+        end: 14,
+        cursor: { x: 200, y: 160 },
+        title: "Phase 2: Result Analysis - Overview & SERP Safety",
+        step: "Step 2 of 4 • Core Meta Inspection",
+        tag: "SERP Pixel Gauge",
+        subtitle: '"The Overview tab reveals your SERP pixel width gauge. Google cuts off titles above 580 pixels, not just characters. Your canonical and robots status are verified."',
+        pane: "overview",
+        popupOpen: true,
+        analysis: `
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <strong class="text-emerald-300 block mb-1">Title Pixel-Width Gauge (498px / 580px max):</strong>
+            <strong>Why it matters:</strong> Google truncates titles based on pixel width (Arial font), not character count alone. 54 chars here fits safely within 498px.
+          </div>
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <strong class="text-sky-300 block mb-1">Canonical & Robots Integrity:</strong>
+            Detects if canonical URL points to self or an external URL, preventing duplicate content penalties across HTTP/HTTPS or trailing slash variations.
+          </div>
+        `
+      },
+      {
+        start: 14,
+        end: 22,
+        cursor: { x: 120, y: 120 },
+        title: "Phase 3: 2026 AI & AEO Citability Engine",
+        step: "Step 3 of 4 • Answer Engine Optimization",
+        tag: "AI Score: 94/100",
+        subtitle: '"Switch to AI & AEO to see how ChatGPT Search, Perplexity, and Gemini evaluate your content. A 94% citability score confirms strong direct-answer Q&A readiness."',
+        pane: "ai",
+        popupOpen: true,
+        analysis: `
+          <div class="p-3 bg-amber-950/30 border border-amber-500/30 rounded-xl">
+            <strong class="text-amber-300 block mb-1">AEO Citability Score (94/100):</strong>
+            Calculates how easily LLMs can cite this webpage as a verified source in AI Overviews and conversational answer bots.
+          </div>
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <strong class="text-sky-300 block mb-1">Direct-Answer Q&A Blocks (4 Detected):</strong>
+            Clear H2 question headers followed immediately by concise factual paragraphs allow LLM scrapers to extract quotes directly without summarization errors.
+          </div>
+        `
+      },
+      {
+        start: 22,
+        end: 30,
+        cursor: { x: 330, y: 65 },
+        title: "Phase 4: Schema Data & 1-Click PDF Report",
+        step: "Step 4 of 4 • Client Reporting",
+        tag: "PDF Export Ready",
+        subtitle: '"Inspect nested JSON-LD schema or click PDF Report to generate an instant, client-ready branded assessment ready for sales calls."',
+        pane: "schema",
+        popupOpen: true,
+        analysis: `
+          <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800">
+            <strong class="text-sky-300 block mb-1">JSON-LD Structured Data:</strong>
+            Validates Schema.org Person, Organization, and FAQPage syntax to unlock Google rich snippets and knowledge panels.
+          </div>
+          <div class="p-3 bg-emerald-950/30 border border-emerald-500/30 rounded-xl">
+            <strong class="text-emerald-300 block mb-1">Client-Ready PDF Export:</strong>
+            Agencies and freelancers can click 1 button during client calls to generate an instant, branded audit report to close high-ticket SEO retainers.
+          </div>
+        `
+      }
+    ];
+
+    function speakText(txt) {
+      if (!voiceEnabled || !('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(txt.replace(/[""]/g, ''));
+      u.rate = 1.05;
+      u.pitch = 1.0;
+      u.lang = 'en-US';
+      window.speechSynthesis.speak(u);
+    }
+
+    function renderStep(idx) {
+      const s = steps[idx];
+      if (!s) return;
+
+      // Update Subtitle & Voice
+      document.getElementById('demo-subtitle').textContent = s.subtitle;
+      speakText(s.subtitle);
+
+      // Update Analysis Panel
+      document.getElementById('analysis-title').textContent = s.title;
+      document.getElementById('analysis-step').textContent = s.step;
+      document.getElementById('analysis-tag').textContent = s.tag;
+      document.getElementById('analysis-body').innerHTML = s.analysis;
+
+      // Popup Visibility
+      const popup = document.getElementById('demo-popup');
+      if (s.popupOpen) {
+        popup.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+      } else {
+        popup.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+      }
+
+      // Switch Panes
+      ['overview', 'ai', 'headings', 'schema'].forEach(p => {
+        const el = document.getElementById('dpane-' + p);
+        if (el) el.classList.toggle('hidden', p !== s.pane);
+      });
+
+      // Cursor Movement
+      const cur = document.getElementById('demo-cursor');
+      cur.style.left = s.cursor.x + 'px';
+      cur.style.top = s.cursor.y + 'px';
+
+      // Click Ripple
+      setTimeout(() => {
+        const stage = document.getElementById('demo-stage');
+        const rip = document.createElement('div');
+        rip.className = 'click-ripple';
+        rip.style.left = (s.cursor.x - 11) + 'px';
+        rip.style.top = (s.cursor.y - 11) + 'px';
+        stage.appendChild(rip);
+        setTimeout(() => rip.remove(), 500);
+      }, 550);
+    }
+
+    function tick() {
+      if (!isPlaying) return;
+      sec++;
+      if (sec >= maxSec) sec = 0;
+
+      let activeIdx = 0;
+      for (let i = 0; i < steps.length; i++) {
+        if (sec >= steps[i].start && sec < steps[i].end) {
+          activeIdx = i;
+          break;
+        }
+      }
+
+      // If at start of step
+      if (sec === steps[activeIdx].start) {
+        renderStep(activeIdx);
+      }
+
+      // Update progress
+      const pct = (sec / maxSec) * 100;
+      document.getElementById('demo-prog').style.width = pct + '%';
+      const m = Math.floor(sec / 60);
+      const s = (sec % 60).toString().padStart(2, '0');
+      document.getElementById('demo-timer').textContent = `${m}:${s} / 0:${maxSec}`;
+    }
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      document.getElementById('btn-demo-play').textContent = isPlaying ? '❚❚' : '▶';
+      if (!isPlaying && 'speechSynthesis' in window) window.speechSynthesis.pause();
+      if (isPlaying && 'speechSynthesis' in window) window.speechSynthesis.resume();
+    }
+
+    function restartDemoLoop() {
+      sec = 0;
+      renderStep(0);
+      if (!isPlaying) togglePlay();
+    }
+
+    function toggleAudioDemo() {
+      voiceEnabled = !voiceEnabled;
+      document.getElementById('audio-demo-btn').textContent = voiceEnabled ? '🔊 Sound On' : '🔇 Sound Off';
+      if (!voiceEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function seekDemo(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = (e.clientX - rect.left) / rect.width;
+      sec = Math.floor(pct * maxSec);
+      let activeIdx = 0;
+      for (let i = 0; i < steps.length; i++) {
+        if (sec >= steps[i].start && sec < steps[i].end) {
+          activeIdx = i;
+          break;
+        }
+      }
+      renderStep(activeIdx);
+    }
+
+    window.onload = () => {
+      renderStep(0);
+      timer = setInterval(tick, 1000);
+    };
+  </script>
+</body>
+</html>
