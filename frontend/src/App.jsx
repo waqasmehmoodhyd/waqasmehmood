@@ -6253,6 +6253,9 @@ export default function App() {
             postSlug={activeBlogPostSlug}
             onBackToHub={() => goToTab('blog')}
             onSelectPost={handleOpenBlogPost}
+            onEditInStudio={(slug) => {
+              goToTab('blog-studio', '/blog-admin');
+            }}
             onOpenHire={(service) => {
               setHireService(service || 'Full-Stack Digital Marketing');
               setHireModalOpen(true);
