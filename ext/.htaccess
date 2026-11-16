@@ -2,7 +2,10 @@
     RewriteEngine On
     RewriteBase /
 
-    # Serve existing files directly
+    # Custom 404 Error Document
+    ErrorDocument 404 /404.html
+
+    # Serve existing files directly (HTML, CSS, JS, XML, TXT, PNG, etc.)
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
@@ -13,6 +16,6 @@
     # Map /privacy to privacy.html
     RewriteRule ^privacy/?$ privacy.html [L]
 
-    # Fallback to index.html
-    RewriteRule ^ index.html [L]
+    # Root requests map to index.html
+    RewriteRule ^$ index.html [L]
 </IfModule>
