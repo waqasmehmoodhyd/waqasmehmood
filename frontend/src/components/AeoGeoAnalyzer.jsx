@@ -730,34 +730,52 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
       )}
 
       {/* Chrome Extension Download Card */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-amber-950/30 via-slate-900 to-indigo-950/30 border border-amber-500/30 space-y-4">
+      <div className="p-8 rounded-3xl bg-gradient-to-r from-cyan-950/40 via-slate-900 to-indigo-950/40 border border-cyan-500/30 space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-mono font-bold mb-2">
-              <span>LOCAL CHROME EXTENSION READY</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold mb-2">
+              <span>✓ OFFICIALLY LIVE ON CHROME WEB STORE</span>
             </div>
-            <h3 className="text-xl font-bold text-white">Waqas Mehmood Extension: Install in Google Chrome</h3>
+            <h3 className="text-xl font-bold text-white">Detailed SEO & AI Engine Chrome Extension</h3>
             <p className="text-xs text-slate-300 max-w-xl mt-1 leading-relaxed">
-              Analyze any competitor website directly inside your browser toolbar without visiting any URL or waiting.
+              Analyze any competitor website directly inside your browser toolbar: On-Page tags, Schema JSON-LD, H1-H6 hierarchy, live link audits, and 2026 AI/AEO citability scoring.
             </p>
           </div>
-          <div className="px-4 py-3 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs text-amber-300">
-            Folder: <span className="text-white">D:\waqasmehmood\wm-ai-extension</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <a 
+              href="https://chromewebstore.google.com/detail/detailed-seo-ai-engine-wa/nfijchmapfphajphbbmlegmdkpbpdnbo" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/20 flex items-center gap-2"
+            >
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.499A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.883-2.316L1.931 5.499zm13.722 5.046a5.455 5.455 0 0 1 1.802 5.097L13.5 24c5.185-.726 9.35-4.542 10.155-9.673H13.653l2 3.818zM12 7.636a4.364 4.364 0 1 0 0 8.728 4.364 4.364 0 0 0 0-8.728z"/>
+              </svg>
+              <span>Add to Chrome &mdash; Free</span>
+            </a>
+            <a 
+              href="https://ext.waqasmehmood.com/detailed-seo-ai" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 text-cyan-300 font-semibold text-xs hover:bg-slate-700 transition-all border border-slate-700"
+            >
+              Tour & Video &rarr;
+            </a>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300 pt-2">
           <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <strong className="text-white block mb-1">Step 1: Open Extensions</strong>
-            <span>Type <code className="text-amber-400 font-mono">chrome://extensions</code> in your Chrome URL bar.</span>
+            <strong className="text-white block mb-1">1-Click Live Audits</strong>
+            <span>Inspect meta tags, canonicals, robots directives & open graph directly on active tabs.</span>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <strong className="text-white block mb-1">Step 2: Developer Mode</strong>
-            <span>Toggle the <strong>Developer mode</strong> switch in the top-right corner to ON.</span>
+            <strong className="text-white block mb-1">Interactive H1-H6 Tree</strong>
+            <span>Visualize heading nesting and find heading skips with highlighted warnings.</span>
           </div>
           <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <strong className="text-white block mb-1">Step 3: Load Unpacked</strong>
-            <span>Click <strong>Load unpacked</strong> and select the <code className="text-amber-400 font-mono">wm-ai-extension</code> directory!</span>
+            <strong className="text-white block mb-1">2026 AI Search Readiness</strong>
+            <span>Check whether Perplexity, SearchGPT & Google AI Overviews can cite your answers.</span>
           </div>
         </div>
       </div>
