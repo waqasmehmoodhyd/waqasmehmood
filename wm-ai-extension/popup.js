@@ -1,4 +1,4 @@
-// Waqas Mehmood - Detailed SEO & AI AEO Engine 2026
+// Detailed SEO & AI Engine - Waqas Mehmood
 // Complete Tabbed Controller, Live Data Renderer, CSV & Executive PDF Generator
 
 let currentData = null;

@@ -152,7 +152,7 @@ export const TOOLS_SEO_DATA = {
     ],
     h2Title: 'Open SEO AI & Bot Crawler Analyzer: Diagnosing SERP & AI Visibility',
     metaTitle: 'Open SEO Analyzer - AI Bot & SERP Checker | Waqas Mehmood',
-    metaDesc: 'Audit On-Page tags, Google SERP pixel width, and test if ChatGPT (GPTBot), Perplexity AI, or Google Gemini are blocked in robots.txt.',
+    metaDesc: 'Audit On-Page tags, Google SERP pixel width, and test if ChatGPT (GPTBot), Perplexity AI, or Google Gemini are blocked in robots.txt. Run free AI audit!',
     primaryIntent: 'Technical & AI Search Diagnostic',
     targetAudience: 'SEO Specialists, Technical Marketers & Webmasters',
     heroTag: 'AI & AEO Audit Tool',

@@ -693,7 +693,7 @@ const PILLARS_CONFIG = [
   {
     path: '/on-page-seo',
     title: 'Best On-Page SEO Tools & Page Analyzers | Waqas Mehmood',
-    description: 'Free On-Page SEO tools: Website SEO checker, keyword density, meta tag analyzer, SERP preview, heading checker, open SEO AI bot analyzer, and broken link audit. Test your URLs free!',
+    description: 'Free On-Page SEO tools: Website SEO checker, keyword density, meta tag analyzer, SERP preview, and broken link audit. Test your webpage URLs free now!',
     h1: 'One Page SEO Tools - 11 Free On-Page Analyzers',
     tools: [
       { slug: 'website-seo-checker', name: 'Website SEO Checker' },
