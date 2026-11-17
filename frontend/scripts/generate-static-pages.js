@@ -23,9 +23,12 @@ const renderHeader = (currentPath) => `
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-500 focus:text-slate-950 font-bold rounded-lg shadow-lg">Skip to main content</a>
 <header class="w-full border-b border-slate-800 bg-[#070b15]/90 py-4 px-6 sticky top-0 z-50">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3 text-white font-bold text-lg hover:text-cyan-400 transition-colors">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-black text-sm">WM</div>
-      <span>Waqas Mehmood</span>
+    <a href="/" class="flex items-center gap-2.5 text-white font-bold text-base hover:text-cyan-400 transition-colors">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-slate-950 font-black text-sm shadow-md shadow-cyan-500/20">W</div>
+      <div class="leading-tight">
+        <span class="block font-extrabold text-[15px] tracking-tight">WAQAS MEHMOOD</span>
+        <span class="hidden sm:block text-[9.5px] text-slate-400 font-mono tracking-wider uppercase">SEO & Growth Architect</span>
+      </div>
     </a>
     <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300" aria-label="Main Navigation">
       <a href="/" class="hover:text-cyan-400 transition-colors ${currentPath === '/' ? 'text-cyan-400 font-semibold' : ''}">Home</a>
@@ -73,7 +76,7 @@ const renderFooter = () => `
         </div>
       </div>
 
-      <p class="text-slate-500">&copy; ${new Date().getFullYear()} Waqas Mehmood. All rights reserved.</p>
+      <p class="text-slate-500">&copy; ${new Date().getFullYear()} Waqas Mehmood. All rights reserved. • <a href="/privacy" class="text-cyan-400 hover:underline">Privacy Policy</a></p>
     </div>
     <div>
       <h3 class="text-white font-semibold text-sm mb-3">Core Pillars</h3>
@@ -84,6 +87,7 @@ const renderFooter = () => `
         <li><a href="/local-seo" class="hover:text-cyan-400">Local SEO & Google Business</a></li>
         <li><a href="/ai-tools" class="hover:text-cyan-400">Free AI Tools</a></li>
         <li><a href="/blog" class="hover:text-cyan-400 font-semibold text-cyan-400">SEO & Growth Blog &rarr;</a></li>
+        <li><a href="/privacy" class="hover:text-cyan-400">Privacy Policy</a></li>
       </ul>
     </div>
     <div>
@@ -203,6 +207,9 @@ function writeRouteFile(routePath, htmlContent) {
   }
 
   fs.writeFileSync(targetPath, htmlContent, 'utf8');
+  if (routePath === '/privacy') {
+    fs.writeFileSync(path.join(DIST_DIR, 'privacy.html'), htmlContent, 'utf8');
+  }
 }
 
 console.log('--- Starting Waqas Mehmood SSG & Pre-Rendering Engine ---');
@@ -638,6 +645,87 @@ writeRouteFile('/contact', generatePageHtml({
   contentHtml: contactHtml
 }));
 generatedRoutes.push('/contact');
+
+// =========================================================================
+// 4.1. PRIVACY POLICY (/privacy)
+// =========================================================================
+const privacyHtml = `
+<nav aria-label="Breadcrumb" class="mb-6 text-xs text-slate-400">
+  <ol class="flex items-center gap-2">
+    <li><a href="/" class="hover:text-cyan-400">Home</a></li>
+    <li>/</li>
+    <li class="text-cyan-400 font-semibold">Privacy Policy</li>
+  </ol>
+</nav>
+<article class="space-y-12">
+  <section class="p-8 sm:p-12 rounded-3xl bg-slate-900/80 border border-slate-800">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
+      <span>Official Privacy Policy • 100% Zero-Telemetry Guarantee</span>
+    </div>
+    <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-4">
+      Privacy Policy & Data Protection Architecture
+    </h1>
+    <p class="text-base text-slate-300 max-w-3xl leading-relaxed">
+      Transparent details on how Waqas Mehmood protects user data. 100% zero-telemetry guarantee for 32 native SEO diagnostic tools, GDPR & CCPA rights compliance, and safe client communication practices.
+    </p>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
+      <h2 class="text-base font-bold text-white mb-2">Zero Tool Telemetry</h2>
+      <p class="text-xs text-slate-400 leading-relaxed">All 32 in-house SEO tools, crawlers, and AI analyzers execute live in memory without recording, logging, or reselling your target domain data.</p>
+    </div>
+    <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
+      <h2 class="text-base font-bold text-white mb-2">No Tracking Cookies</h2>
+      <p class="text-xs text-slate-400 leading-relaxed">We do not employ cross-site tracking pixels or third-party ad retargeting cookies. Browser localStorage is strictly used for UI theme preferences.</p>
+    </div>
+    <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
+      <h2 class="text-base font-bold text-white mb-2">GDPR & CCPA Rights</h2>
+      <p class="text-xs text-slate-400 leading-relaxed">Full ownership over communication records. Request permanent deletion or export of your proposal messages at any time.</p>
+    </div>
+  </section>
+
+  <section class="p-8 sm:p-10 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-8 text-sm text-slate-300 leading-relaxed">
+    <div class="space-y-3">
+      <h2 class="text-xl font-bold text-white">1. Identity & Data Controller</h2>
+      <p>This website (waqasmehmood.com) and the official subdomain (ext.waqasmehmood.com) are operated by <strong>Waqas Mehmood</strong>, Senior SEO Specialist & Growth Engineer located in Auto Bhan Road, Hyderabad, Sindh 71000, Pakistan. Contact email: <a href="mailto:waqasmehmoodhyd@gmail.com" class="text-cyan-400 hover:underline">waqasmehmoodhyd@gmail.com</a>.</p>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-xl font-bold text-white">2. Zero-Telemetry Diagnostic Guarantee</h2>
+      <p>All in-house SEO diagnostic tools, site crawlers, schema validators, and AI analyzers parse pages ephemerally. No target URLs, audit reports, or client site structures are brokered to advertising databases.</p>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-xl font-bold text-white">3. Information Collected via Direct Inquiries</h2>
+      <p>We only collect personal information that you voluntarily submit when requesting custom SEO proposals (Name, Email, WhatsApp number, and Website URL). This information is used strictly for direct business correspondence.</p>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-xl font-bold text-white">4. Google Analytics 4 Telemetry</h2>
+      <p>We use Google Analytics 4 (G-GJ5ZJKLLT0) with IP anonymization enabled by default to monitor general aggregate metrics (page load speeds, country distribution, device screen sizes). You can opt out via standard browser privacy extensions.</p>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-xl font-bold text-white">5. Detailed SEO & AI Engine Chrome Extension</h2>
+      <p>The official Chrome Extension distributed via the Google Chrome Web Store operates under a certified Zero-Data-Collection manifest. It does not access personal browsing history or transmit user telemetry.</p>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-xl font-bold text-white">6. Contact & Data Deletion Requests</h2>
+      <p>To request permanent deletion of your inquiry data under GDPR or CCPA, email <a href="mailto:waqasmehmoodhyd@gmail.com" class="text-cyan-400 hover:underline font-mono">waqasmehmoodhyd@gmail.com</a> or message via WhatsApp at <a href="https://wa.me/923033111126" class="text-emerald-400 hover:underline font-mono">+92 303 3111126</a>.</p>
+    </div>
+  </section>
+</article>
+`;
+
+writeRouteFile('/privacy', generatePageHtml({
+  path: '/privacy',
+  title: 'Privacy Policy | Waqas Mehmood - Best SEO Expert',
+  description: 'Official Privacy Policy for waqasmehmood.com. Transparent details on cookies, zero-telemetry diagnostics, data protection, and user rights.',
+  contentHtml: privacyHtml
+}));
+generatedRoutes.push('/privacy');
 
 // =========================================================================
 // 5. ALL TOOLS (/all-tools)

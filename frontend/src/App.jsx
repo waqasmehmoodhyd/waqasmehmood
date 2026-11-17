@@ -20,6 +20,7 @@ import BlogHubView from './components/BlogHubView.jsx';
 import BlogPostView from './components/BlogPostView.jsx';
 import AeoGeoAnalyzer from './components/AeoGeoAnalyzer.jsx';
 import BlogAdminStudio from './components/BlogAdminStudio.jsx';
+import PrivacyView from './components/PrivacyView.jsx';
 import { BLOG_POSTS, getMergedBlogPosts } from './data/blogData.js';
 
 const API_BASE = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
@@ -636,6 +637,7 @@ export default function App() {
     else if (tab === 'contact') navigate('/contact');
     else if (tab === 'all-tools') navigate('/all-tools');
     else if (tab === 'blog') navigate('/blog');
+    else if (tab === 'privacy') navigate('/privacy');
     else if (tab === 'location') navigate(`/locations/${selectedCity}`);
   };
 
@@ -974,6 +976,13 @@ export default function App() {
         'Contact Waqas Mehmood | Hire Best SEO Expert',
         'Get in touch with Waqas Mehmood for custom SEO audits, best SEO services, high-ROAS PPC ad campaigns, or full-stack web application development.',
         '/contact'
+      );
+    } else if (cleanPath === '/privacy' || cleanPath === '/privacy-policy') {
+      setActiveTab('privacy');
+      updateSeoMetadata(
+        'Privacy Policy | Waqas Mehmood - Best SEO Expert',
+        'Official Privacy Policy for waqasmehmood.com. Transparent details on cookies, zero-telemetry diagnostics, data protection, and user rights.',
+        '/privacy'
       );
     } else if (cleanPath === '/all-tools' || cleanPath === '/tools' || cleanPath === '/digitaltools') {
       setActiveTab('all-tools');
@@ -2080,17 +2089,17 @@ export default function App() {
           <Link 
             to="/"
             onClick={() => { goToTab('home'); setAuditResult(null); setMobileMenuOpen(false); }} 
-            className="flex items-center gap-2 sm:gap-3 group text-left cursor-pointer shrink-0"
+            className="flex items-center gap-2 sm:gap-2.5 group text-left cursor-pointer shrink-0"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center font-black text-slate-950 text-lg sm:text-xl shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-all">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center font-black text-slate-950 text-base sm:text-lg shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-all">
               W
             </div>
             <div>
-              <span className="font-extrabold text-sm sm:text-base tracking-tight text-white block group-hover:text-cyan-400 transition-colors whitespace-nowrap">
+              <span className="font-extrabold text-sm sm:text-[15px] tracking-tight text-white block group-hover:text-cyan-400 transition-colors whitespace-nowrap">
                 WAQAS MEHMOOD
               </span>
-              <span className="hidden sm:block text-[10px] text-slate-400 font-mono tracking-wider uppercase">
-                Digital Marketing & SEO Architect
+              <span className="hidden sm:block text-[9.5px] text-slate-400 font-mono tracking-wider uppercase">
+                SEO & Growth Architect
               </span>
             </div>
           </Link>
@@ -6284,6 +6293,13 @@ export default function App() {
       )}
 
       {/* ======================================================== */}
+      {/* 3.4.3. PRIVACY POLICY PAGE (ZERO-TELEMETRY GUARANTEE)     */}
+      {/* ======================================================== */}
+      {activeTab === 'privacy' && (
+        <PrivacyView goToTab={goToTab} />
+      )}
+
+      {/* ======================================================== */}
       {/* 3.5. 404 NOT FOUND PAGE (PREVENTS SPAM / SOFT 404S)      */}
       {/* ======================================================== */}
       {activeTab === 'not-found' && (
@@ -7060,6 +7076,7 @@ export default function App() {
                 <li><Link to="/blog" onClick={() => goToTab('blog')} className="hover:text-white transition-colors flex items-center gap-1.5"><BookOpen className="w-3 h-3 text-cyan-400" /> SEO & Marketing Blog</Link></li>
                 <li><Link to="/about" onClick={() => goToTab('about')} className="hover:text-white transition-colors">About Waqas Mehmood</Link></li>
                 <li><Link to="/contact" onClick={() => goToTab('contact')} className="hover:text-white transition-colors">Contact & Audit Inquiry</Link></li>
+                <li><Link to="/privacy" onClick={() => goToTab('privacy')} className="hover:text-white transition-colors flex items-center gap-1.5"><Shield className="w-3 h-3 text-cyan-400" /> Privacy Policy</Link></li>
               </ul>
             </div>
 
@@ -7092,6 +7109,8 @@ export default function App() {
           <div className="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-slate-400">© 2026 waqasmehmood.com • All Rights Reserved.</span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
+              <Link to="/privacy" onClick={() => goToTab('privacy')} className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Privacy Policy</Link>
               <span className="text-slate-600 hidden sm:inline">•</span>
               <span className="text-slate-500 hidden sm:inline">Connect: LinkedIn • WhatsApp • X • GitHub</span>
             </div>
