@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Pitfalls & Solutions for Detailed SEO & AI Engine</title>
+  <meta name="description" content="Identify typical warnings and errors users encounter and get clear, actionable fixes to keep the extension running smoothly.">
+  <link rel="canonical" href="https://waqasmehmood.com/blog/common-pitfalls-solutions/" />
+  <style>body{font-family:Arial,sans-serif;max-width:800px;margin:auto;padding:20px;}h1,h2{color:#2c3e50;}img{max-width:100%;height:auto;margin:20px 0;}</style>
+</head>
+<body>
+  <h1>Common Pitfalls & Solutions for Detailed SEO &amp; AI Engine</h1>
+  <p>Below are the most frequent “yellow‑line” warnings Chrome shows after the extension is installed, plus step‑by‑step resolutions.</p>
+  <h2>1. “Proceed with caution” safe‑browsing notice</h2>
+  <p>Reason: Chrome’s Enhanced Safe Browsing flags any newly‑published extension. <strong>Fix:</strong> Add a verified badge on the landing page and keep the extension’s privacy‑policy link updated (already done in `ext/index.html`).</p>
+  <h2>2. Title‑length warning ( > 60 chars )</h2>
+  <p>Reason: The extension’s auto‑suggested title exceeds the SERP limit. <strong>Fix:</strong> The extension now truncates titles automatically and shows a live counter.</p>
+  <h2>3. Missing or duplicate meta description</h2>
+  <p>Reason: Pages generated from the extension sometimes inherit the site‑wide description. <strong>Fix:</strong> Use the “Edit description” button in the UI; the new value is saved locally and exported in the PDF report.</p>
+  <h2>4. 404 soft‑error on unknown routes</h2>
+  <p>Reason: The sub‑domain lacked an `ErrorDocument`. <strong>Fix:</strong> Added an `.htaccess` rule (`ErrorDocument 404 /404.html`) and a custom 404 page (already live).</p>
+  <h2>5. Schema‑validation failures</h2>
+  <p>Reason: JSON‑LD snippets were outdated. <strong>Solution:</strong> The extension’s built‑in validator now pulls the latest schema versions from schema.org automatically.</p>
+  <p>All issues have been addressed in the latest version (v 2.3.1). If you encounter anything else, open a support ticket via the extension’s “Help” panel.</p>
+</body>
+</html>
