@@ -7,7 +7,7 @@ import {
   Palette, Laptop, Share2, Target, Plus, Eye, Send, Filter, Check, Award,
   Copy, Smartphone, Monitor, Image, ListTree, Link2, MapPin, Hash, BookOpen,
   Trash2, Lock, Unlock, Mail, MessageSquare, DollarSign, User, Briefcase,
-  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast, Menu, X, Bot
+  HelpCircle, ChevronDown, Star, TrendingUp, Key, Sun, Moon, Contrast, Menu, X, Bot, Home
 } from 'lucide-react';
 import { TOOLS_SEO_DATA } from './data/toolsSeoData.js';
 import { CITIES_DATA } from './data/citiesData.js';
@@ -2077,12 +2077,12 @@ export default function App() {
   }, [projects, portfolioCategory]);
 
   return (
-    <div className="min-h-screen bg-[#070b15] text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-950">
+    <div className="min-h-screen bg-[#070b15] text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-950 pb-20 md:pb-0">
       
       {/* ======================================================== */}
-      {/* TOP NAVBAR                                               */}
+      {/* TOP NAVBAR (STICKY ON MOBILE & DESKTOP)                  */}
       {/* ======================================================== */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#070b15]/90 border-b border-slate-800/80">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#070b15]/95 border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 h-18 flex items-center justify-between">
           
           {/* Brand */}
@@ -7147,6 +7147,63 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* MOBILE STICKY BOTTOM DOCK (EXTENSION & TOOLS PRIORITY) */}
+      <nav 
+        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b15]/98 backdrop-blur-2xl border-t border-slate-800/90 px-3 py-2 flex items-center justify-between shadow-[0_-8px_30px_rgba(0,0,0,0.5)] safe-area-bottom"
+        aria-label="Mobile Sticky Bottom Dock"
+      >
+        <Link 
+          to="/" 
+          onClick={() => { goToTab('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${activeTab === 'home' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+        >
+          <Home className="w-4 h-4" />
+          <span className="text-[10px] tracking-tight">Home</span>
+        </Link>
+
+        <Link 
+          to="/all-tools" 
+          onClick={() => { goToTab('all-tools'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer relative ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+        >
+          <div className="relative">
+            <Layers className="w-4 h-4" />
+            <span className="absolute -top-1.5 -right-3 px-1 py-0.2 rounded-full bg-cyan-500 text-slate-950 text-[8px] font-mono font-black shadow-sm">32</span>
+          </div>
+          <span className="text-[10px] tracking-tight font-semibold">SEO Tools</span>
+        </Link>
+
+        <a 
+          href="https://ext.waqasmehmood.com/detailed-seo-ai" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="flex-1 flex flex-col items-center justify-center -mt-5 cursor-pointer group" 
+          title="Detailed SEO & AI Engine Chrome Extension"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/40 border-2 border-[#070b15] group-hover:scale-105 active:scale-95 transition-all">
+            <Sparkles className="w-5 h-5 fill-current text-slate-950" />
+          </div>
+          <span className="text-[10px] font-extrabold text-cyan-300 tracking-tight mt-1 group-hover:text-cyan-200">Extension <span className="text-[8px] px-1 py-0.2 rounded bg-cyan-500/30 text-cyan-200 font-mono">PRO</span></span>
+        </a>
+
+        <Link 
+          to="/blog" 
+          onClick={() => { goToTab('blog'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${activeTab === 'blog' || activeTab === 'blog-post' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+        >
+          <BookOpen className="w-4 h-4" />
+          <span className="text-[10px] tracking-tight">Blog</span>
+        </Link>
+
+        <button 
+          onClick={() => { setHireService('Full-Stack Digital Marketing'); setHireModalOpen(true); }} 
+          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${activeTab === 'contact' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+        >
+          <Phone className="w-4 h-4" />
+          <span className="text-[10px] tracking-tight">Hire</span>
+        </button>
+      </nav>
 
     </div>
   );
