@@ -2188,6 +2188,21 @@ export default function App() {
             >
               <Search className="w-3.5 h-3.5" />
             </button>
+
+            {/* Direct Mobile Blog Link Button */}
+            <Link
+              to="/blog"
+              onClick={() => { goToTab('blog'); setMobileMenuOpen(false); }}
+              className={`md:hidden px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeTab === 'blog' || activeTab === 'blog-post'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/20'
+                  : 'bg-slate-900 border border-slate-700/80 text-slate-200 hover:text-white hover:border-cyan-500/40'
+              }`}
+              title="SEO & AI Blog"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Blog</span>
+            </Link>
             {/* Localhost / Dev Email Delivery Tester Quick Button */}
             {(typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) && (
               <button
@@ -2327,6 +2342,17 @@ export default function App() {
             {/* Primary Nav Links */}
             <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
               <Link 
+                to="/blog"
+                onClick={() => goToTab('blog')}
+                className={`p-3 rounded-xl transition-all cursor-pointer text-left flex items-center justify-between col-span-2 ${activeTab === 'blog' || activeTab === 'blog-post' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/20' : 'bg-gradient-to-r from-cyan-500/15 via-blue-500/10 to-indigo-500/15 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400'}`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <BookOpen className="w-4 h-4 text-cyan-400" />
+                  <span className="font-extrabold text-white text-sm">SEO &amp; AI Blog</span>
+                </div>
+                <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{BLOG_POSTS.length} Articles</span>
+              </Link>
+              <Link 
                 to="/services"
                 onClick={() => goToTab('services')}
                 className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 ${activeTab === 'services' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
@@ -2354,17 +2380,6 @@ export default function App() {
                 className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center gap-2 ${activeTab === 'contact' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
               >
                 <span>Contact</span>
-              </Link>
-              <Link 
-                to="/blog"
-                onClick={() => goToTab('blog')}
-                className={`p-2.5 rounded-xl transition-all cursor-pointer text-left flex items-center justify-between col-span-2 ${activeTab === 'blog' || activeTab === 'blog-post' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-slate-900/70 text-slate-300 border border-slate-800'}`}
-              >
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Engineering Blog & Case Studies</span>
-                </div>
-                <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{BLOG_POSTS.length} Guides</span>
               </Link>
             </div>
 

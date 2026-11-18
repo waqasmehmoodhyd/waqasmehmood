@@ -42,7 +42,8 @@ const renderHeader = (currentPath) => `
       <a href="/contact" class="hover:text-cyan-400 transition-colors ${currentPath === '/contact' ? 'text-cyan-400 font-semibold' : ''}">Contact</a>
       <a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="hidden xl:inline-flex items-center gap-1 text-cyan-400 hover:text-white font-semibold">Extension ⚡</a>
     </nav>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="/blog" class="md:hidden px-2.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 border border-slate-700/80 text-cyan-400 hover:text-white">Blog</a>
       <a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500 hover:text-slate-950 transition-all">Chrome Extension</a>
       <a href="/contact" class="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 text-white hover:opacity-90 transition-all">Hire Waqas</a>
     </div>
