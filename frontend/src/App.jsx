@@ -2188,21 +2188,6 @@ export default function App() {
             >
               <Search className="w-3.5 h-3.5" />
             </button>
-
-            {/* Direct Mobile Blog Link Button */}
-            <Link
-              to="/blog"
-              onClick={() => { goToTab('blog'); setMobileMenuOpen(false); }}
-              className={`md:hidden px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'blog' || activeTab === 'blog-post'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-500/20'
-                  : 'bg-slate-900 border border-slate-700/80 text-slate-200 hover:text-white hover:border-cyan-500/40'
-              }`}
-              title="SEO & AI Blog"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Blog</span>
-            </Link>
             {/* Localhost / Dev Email Delivery Tester Quick Button */}
             {(typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) && (
               <button
