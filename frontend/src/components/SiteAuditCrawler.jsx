@@ -476,7 +476,7 @@ export default function SiteAuditCrawler({ onHireClick }) {
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
           All-in-One AI Website Health Auditor <br />
-          <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">
             Technical &amp; On-Page Screaming Frog Suite
           </span>
         </h1>

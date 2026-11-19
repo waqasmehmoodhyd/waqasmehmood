@@ -162,38 +162,38 @@ export default function App() {
   const [hireService, setHireService] = useState('SEO Services');
   const [addProjectModalOpen, setAddProjectModalOpen] = useState(false);
 
-  // Professional Multi-Theme System ('dark' | 'light' | 'oled' | 'system')
+  // Professional Multi-Theme System ('light' | 'dark' | 'oled' | 'system')
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('wm_theme_preference') || 'dark';
+      return localStorage.getItem('wm_theme_preference_v2') || 'light';
     }
-    return 'dark';
+    return 'light';
   });
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
 
   const THEME_OPTIONS = [
     {
-      id: 'dark',
-      label: 'Dark Mode',
-      subtitle: 'Cyber Midnight',
-      icon: Moon,
-      color: 'text-indigo-400',
+      id: 'light',
+      label: 'Light Mode',
+      subtitle: 'Crisp Mint & Ocean Teal',
+      icon: Sun,
+      color: 'text-teal-600',
       badge: 'Default'
     },
     {
-      id: 'light',
-      label: 'Light Mode',
-      subtitle: 'Executive Clean',
-      icon: Sun,
+      id: 'dark',
+      label: 'Dark Mode',
+      subtitle: 'Slate & Amber',
+      icon: Moon,
       color: 'text-amber-400',
-      badge: 'Daylight'
+      badge: 'Slate'
     },
     {
       id: 'oled',
       label: 'OLED Black',
       subtitle: 'Pitch Dark',
       icon: Contrast,
-      color: 'text-cyan-400',
+      color: 'text-amber-300',
       badge: 'AMOLED'
     },
     {
@@ -900,7 +900,7 @@ export default function App() {
       }
 
       document.documentElement.setAttribute('data-theme', resolved);
-      localStorage.setItem('wm_theme_preference', themeName);
+      localStorage.setItem('wm_theme_preference_v2', themeName);
 
       const timer = setTimeout(() => {
         document.documentElement.classList.remove('theme-transitioning');
@@ -2077,12 +2077,12 @@ export default function App() {
   }, [projects, portfolioCategory]);
 
   return (
-    <div className="min-h-screen bg-[#070b15] text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-950 pb-20 md:pb-0">
+    <div className="min-h-screen bg-[#fafafa] text-slate-900 font-sans selection:bg-teal-500 selection:text-white pb-20 md:pb-0">
       
       {/* ======================================================== */}
-      {/* TOP NAVBAR (STICKY ON MOBILE & DESKTOP)                  */}
+      {/* TOP NAVBAR (STICKY ON MOBILE & DESKTOP - CRISP MINT & OCEAN TEAL) */}
       {/* ======================================================== */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#070b15]/95 border-b border-slate-800/80">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/95 border-b border-teal-500/15 shadow-sm">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 h-18 flex items-center justify-between">
           
           {/* Brand */}
@@ -2091,14 +2091,14 @@ export default function App() {
             onClick={() => { goToTab('home'); setAuditResult(null); setMobileMenuOpen(false); }} 
             className="flex items-center gap-2 sm:gap-2.5 group text-left cursor-pointer shrink-0"
           >
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center font-black text-slate-950 text-base sm:text-lg shadow-md shadow-cyan-500/20 group-hover:scale-105 transition-all">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-gradient-to-tr from-teal-500 via-teal-600 to-emerald-700 flex items-center justify-center font-black text-white text-base sm:text-lg shadow-md shadow-teal-500/25 group-hover:scale-105 transition-all">
               W
             </div>
             <div>
-              <span className="font-extrabold text-sm sm:text-[15px] tracking-tight text-white block group-hover:text-cyan-400 transition-colors whitespace-nowrap">
+              <span className="font-extrabold text-sm sm:text-[15px] tracking-tight text-slate-900 block group-hover:text-teal-600 transition-colors whitespace-nowrap">
                 WAQAS MEHMOOD
               </span>
-              <span className="hidden sm:block text-[9.5px] text-slate-400 font-mono tracking-wider uppercase">
+              <span className="hidden sm:block text-[9.5px] text-slate-500 font-mono tracking-wider uppercase font-semibold">
                 SEO & Growth Architect
               </span>
             </div>
@@ -2109,45 +2109,45 @@ export default function App() {
             <Link 
               to="/services"
               onClick={() => goToTab('services')}
-              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'services' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'services' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'text-slate-700 hover:text-teal-700'}`}
             >
               Services
             </Link>
             <Link 
               to="/all-tools"
               onClick={() => goToTab('all-tools')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'text-slate-700 hover:text-teal-700'}`}
             >
               <span>All Tools</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-mono font-bold">{allToolsList.length} Free</span>
             </Link>
             <Link 
               to="/blog"
               onClick={() => goToTab('blog')}
-              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'blog' || activeTab === 'blog-post' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'blog' || activeTab === 'blog-post' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'text-slate-700 hover:text-teal-700'}`}
             >
               Blog
             </Link>
             <Link 
               to="/about"
               onClick={() => goToTab('about')}
-              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'about' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'about' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'text-slate-700 hover:text-teal-700'}`}
             >
               About
             </Link>
             <Link 
               to="/contact"
               onClick={() => goToTab('contact')}
-              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'contact' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all cursor-pointer ${activeTab === 'contact' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'text-slate-700 hover:text-teal-700'}`}
             >
               Contact
             </Link>
             <Link 
               to="/seo-expert-in-hyderabad"
               onClick={() => handleSwitchCity('hyderabad')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'location' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-300 hover:text-white'}`}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'location' ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'text-slate-700 hover:text-teal-700'}`}
             >
-              <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+              <MapPin className="w-3.5 h-3.5 text-teal-600" />
               <span>Locations</span>
             </Link>
 
@@ -2156,23 +2156,23 @@ export default function App() {
               href="https://ext.waqasmehmood.com/detailed-seo-ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 text-cyan-400 border border-cyan-500/30 hover:border-cyan-400 hover:text-white"
+              className="px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 bg-teal-50 text-teal-700 border border-teal-200 hover:border-teal-400 hover:text-teal-900"
               title="Official Detailed SEO & AI Chrome Extension by Waqas Mehmood on ext.waqasmehmood.com"
             >
               <span>Chrome Extension</span>
-              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-cyan-500 text-slate-950">PRO</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-teal-600 text-white font-mono">PRO</span>
             </a>
 
             {/* Quick Live Search Bar in Nav */}
             <button 
               onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
-              className="px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/40 text-slate-300 hover:text-white transition-all flex items-center gap-2 cursor-pointer shadow-inner group ml-1"
+              className="px-3 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-teal-400 text-slate-600 hover:text-slate-900 transition-all flex items-center gap-2 cursor-pointer shadow-inner group ml-1"
               title="Quick Search 32 Tools, Services & Locations (Ctrl+K)"
             >
-              <Search className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
-              <span className="hidden xl:inline text-slate-400 font-normal">Search tools...</span>
-              <span className="inline xl:hidden text-slate-400 font-normal">Search</span>
-              <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-slate-950 text-[10px] font-mono text-cyan-300 border border-slate-800">
+              <Search className="w-3.5 h-3.5 text-teal-600 group-hover:scale-110 transition-transform" />
+              <span className="hidden xl:inline text-slate-500 font-normal">Search tools...</span>
+              <span className="inline xl:hidden text-slate-500 font-normal">Search</span>
+              <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded bg-white text-[10px] font-mono text-teal-700 border border-teal-200 shadow-xs">
                 Ctrl K
               </kbd>
             </button>
@@ -2183,7 +2183,7 @@ export default function App() {
             {/* Mobile Search Icon Button */}
             <button
               onClick={() => { setSearchQuery(''); setSearchOpen(true); }}
-              className="md:hidden w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
+              className="md:hidden w-8 h-8 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-teal-600 hover:text-teal-800 hover:border-teal-400 transition-all cursor-pointer"
               title="Search tools & services"
             >
               <Search className="w-3.5 h-3.5" />
@@ -2192,28 +2192,28 @@ export default function App() {
             {(typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) && (
               <button
                 onClick={() => { setTempWeb3Key(web3FormsKey); setWeb3ModalOpen(true); }}
-                className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/50 text-[11px] text-slate-300 hover:text-cyan-300 font-medium transition-colors cursor-pointer"
+                className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-teal-500/50 text-[11px] text-slate-600 hover:text-teal-700 font-medium transition-colors cursor-pointer"
                 title="Configure or test Method 1 Email Forwarding"
               >
-                <span className={`w-2 h-2 rounded-full ${web3FormsKey ? 'bg-emerald-400' : 'bg-amber-400 animate-pulse'}`}></span>
+                <span className={`w-2 h-2 rounded-full ${web3FormsKey ? 'bg-emerald-500' : 'bg-teal-500 animate-pulse'}`}></span>
                 <span>Mail Setup</span>
               </button>
             )}
 
             {isAdmin ? (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-                <Unlock className="w-3.5 h-3.5 text-amber-400" />
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-teal-50 border border-teal-200 text-teal-800 text-xs font-semibold">
+                <Unlock className="w-3.5 h-3.5 text-teal-600" />
                 <span className="hidden sm:inline">Admin</span>
                 <button 
                   onClick={() => setInquiriesModalOpen(true)}
-                  className="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-[10px] font-bold cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-teal-100 hover:bg-teal-200 text-teal-800 text-[10px] font-bold cursor-pointer"
                   title="View all client leads"
                 >
                   Leads ({inquiriesList.length})
                 </button>
                 <button 
                   onClick={() => { setTempWeb3Key(web3FormsKey); setWeb3ModalOpen(true); }}
-                  className="px-2 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 text-[10px] font-bold cursor-pointer"
+                  className="px-2 py-0.5 rounded bg-teal-100 hover:bg-teal-200 text-teal-800 text-[10px] font-bold cursor-pointer"
                   title="Web3Forms Email Settings"
                 >
                   Email Key
@@ -2221,7 +2221,7 @@ export default function App() {
                 <button 
                   onClick={handleAdminLogout} 
                   title="Exit Admin Mode"
-                  className="ml-1 text-[10px] text-slate-400 hover:text-white underline cursor-pointer"
+                  className="ml-1 text-[10px] text-slate-500 hover:text-slate-800 underline cursor-pointer"
                 >
                   Exit
                 </button>
@@ -2233,18 +2233,18 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900 border border-slate-700/80 hover:border-cyan-500/50 text-slate-300 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-50 border border-slate-200 hover:border-teal-400 text-slate-600 hover:text-teal-700 flex items-center justify-center transition-all cursor-pointer shadow-sm"
                 title={`Theme: ${theme.toUpperCase()} (Click to change)`}
                 aria-label="Toggle Visual Theme"
               >
                 {theme === 'light' ? (
-                  <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
+                  <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-teal-600" />
                 ) : theme === 'oled' ? (
-                  <Contrast className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400" />
+                  <Contrast className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700" />
                 ) : theme === 'system' ? (
-                  <Monitor className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400" />
+                  <Monitor className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-500" />
                 ) : (
-                  <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-400" />
+                  <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-700" />
                 )}
               </button>
 
@@ -2255,10 +2255,10 @@ export default function App() {
                     className="fixed inset-0 z-40" 
                     onClick={() => setThemeDropdownOpen(false)}
                   />
-                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl p-1.5 z-50 space-y-1 text-xs">
-                    <div className="px-2.5 py-1 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 flex items-center justify-between">
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white border border-slate-200 shadow-2xl p-1.5 z-50 space-y-1 text-xs">
+                    <div className="px-2.5 py-1 text-[10px] font-mono font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
                       <span>Visual Theme</span>
-                      <span className="text-cyan-400 font-mono text-[9px] uppercase">{theme}</span>
+                      <span className="text-teal-600 font-mono text-[9px] uppercase">{theme}</span>
                     </div>
                     {THEME_OPTIONS.map((opt) => {
                       const IconComp = opt.icon;
@@ -2273,23 +2273,23 @@ export default function App() {
                           }}
                           className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl transition-all cursor-pointer text-left ${
                             isActive 
-                              ? 'bg-cyan-500/15 text-white font-semibold border border-cyan-500/30' 
-                              : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                              ? 'bg-teal-50 text-teal-900 font-semibold border border-teal-200' 
+                              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                           }`}
                         >
                           <div className="flex items-center gap-2.5">
-                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center bg-slate-950 border border-slate-800 ${opt.color}`}>
+                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center bg-slate-50 border border-slate-200 ${opt.color}`}>
                               <IconComp className="w-3.5 h-3.5" />
                             </div>
                             <div>
                               <div className="text-xs font-semibold leading-tight">{opt.label}</div>
-                              <div className="text-[10px] text-slate-400">{opt.subtitle}</div>
+                              <div className="text-[10px] text-slate-500">{opt.subtitle}</div>
                             </div>
                           </div>
                           {isActive ? (
-                            <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                            <Check className="w-3.5 h-3.5 text-teal-600 shrink-0" />
                           ) : (
-                            <span className="text-[9px] font-mono text-slate-500 px-1.5 py-0.5 rounded bg-slate-950">
+                            <span className="text-[9px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-slate-100">
                               {opt.badge}
                             </span>
                           )}
@@ -2302,20 +2302,20 @@ export default function App() {
             </div>
 
             <button 
-              onClick={() => { setHireService('Full-Stack Digital Marketing'); setHireModalOpen(true); }}
-              className="px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white shadow-md shadow-cyan-500/20 transition-all cursor-pointer whitespace-nowrap"
+              onClick={() => { setHireService('Free SEO Audit'); setHireModalOpen(true); }}
+              className="px-4 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold bg-teal-600 hover:bg-teal-500 text-white shadow-[0_4px_20px_rgba(13,148,136,0.35)] transition-all cursor-pointer whitespace-nowrap transform hover:-translate-y-0.5"
             >
-              Hire Waqas
+              Free Audit
             </button>
 
             {/* Mobile Hamburger Menu Toggle Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer"
+              className="md:hidden w-8 h-8 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-700 hover:text-slate-900 hover:border-teal-400 transition-all cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-4 h-4 text-cyan-400" /> : <Menu className="w-4 h-4" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 text-teal-600" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
 
@@ -2442,79 +2442,229 @@ export default function App() {
       {/* ======================================================== */}
       {activeTab === 'home' && (
         <main>
-          {/* Hero Section */}
-          <section className="relative overflow-hidden py-20 px-6 border-b border-slate-800/60 bg-gradient-to-b from-[#0b1020] via-[#070b15] to-[#060911]">
-            <div className="max-w-6xl mx-auto text-center space-y-6">
+          {/* Hero Section (Bespoke Crisp Mint & Ocean Teal Mockup Layout) */}
+          <section className="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-20 px-6 lg:px-12 border-b border-teal-500/15 bg-gradient-to-b from-white via-[#f0fdfa]/40 to-[#fafafa]">
+            <div className="max-w-7xl mx-auto space-y-12">
               
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700 text-xs font-semibold text-cyan-300">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                Best SEO Expert & Specialist • Full-Funnel Growth Engineer
+              {/* Asymmetric 2-Column Hero Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                {/* Left Column: Eyebrow, Main Headline, Stat Badges & CTAs */}
+                <div className="lg:col-span-7 space-y-6 text-left">
+                  
+                  {/* Eyebrow Tag */}
+                  <div className="inline-flex items-center gap-2 text-teal-700 font-semibold text-xs sm:text-sm tracking-wide">
+                    <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                    <span>Best SEO Expert & Senior Specialist</span>
+                    <span className="text-teal-500/60">•</span>
+                    <span>Full-Funnel Growth Engineer</span>
+                  </div>
+
+                  {/* Main Headline */}
+                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
+                    Best SEO Expert & Full-Funnel <br className="hidden sm:inline" />
+                    <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">SEO Services</span>
+                  </h1>
+
+                  {/* Subtitle / Value Prop */}
+                  <p className="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
+                    Assalam-o-Alaikum! I'm <strong className="text-slate-900 font-bold">Waqas Mehmood</strong>, an established <strong className="seo-focus-keyword">Best SEO Expert</strong> and senior <strong className="seo-focus-keyword">SEO Specialist</strong>. I provide end-to-end <strong className="seo-focus-keyword">SEO Services</strong> and dedicated <strong className="seo-focus-keyword">SEO Management</strong> for high-growth brands — combining deep technical SEO architectures, <strong className="seo-focus-keyword">Local SEO</strong>, and high-ROAS Google Ads to dominate competitive search results.
+                  </p>
+
+                  {/* Tangible In-House Achievements & Extension Promotion (Authentic & Verified) */}
+                  <div className="flex flex-wrap items-center gap-4 pt-1 max-w-2xl">
+                    {/* Card 1: Official Chrome Extension */}
+                    <a
+                      href="https://ext.waqasmehmood.com/detailed-seo-ai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#eefcf8] dark:bg-slate-900/80 border border-teal-500/25 hover:border-teal-500/60 shadow-sm hover:shadow-md transition-all text-left cursor-pointer"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700 dark:text-teal-400 shrink-0 group-hover:scale-105 transition-transform">
+                        <svg className="w-5 h-5 text-teal-600 dark:text-teal-400" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.499A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.883-2.316L1.931 5.499zm13.722 5.046a5.455 5.455 0 0 1 1.802 5.097L13.5 24c5.185-.726 9.35-4.542 10.155-9.673H13.653l2 3.818zM12 7.636a4.364 4.364 0 1 0 0 8.728 4.364 4.364 0 0 0 0-8.728z"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-1.5 leading-tight">
+                          <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Detailed SEO &amp; AI</span>
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">LIVE</span>
+                        </div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5">Chrome Web Store &bull; 100% Free</div>
+                      </div>
+                    </a>
+
+                    {/* Card 2: 32 In-House Tools Suite */}
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('all-tools')}
+                      className="group flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#eefcf8] dark:bg-slate-900/80 border border-teal-500/25 hover:border-teal-500/60 shadow-sm hover:shadow-md transition-all text-left cursor-pointer"
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700 dark:text-teal-400 shrink-0 group-hover:scale-105 transition-transform">
+                        <Terminal className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-1.5 leading-tight">
+                          <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">32 In-House Tools</span>
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300 border border-teal-300 dark:border-teal-700">FREE</span>
+                        </div>
+                        <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5">AEO, GEO &amp; Technical Suite</div>
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Action CTA Row */}
+                  <div className="flex flex-wrap items-center gap-6 pt-3">
+                    <button
+                      onClick={() => { setHireService('Enterprise SEO Audit'); setHireModalOpen(true); }}
+                      className="px-8 py-3.5 rounded-full font-bold text-sm bg-teal-600 hover:bg-teal-500 text-white shadow-[0_4px_25px_rgba(13,148,136,0.35)] transition-all cursor-pointer flex items-center gap-2 transform hover:-translate-y-0.5"
+                    >
+                      <span>See Free Audit</span>
+                    </button>
+
+                    <a
+                      href="#portfolio-section"
+                      className="text-teal-700 hover:text-teal-800 font-bold text-sm flex items-center gap-1.5 transition-colors cursor-pointer group"
+                    >
+                      <span>Free Audit Scan</span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </div>
+
+                </div>
+
+                {/* Right Column: Executive Portrait with Crisp Circular Mint Aura Glow & Frame */}
+                <div className="lg:col-span-5 relative flex items-center justify-center mt-6 lg:mt-0">
+                  <div className="absolute w-72 h-72 sm:w-88 sm:h-88 rounded-full bg-gradient-to-tr from-teal-400/25 via-emerald-300/20 to-teal-500/10 blur-2xl pointer-events-none"></div>
+                  <div className="relative z-10 portrait-hero-frame">
+                    <img 
+                      src="/waqas-portrait.png" 
+                      alt="Waqas Mehmood - Best SEO Expert & Senior SEO Specialist" 
+                      className="w-64 h-64 sm:w-80 sm:h-80 lg:w-92 lg:h-92 rounded-full object-cover shadow-sm"
+                      loading="eager"
+                    />
+                  </div>
+                </div>
+
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto">
-                Scaling Organic Revenue with the <br />
-                <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
-                  Best SEO Expert & Full-Funnel SEO Services
-                </span>
-              </h1>
+              {/* Second Row: 3 Service Cards on Left + Proof & Review on Right (Mockup Match) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-6">
+                
+                {/* 3 Service Cards (Left 7 Cols) */}
+                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {/* Card 1: SEO Strategy */}
+                  <div className="p-5 rounded-2xl bg-[#eefcf8] border border-teal-500/20 hover:border-teal-500/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4 shadow-sm group">
+                    <div className="space-y-3">
+                      <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700">
+                        <Search className="w-5 h-5 text-teal-700" />
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Technical SEO Strategy</h3>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        Deep <strong className="seo-focus-keyword">Technical SEO</strong> architectures, crawl budget optimization, and Page 1 ranking strategies.
+                      </p>
+                    </div>
+                    <Link to="/services" onClick={() => goToTab('services')} className="text-xs font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                      <span>Learn More</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
 
-              <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed">
-                Assalam-o-Alaikum! I'm <strong className="text-white font-semibold">Waqas Mehmood</strong>, an established <strong className="text-cyan-300 font-semibold">Best SEO Expert</strong> and senior <strong className="text-cyan-300 font-semibold">SEO Specialist</strong>. I provide end-to-end <strong className="text-cyan-300 font-semibold">SEO Services</strong> and dedicated <strong className="text-cyan-300 font-semibold">SEO Management</strong> for high-growth brands — combining deep technical SEO architectures, <strong className="text-cyan-300 font-semibold">Local SEO</strong>, and high-ROAS Google Ads to dominate competitive search results.
-              </p>
+                  {/* Card 2: Content Optimization */}
+                  <div className="p-5 rounded-2xl bg-[#eefcf8] border border-teal-500/20 hover:border-teal-500/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4 shadow-sm group">
+                    <div className="space-y-3">
+                      <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700">
+                        <FileText className="w-5 h-5 text-teal-700" />
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">On-Page SEO Optimization</h3>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        Data-backed <strong className="seo-focus-keyword">On-Page SEO</strong>, search intent clustering, and conversion-focused content.
+                      </p>
+                    </div>
+                    <Link to="/services" onClick={() => goToTab('services')} className="text-xs font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                      <span>Learn More</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-                <a 
-                  href="#portfolio-section"
-                  className="px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 shadow-xl shadow-cyan-500/20 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Explore Verified Portfolio</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+                  {/* Card 3: Link Building */}
+                  <div className="p-5 rounded-2xl bg-[#eefcf8] border border-teal-500/20 hover:border-teal-500/40 hover:shadow-md transition-all flex flex-col justify-between space-y-4 shadow-sm group">
+                    <div className="space-y-3">
+                      <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700">
+                        <Link2 className="w-5 h-5 text-teal-700" />
+                      </div>
+                      <h3 className="text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Local SEO & Link Building</h3>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        Top <strong className="seo-focus-keyword">Local SEO</strong> 3-Pack domination, high-DA backlink acquisition, and brand authority.
+                      </p>
+                    </div>
+                    <Link to="/services" onClick={() => goToTab('services')} className="text-xs font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                      <span>Learn More</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
 
-                <Link 
-                  to="/all-tools"
-                  onClick={() => goToTab('all-tools')}
-                  className="px-6 py-3.5 rounded-xl font-semibold text-xs sm:text-sm bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <span>Run Free In-House SEO Tools (32)</span>
-                  <ExternalLink className="w-4 h-4 text-cyan-400" />
-                </Link>
+                {/* Right 5 Cols: Partner Logos + 5-Star Testimonial */}
+                <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
+                  {/* Partner Logos Strip */}
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 flex items-center justify-around gap-4 shadow-sm">
+                    <div className="flex items-center gap-2 text-slate-700 font-bold tracking-wider text-xs">
+                      <div className="w-5 h-5 rounded-full bg-teal-600 flex items-center justify-center text-white font-black text-[9px]">S</div>
+                      <span>SEMRUSH</span>
+                    </div>
+                    <div className="text-slate-700 font-extrabold tracking-tight text-sm">
+                      <span className="text-teal-600">a</span>hrefs
+                    </div>
+                    <div className="flex items-center gap-1.5 text-slate-700 font-semibold text-xs">
+                      <Search className="w-3.5 h-3.5 text-teal-600" />
+                      <span>Google <span className="text-slate-500 font-normal">Console</span></span>
+                    </div>
+                  </div>
 
-                <Link 
-                  to="/contact"
-                  onClick={() => goToTab('contact')}
-                  className="px-6 py-3.5 rounded-xl font-semibold text-xs sm:text-sm bg-cyan-950/40 hover:bg-cyan-900/40 text-cyan-300 border border-cyan-500/30 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <Mail className="w-4 h-4" />
-                  <span>Request Custom Audit</span>
-                </Link>
+                  {/* Client Review Card */}
+                  <div className="p-5 rounded-2xl bg-[#eefcf8] border border-teal-500/25 shadow-sm space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full border border-teal-300 overflow-hidden shrink-0 shadow-sm">
+                          <img src="/waqas-portrait.png" alt="Waqas Mehmood" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-bold text-slate-900 leading-tight">Waqas Mehmood</div>
+                          <div className="text-[11px] text-slate-500">@mehmood</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center text-teal-600 text-xs tracking-widest">
+                        {'★★★★★'}
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-700 leading-relaxed italic">
+                      "Waqas scaled our organic revenue 3x in six months with razor-sharp technical SEO."
+                    </p>
+                    <div className="pt-1">
+                      <Link to="/contact" onClick={() => goToTab('contact')} className="text-xs font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1">
+                        <span>Learn more &rarr;</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
 
-                <a 
-                  href="https://ext.waqasmehmood.com/detailed-seo-ai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-blue-600/20 hover:bg-blue-600/30 text-sky-400 border border-sky-500/40 transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-sky-500/10"
-                >
-                  <span>Detailed SEO Chrome Extension</span>
-                  <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-sky-500 text-slate-950">PRO 2026</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
               </div>
 
               {/* Subdomain Chrome Extension Promo Banner */}
-              <div className="pt-4 max-w-4xl mx-auto">
-                <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-950/70 via-slate-900 to-indigo-950/70 border border-sky-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-left shadow-xl">
+              <div className="pt-2">
+                <div className="p-4 rounded-2xl bg-white border border-teal-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-left shadow-sm">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-black text-slate-950 shrink-0 text-sm shadow-md">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-600 flex items-center justify-center font-black text-white shrink-0 text-sm shadow-md shadow-teal-500/20">
                       WM
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-sm text-white">Detailed SEO & AI Engine 2026 (Chrome Extension)</span>
-                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">Approved & 100% Free</span>
+                        <span className="font-bold text-sm text-slate-900">Detailed SEO & AI Engine 2026 (Chrome Extension)</span>
+                        <span className="px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-bold">Approved & 100% Free</span>
                       </div>
-                      <p className="text-xs text-slate-300 mt-0.5">
-                        Inspect On-Page, Schema JSON-LD, H1-H6 hierarchy, and 2026 AI Overviews & Perplexity citability in 1 click.
+                      <p className="text-xs text-slate-600 mt-0.5">
+                        Inspect On-Page, Schema JSON-LD, H1-H6 hierarchy, and 2026 AI Overviews citability in 1 click.
                       </p>
                     </div>
                   </div>
@@ -2522,47 +2672,30 @@ export default function App() {
                     href="https://ext.waqasmehmood.com/detailed-seo-ai" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all flex items-center gap-1.5 whitespace-nowrap shadow-md cursor-pointer"
+                    className="shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-500 text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm cursor-pointer"
                   >
                     <span>Get Extension on ext.waqasmehmood.com &rarr;</span>
                   </a>
                 </div>
               </div>
 
-              {/* 5 Core Skills Highlights Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-6 max-w-5xl mx-auto text-xs">
-                {[
-                  { name: 'Best SEO Services', icon: Search, count: '32 Tools & Retainers' },
-                  { name: 'Website Dev', icon: Laptop, count: 'React & Laravel' },
-                  { name: 'Google Ads', icon: Target, count: '4.8x ROAS Avg' },
-                  { name: 'Local SEO', icon: MapPin, count: 'Map Pack 3-Pack' },
-                  { name: 'Graphic Design', icon: Palette, count: 'Branding & UI' }
-                ].map((sk, idx) => (
-                  <div key={idx} className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-center space-y-1 hover:border-cyan-500/30 transition-colors">
-                    <sk.icon className="w-4 h-4 mx-auto text-cyan-400" />
-                    <div className="font-bold text-white text-xs">{sk.name}</div>
-                    <div className="text-[10px] text-slate-400">{sk.count}</div>
-                  </div>
-                ))}
-              </div>
-
               {/* Real Performance Metrics Counter */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 max-w-4xl mx-auto">
-                <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-cyan-400">$8K+</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Ad Spend Scaled</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div className="p-4 rounded-2xl bg-[#eefcf8] border border-teal-500/20 text-center shadow-xs">
+                  <div className="text-2xl font-black text-teal-800">$8K+</div>
+                  <div className="text-[11px] text-slate-600 mt-0.5">Ad Spend Scaled</div>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-emerald-400">20+</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Website SEO Audits</div>
+                <div className="p-4 rounded-2xl bg-[#eefcf8] border border-teal-500/20 text-center shadow-xs">
+                  <div className="text-2xl font-black text-teal-800">20+</div>
+                  <div className="text-[11px] text-slate-600 mt-0.5">Website SEO Audits</div>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-indigo-400">32</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Native SEO & AI Tools</div>
+                <div className="p-4 rounded-2xl bg-[#eefcf8] border border-teal-500/20 text-center shadow-xs">
+                  <div className="text-2xl font-black text-teal-800">32</div>
+                  <div className="text-[11px] text-slate-600 mt-0.5">Native SEO & AI Tools</div>
                 </div>
-                <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-                  <div className="text-2xl font-black text-amber-400">4.8x</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">Average PPC ROAS</div>
+                <div className="p-4 rounded-2xl bg-[#eefcf8] border border-teal-500/20 text-center shadow-xs">
+                  <div className="text-2xl font-black text-teal-800">4.8x</div>
+                  <div className="text-[11px] text-slate-600 mt-0.5">Average PPC ROAS</div>
                 </div>
               </div>
 
@@ -3441,12 +3574,12 @@ export default function App() {
             </div>
             <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
               Best SEO Services & SEO Management <br />
-              <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">
                 Engineered for Compounding Growth
               </span>
             </h1>
             <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-              I don't just build isolated websites or run disconnected ads. As an established <strong>Best SEO Expert</strong> and full-stack engineer, I provide end-to-end <strong>SEO Management, Local SEO, and High-ROAS Google Ads</strong> that work in compounding unison.
+              Assalam-o-Alaikum! As an established <strong className="seo-focus-keyword">Best SEO Expert</strong> and senior <strong className="seo-focus-keyword">SEO Specialist</strong>, I provide end-to-end <strong className="seo-focus-keyword">Best SEO Services</strong>, dedicated <strong className="seo-focus-keyword">SEO Management</strong> retainers, <strong className="seo-focus-keyword">Local SEO</strong>, and high-ROAS <strong className="seo-focus-keyword">Google Ads</strong> designed to dominate competitive organic rankings.
             </p>
           </div>
 
@@ -3980,9 +4113,9 @@ export default function App() {
           {/* Executive Bio Header */}
           <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 via-[#0b1020] to-slate-950 border border-slate-800 flex flex-col md:flex-row items-center gap-10 shadow-2xl">
             <div className="relative shrink-0">
-              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 p-1 shadow-2xl shadow-cyan-500/20">
+              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-gradient-to-br from-teal-500 via-teal-600 to-emerald-700 p-1 shadow-2xl shadow-teal-500/20">
                 <div className="w-full h-full rounded-[22px] bg-slate-950 flex flex-col items-center justify-center text-center p-4">
-                  <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">WM</span>
+                  <span className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-700">WM</span>
                   <span className="text-[10px] font-mono text-cyan-300 font-bold uppercase mt-1">Waqas Mehmood</span>
                   <span className="text-[8px] text-slate-400">Architect & Strategist</span>
                 </div>
@@ -4000,12 +4133,12 @@ export default function App() {
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
                 About the Best SEO Expert & <br />
-                <span className="bg-gradient-to-r from-cyan-400 to-indigo-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">
                   Full-Stack Growth Engineer
                 </span>
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-                Assalam-o-Alaikum! I'm <strong className="text-white font-semibold">Waqas Mehmood</strong>, an established <strong className="text-cyan-300 font-semibold">Best SEO Expert</strong> and senior <strong className="text-cyan-300 font-semibold">SEO Specialist</strong>. Most marketing agencies fail because marketers don't understand code, and software developers fail to rank because they don't understand search intent and Google algorithms. Over the last decade, I built my career solving that exact bottleneck — providing end-to-end <strong className="text-cyan-300 font-semibold">Best SEO Services</strong>, dedicated <strong className="text-cyan-300 font-semibold">SEO Management</strong> retainers, <strong className="text-cyan-300 font-semibold">Local SEO</strong>, and high-converting React/Laravel architectures that dominate Page 1.
+                Assalam-o-Alaikum! I'm <strong className="text-white font-semibold">Waqas Mehmood</strong>, an established <strong className="seo-focus-keyword">Best SEO Expert</strong> and senior <strong className="seo-focus-keyword">SEO Specialist</strong>. Most marketing agencies fail because marketers don't understand code, and software developers fail to rank because they don't understand search intent and Google algorithms. Over the last decade, I built my career solving that exact bottleneck — providing end-to-end <strong className="seo-focus-keyword">Best SEO Services</strong>, dedicated <strong className="seo-focus-keyword">SEO Management</strong> retainers, <strong className="seo-focus-keyword">Local SEO</strong>, and high-converting React/Laravel architectures that dominate Page 1.
               </p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
                 <button 
@@ -4035,7 +4168,7 @@ export default function App() {
               { num: '99.4%', label: 'Client Satisfaction', sub: 'Long-Term Retention' },
             ].map((st, i) => (
               <div key={i} className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 text-center space-y-1">
-                <span className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 block">{st.num}</span>
+                <span className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-emerald-700 block">{st.num}</span>
                 <span className="text-xs font-bold text-white block">{st.label}</span>
                 <span className="text-[10px] text-slate-400 block">{st.sub}</span>
               </div>
@@ -4321,11 +4454,12 @@ export default function App() {
               <Mail className="w-3.5 h-3.5 text-cyan-400" />
               <span>Direct Communication Channel</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-              Get in Touch with Waqas Mehmood
+            <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              Contact the Best SEO Expert & <br />
+              <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">Hire Senior SEO Specialist</span>
             </h1>
             <p className="text-xs sm:text-sm text-slate-400">
-              Need a bespoke marketing strategy, high-speed web application, or full-funnel audit? Fill out the inquiry form below or message directly.
+              Looking for enterprise <strong className="seo-focus-keyword">Best SEO Services</strong>, dedicated <strong className="seo-focus-keyword">SEO Management</strong>, high-ranking <strong className="seo-focus-keyword">Local SEO</strong>, or a custom technical site audit? Connect directly below for immediate consultation.
             </p>
           </div>
 
@@ -6994,12 +7128,12 @@ export default function App() {
             {/* Column 1: Brand & Bio */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 text-slate-950 font-black flex items-center justify-center text-base shadow-lg shadow-cyan-500/20">
+                <div className="footer-logo-box w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-500 via-teal-600 to-emerald-700 text-white font-black flex items-center justify-center text-base shadow-lg shadow-teal-500/20">
                   W
                 </div>
                 <div>
                   <span className="font-extrabold text-white text-sm block">Waqas Mehmood</span>
-                  <span className="text-[10px] text-cyan-400 font-mono tracking-wider uppercase block">Best SEO Expert & Engineer</span>
+                  <span className="text-[10px] text-teal-600 font-mono tracking-wider uppercase block font-bold">Best SEO Expert & Senior Specialist</span>
                 </div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
@@ -7068,38 +7202,38 @@ export default function App() {
 
             {/* Column 2: Navigation & Services */}
             <div className="space-y-3">
-              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Core Navigation</h4>
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-teal-600">Core Navigation</h4>
               <ul className="space-y-2">
                 <li><Link to="/" onClick={() => goToTab('home')} className="hover:text-white transition-colors">Best SEO Expert Home</Link></li>
                 <li><Link to="/services" onClick={() => goToTab('services')} className="hover:text-white transition-colors">Best SEO Services & Management</Link></li>
                 <li><Link to="/all-tools" onClick={() => goToTab('all-tools')} className="hover:text-white transition-colors">{allToolsList.length} Free Native Tools</Link></li>
-                <li><Link to="/blog" onClick={() => goToTab('blog')} className="hover:text-white transition-colors flex items-center gap-1.5"><BookOpen className="w-3 h-3 text-cyan-400" /> SEO & Marketing Blog</Link></li>
+                <li><Link to="/blog" onClick={() => goToTab('blog')} className="hover:text-white transition-colors flex items-center gap-1.5"><BookOpen className="w-3 h-3 text-teal-600" /> SEO & Marketing Blog</Link></li>
                 <li><Link to="/about" onClick={() => goToTab('about')} className="hover:text-white transition-colors">About Waqas Mehmood</Link></li>
                 <li><Link to="/contact" onClick={() => goToTab('contact')} className="hover:text-white transition-colors">Contact & Audit Inquiry</Link></li>
-                <li><Link to="/privacy" onClick={() => goToTab('privacy')} className="hover:text-white transition-colors flex items-center gap-1.5"><Shield className="w-3 h-3 text-cyan-400" /> Privacy Policy</Link></li>
+                <li><Link to="/privacy" onClick={() => goToTab('privacy')} className="hover:text-white transition-colors flex items-center gap-1.5"><Shield className="w-3 h-3 text-teal-600" /> Privacy Policy</Link></li>
               </ul>
             </div>
 
             {/* Column 3: Local SEO Locations */}
             <div className="space-y-3">
-              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Locations (Local SEO)</h4>
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-teal-600">Locations (Local SEO)</h4>
               <ul className="space-y-2">
-                <li><Link to="/seo-expert-in-hyderabad" onClick={() => handleSwitchCity('hyderabad')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Hyderabad, Sindh</Link></li>
-                <li><Link to="/locations/karachi" onClick={() => handleSwitchCity('karachi')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Expert in Karachi</Link></li>
-                <li><Link to="/locations/lahore" onClick={() => handleSwitchCity('lahore')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Specialist in Lahore</Link></li>
-                <li><Link to="/locations/islamabad" onClick={() => handleSwitchCity('islamabad')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-cyan-400" /> SEO Consultant in Islamabad</Link></li>
+                <li><Link to="/seo-expert-in-hyderabad" onClick={() => handleSwitchCity('hyderabad')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-teal-600" /> SEO Expert in Hyderabad, Sindh</Link></li>
+                <li><Link to="/locations/karachi" onClick={() => handleSwitchCity('karachi')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-teal-600" /> SEO Expert in Karachi</Link></li>
+                <li><Link to="/locations/lahore" onClick={() => handleSwitchCity('lahore')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-teal-600" /> SEO Specialist in Lahore</Link></li>
+                <li><Link to="/locations/islamabad" onClick={() => handleSwitchCity('islamabad')} className="hover:text-white transition-colors flex items-center gap-1.5"><MapPin className="w-3 h-3 text-teal-600" /> SEO Consultant in Islamabad</Link></li>
               </ul>
             </div>
 
             {/* Column 4: Free Diagnostic Tools */}
             <div className="space-y-3">
-              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-cyan-400">Featured SEO Tools</h4>
+              <h4 className="font-bold text-white text-xs uppercase tracking-wider font-mono text-teal-600">Featured SEO Tools</h4>
               <ul className="space-y-2">
                 <li><Link to="/local-seo" onClick={() => goToTab('all-tools', '/local-seo')} className="hover:text-white transition-colors">Local SEO Audit Tools</Link></li>
                 <li><Link to="/technical-seo" onClick={() => goToTab('all-tools', '/technical-seo')} className="hover:text-white transition-colors">Technical SEO Speed & Schema</Link></li>
                 <li><Link to="/tools/website-crawler" onClick={() => goToTab('active-tool', '/tools/website-crawler')} className="hover:text-white transition-colors">Free AI Website Crawler</Link></li>
                 <li><Link to="/tools/ai-math-solver" onClick={() => goToTab('active-tool', '/tools/ai-math-solver')} className="hover:text-white transition-colors">Free AI Math Solver</Link></li>
-                <li><a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-cyan-400 font-bold flex items-center gap-1"><span>Detailed SEO Extension ↗</span></a></li>
+                <li><a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-teal-600 font-bold flex items-center gap-1"><span>Detailed SEO Extension ↗</span></a></li>
               </ul>
             </div>
 
@@ -7110,7 +7244,7 @@ export default function App() {
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-slate-400">© 2026 waqasmehmood.com • All Rights Reserved.</span>
               <span className="text-slate-600 hidden sm:inline">•</span>
-              <Link to="/privacy" onClick={() => goToTab('privacy')} className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Privacy Policy</Link>
+              <Link to="/privacy" onClick={() => goToTab('privacy')} className="text-teal-600 hover:text-teal-500 font-medium transition-colors">Privacy Policy</Link>
               <span className="text-slate-600 hidden sm:inline">•</span>
               <span className="text-slate-500 hidden sm:inline">Connect: LinkedIn • WhatsApp • X • GitHub</span>
             </div>
@@ -7148,60 +7282,56 @@ export default function App() {
         </div>
       </footer>
 
-      {/* MOBILE STICKY BOTTOM DOCK (EXTENSION & TOOLS PRIORITY) */}
+      {/* MOBILE FLOATING CURVED DOCK (CRISP MINT & OCEAN TEAL) */}
       <nav 
-        className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b15]/98 backdrop-blur-2xl border-t border-slate-800/90 px-3 py-2 flex items-center justify-between shadow-[0_-8px_30px_rgba(0,0,0,0.5)] safe-area-bottom"
-        aria-label="Mobile Sticky Bottom Dock"
+        className="md:hidden fixed bottom-4 left-4 right-4 z-50 bg-white/95 backdrop-blur-2xl border border-teal-500/25 rounded-full px-4 py-2 flex items-center justify-between shadow-[0_12px_35px_rgba(0,0,0,0.08),0_0_20px_rgba(13,148,136,0.12)] safe-area-bottom"
+        aria-label="Mobile Sticky Floating Dock"
       >
         <Link 
           to="/" 
           onClick={() => { goToTab('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${activeTab === 'home' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+          className={`flex items-center gap-1.5 transition-all cursor-pointer ${
+            activeTab === 'home' 
+              ? 'px-3 py-1.5 rounded-full bg-teal-600 text-white font-bold shadow-[0_2px_12px_rgba(13,148,136,0.35)] text-xs' 
+              : 'text-slate-500 hover:text-teal-700 flex-col gap-0.5 text-[10px] px-2'
+          }`}
         >
           <Home className="w-4 h-4" />
-          <span className="text-[10px] tracking-tight">Home</span>
+          <span>Home</span>
+        </Link>
+
+        <Link 
+          to="/services" 
+          onClick={() => { goToTab('services'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+          className={`flex items-center gap-1.5 transition-all cursor-pointer ${
+            activeTab === 'services' 
+              ? 'px-3 py-1.5 rounded-full bg-teal-600 text-white font-bold shadow-[0_2px_12px_rgba(13,148,136,0.35)] text-xs' 
+              : 'text-slate-500 hover:text-teal-700 flex-col gap-0.5 text-[10px] px-2'
+          }`}
+        >
+          <Layers className="w-4 h-4" />
+          <span>Services</span>
         </Link>
 
         <Link 
           to="/all-tools" 
           onClick={() => { goToTab('all-tools'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer relative ${activeTab === 'all-tools' || activeTab === 'active-tool' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
-        >
-          <div className="relative">
-            <Layers className="w-4 h-4" />
-            <span className="absolute -top-1.5 -right-3 px-1 py-0.2 rounded-full bg-cyan-500 text-slate-950 text-[8px] font-mono font-black shadow-sm">32</span>
-          </div>
-          <span className="text-[10px] tracking-tight font-semibold">SEO Tools</span>
-        </Link>
-
-        <a 
-          href="https://ext.waqasmehmood.com/detailed-seo-ai" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="flex-1 flex flex-col items-center justify-center -mt-5 cursor-pointer group" 
-          title="Detailed SEO & AI Engine Chrome Extension"
-        >
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/40 border-2 border-[#070b15] group-hover:scale-105 active:scale-95 transition-all">
-            <Sparkles className="w-5 h-5 fill-current text-slate-950" />
-          </div>
-          <span className="text-[10px] font-extrabold text-cyan-300 tracking-tight mt-1 group-hover:text-cyan-200">Extension <span className="text-[8px] px-1 py-0.2 rounded bg-cyan-500/30 text-cyan-200 font-mono">PRO</span></span>
-        </a>
-
-        <Link 
-          to="/blog" 
-          onClick={() => { goToTab('blog'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${activeTab === 'blog' || activeTab === 'blog-post' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+          className={`flex items-center gap-1.5 transition-all cursor-pointer ${
+            activeTab === 'all-tools' || activeTab === 'active-tool' 
+              ? 'px-3 py-1.5 rounded-full bg-teal-600 text-white font-bold shadow-[0_2px_12px_rgba(13,148,136,0.35)] text-xs' 
+              : 'text-slate-500 hover:text-teal-700 flex-col gap-0.5 text-[10px] px-2'
+          }`}
         >
           <BookOpen className="w-4 h-4" />
-          <span className="text-[10px] tracking-tight">Blog</span>
+          <span>Tools</span>
         </Link>
 
         <button 
-          onClick={() => { setHireService('Full-Stack Digital Marketing'); setHireModalOpen(true); }} 
-          className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${activeTab === 'contact' ? 'text-cyan-400 font-bold' : 'text-slate-400 hover:text-white'}`}
+          onClick={() => { setHireService('Free SEO Audit'); setHireModalOpen(true); }} 
+          className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-teal-600 to-teal-700 text-white font-extrabold text-xs flex items-center gap-1.5 shadow-[0_2px_12px_rgba(13,148,136,0.35)] cursor-pointer"
         >
-          <Phone className="w-4 h-4" />
-          <span className="text-[10px] tracking-tight">Hire</span>
+          <Phone className="w-3.5 h-3.5" />
+          <span>Contact</span>
         </button>
       </nav>
 
