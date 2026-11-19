@@ -2091,14 +2091,16 @@ export default function App() {
             onClick={() => { goToTab('home'); setAuditResult(null); setMobileMenuOpen(false); }} 
             className="flex items-center gap-2 sm:gap-2.5 group text-left cursor-pointer shrink-0"
           >
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-gradient-to-tr from-teal-500 via-teal-600 to-emerald-700 flex items-center justify-center font-black text-white text-base sm:text-lg shadow-md shadow-teal-500/25 group-hover:scale-105 transition-all">
-              W
-            </div>
+            <img 
+              src="/logo-mark.png" 
+              alt="Waqas Mehmood Logo" 
+              className="w-8 h-8 sm:w-9 sm:h-9 object-contain shrink-0 group-hover:scale-105 transition-all"
+            />
             <div>
               <span className="font-extrabold text-sm sm:text-[15px] tracking-tight text-slate-900 block group-hover:text-teal-600 transition-colors whitespace-nowrap">
                 WAQAS MEHMOOD
               </span>
-              <span className="hidden sm:block text-[9.5px] text-slate-500 font-mono tracking-wider uppercase font-semibold">
+              <span className="hidden sm:block text-[9.5px] text-teal-700 font-mono tracking-wider uppercase font-bold">
                 SEO & Growth Architect
               </span>
             </div>
@@ -7128,12 +7130,14 @@ export default function App() {
             {/* Column 1: Brand & Bio */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="footer-logo-box w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-500 via-teal-600 to-emerald-700 text-white font-black flex items-center justify-center text-base shadow-lg shadow-teal-500/20">
-                  W
-                </div>
+                <img 
+                  src="/logo-mark.png" 
+                  alt="Waqas Mehmood Logo" 
+                  className="w-9 h-9 sm:w-10 sm:h-10 object-contain shrink-0" 
+                />
                 <div>
                   <span className="font-extrabold text-white text-sm block">Waqas Mehmood</span>
-                  <span className="text-[10px] text-teal-600 font-mono tracking-wider uppercase block font-bold">Best SEO Expert & Senior Specialist</span>
+                  <span className="text-[10px] text-teal-400 font-mono tracking-wider uppercase block font-bold">Best SEO Expert & Senior Specialist</span>
                 </div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
