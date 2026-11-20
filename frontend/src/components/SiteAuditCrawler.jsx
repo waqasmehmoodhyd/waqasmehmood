@@ -456,9 +456,316 @@ export default function SiteAuditCrawler({ onHireClick }) {
     document.body.removeChild(link);
   };
 
-  const handlePrintPdf = () => {
-    window.print();
+  // Executive PDF Audit Report Generator & Auto-Print to PDF
+  const handleDownloadPdf = () => {
+    if (crawledPages.length === 0) {
+      alert('Please enter a website URL and run an audit first to generate your executive PDF report.');
+      return;
+    }
+
+    const dateStr = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    const hostname = targetUrl.replace(/^https?:\/\//i, '').replace(/[\/\?#].*$/, '') || 'website';
+    const allHighIssues = categorizedIssues.errors.concat(categorizedIssues.warnings);
+
+    const escapeHtml = (str) => {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    };
+
+    const reportHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Executive SEO Technical Audit Report - ${escapeHtml(hostname)}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    body { background: #f8fafc; color: #0f172a; padding: 24px; font-size: 13px; line-height: 1.5; }
+    .report-wrap { max-width: 960px; margin: 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 36px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    
+    /* Top action toolbar (hidden on print) */
+    .action-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 14px 20px; background: #0f172a; border-radius: 12px; color: #ffffff; }
+    .action-bar-title { font-size: 13px; font-weight: 700; color: #38bdf8; }
+    .action-bar-btns { display: flex; gap: 10px; }
+    .btn-download { background: #059669; color: #ffffff; font-weight: 800; font-size: 12px; border: none; padding: 9px 18px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(5,150,105,0.3); }
+    .btn-download:hover { background: #10b981; }
+    .btn-close { background: #334155; color: #f1f5f9; font-weight: 700; font-size: 12px; border: none; padding: 9px 14px; border-radius: 8px; cursor: pointer; }
+    .btn-close:hover { background: #475569; }
+
+    /* Letterhead Header */
+    .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 26px; }
+    .brand-title { font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; }
+    .brand-sub { font-size: 11px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    .brand-contact { font-size: 12px; color: #475569; margin-top: 6px; }
+    .meta-box { text-align: right; font-size: 11.5px; color: #475569; }
+    .meta-url { font-size: 15px; font-weight: 800; color: #0284c7; word-break: break-all; margin-bottom: 4px; }
+
+    /* Health Assessment Hero */
+    .hero-box { display: flex; justify-content: space-between; align-items: center; gap: 24px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 22px 26px; margin-bottom: 24px; }
+    .hero-box.hero-warn { background: #fffbeb; border-color: #fde68a; }
+    .hero-title { font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+    .hero-desc { font-size: 12px; color: #334155; line-height: 1.6; max-width: 650px; }
+    .score-badge { text-align: center; min-width: 115px; padding: 12px 18px; background: #ffffff; border: 2px solid #0f172a; border-radius: 12px; }
+    .score-num { font-size: 38px; font-weight: 900; color: ${liveStats.healthScore >= 80 ? '#059669' : '#d97706'}; line-height: 1; }
+    .score-lbl { font-size: 10px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-top: 4px; }
+
+    /* KPI Metrics Grid */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 26px; }
+    .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; text-align: center; }
+    .kpi-val { font-size: 24px; font-weight: 900; color: #0f172a; margin-top: 2px; }
+    .kpi-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .kpi-err { color: #dc2626; border-color: #fecaca; background: #fef2f2; }
+    .kpi-warn { color: #d97706; border-color: #fde68a; background: #fffbeb; }
+
+    /* Section Headings */
+    .sec-title { font-size: 14px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; border-left: 4px solid #0284c7; padding-left: 10px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 26px; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; }
+    th { background: #0f172a; color: #ffffff; padding: 10px 12px; text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 10px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+    tr:nth-child(even) { background: #f8fafc; }
+    .badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .badge-crit { background: #fee2e2; color: #b91c1c; }
+    .badge-warn { background: #fef3c7; color: #b45309; }
+    .badge-notice { background: #e0f2fe; color: #0369a1; }
+
+    /* Recommendation & CTA */
+    .cta-box { background: #0f172a; border-radius: 12px; padding: 22px 26px; color: #ffffff; margin-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .cta-h { font-size: 15px; font-weight: 800; color: #38bdf8; margin-bottom: 6px; }
+    .cta-p { font-size: 12px; color: #cbd5e1; max-width: 620px; line-height: 1.5; }
+    .cta-contact-btn { background: #06b6d4; color: #020617; font-weight: 800; font-size: 12px; padding: 10px 20px; border-radius: 8px; text-decoration: none; display: inline-block; white-space: nowrap; }
+
+    .footer-note { margin-top: 22px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 14px; }
+
+    @page { size: A4; margin: 12mm 14mm; }
+    @media print {
+      body { background: #ffffff !important; padding: 0 !important; color: #000000 !important; }
+      .report-wrap { border: none !important; box-shadow: none !important; padding: 0 !important; max-width: 100% !important; }
+      .no-print { display: none !important; }
+      .page-break { page-break-after: always; }
+      .hero-box { border-color: #cbd5e1 !important; }
+      table, th, td { border-color: #cbd5e1 !important; }
+      th { background: #0f172a !important; color: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge, .score-badge, .kpi-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="report-wrap">
+    
+    <!-- Top Action Bar (Hidden in Print) -->
+    <div class="action-bar no-print">
+      <div>
+        <div class="action-bar-title">Waqas Mehmood Technical Audit Engine</div>
+        <div style="font-size: 11px; color: #94a3b8;">Report generated • Auto-print window ready</div>
+      </div>
+      <div class="action-bar-btns">
+        <button class="btn-download" onclick="window.print()">
+          <span>🖨️ Download / Save as PDF</span>
+        </button>
+        <button class="btn-close" onclick="window.close()">Close</button>
+      </div>
+    </div>
+
+    <!-- Letterhead -->
+    <div class="header">
+      <div>
+        <div class="brand-title">WAQAS MEHMOOD</div>
+        <div class="brand-sub">Senior SEO Specialist &amp; Technical Growth Architect</div>
+        <div class="brand-contact">WhatsApp: <strong>+92 303 3111126</strong> • Official Website: <strong>waqasmehmood.com</strong> • Email: <strong>contact@waqasmehmood.com</strong></div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-url">${escapeHtml(hostname)}</div>
+        <div><strong>Target URL:</strong> ${escapeHtml(targetUrl)}</div>
+        <div><strong>Audit Date:</strong> ${escapeHtml(dateStr)}</div>
+        <div><strong>Engine:</strong> Screaming Frog Lite v2.0</div>
+      </div>
+    </div>
+
+    <!-- Hero Score -->
+    <div class="hero-box ${liveStats.healthScore >= 80 ? '' : 'hero-warn'}">
+      <div>
+        <div class="hero-title">
+          ${liveStats.healthScore >= 80 ? 'Overall SEO Health: Good (Minor Polish Needed)' : 'Action Required: Critical SEO Errors Detected'}
+        </div>
+        <div class="hero-desc">
+          Deep architectural crawl evaluated <strong>${crawledPages.length} internal pages</strong>. Your technical indexability and crawl efficiency score is <strong>${liveStats.healthScore} / 100</strong>. Resolving the high-priority findings below will prevent crawl budget waste and recover lost SERP rankings.
+        </div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num">${liveStats.healthScore}%</div>
+        <div class="score-lbl">Health Score</div>
+      </div>
+    </div>
+
+    <!-- KPI Grid -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-lbl">Pages Crawled</div>
+        <div class="kpi-val">${crawledPages.length}</div>
+      </div>
+      <div class="kpi-card ${liveStats.errorsCount > 0 ? 'kpi-err' : ''}">
+        <div class="kpi-lbl">Critical Errors</div>
+        <div class="kpi-val">${liveStats.errorsCount}</div>
+      </div>
+      <div class="kpi-card ${liveStats.warningsCount > 0 ? 'kpi-warn' : ''}">
+        <div class="kpi-lbl">Warnings</div>
+        <div class="kpi-val">${liveStats.warningsCount}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-lbl">Avg Response Time</div>
+        <div class="kpi-val">${liveStats.avgSpeed} ms</div>
+      </div>
+    </div>
+
+    <!-- High Priority Issues Table -->
+    <div class="sec-title">1. High-Priority Technical SEO Findings</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 12%;">Severity</th>
+          <th style="width: 28%;">Issue Description</th>
+          <th style="width: 14%; text-align: center;">Affected URLs</th>
+          <th style="width: 46%;">Recommended Resolution</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${allHighIssues.length === 0 ? `
+          <tr>
+            <td colspan="4" style="text-align: center; padding: 20px; color: #059669; font-weight: bold;">
+              No critical technical errors or warnings detected in this crawl!
+            </td>
+          </tr>
+        ` : allHighIssues.map(iss => `
+          <tr>
+            <td>
+              <span class="badge ${iss.severity === 'critical' ? 'badge-crit' : 'badge-warn'}">
+                ${escapeHtml(iss.severity)}
+              </span>
+            </td>
+            <td>
+              <strong>${escapeHtml(iss.title)}</strong>
+              <div style="font-size: 11px; color: #64748b; margin-top: 3px;">${escapeHtml(iss.desc)}</div>
+            </td>
+            <td style="text-align: center; font-weight: 800; font-size: 13px; color: #0284c7;">
+              ${iss.count} (${iss.percent}%)
+            </td>
+            <td>
+              <div style="color: #0f172a; font-weight: 600; margin-bottom: 2px;">${escapeHtml(iss.fixPrompt || iss.impact)}</div>
+              <div style="font-size: 11px; color: #475569;">${escapeHtml(iss.impact || '')}</div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+
+    <!-- Sample Pages Inspected -->
+    <div class="sec-title">2. Crawled Pages Telemetry Sample</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 8%;">Status</th>
+          <th style="width: 42%;">URL</th>
+          <th style="width: 30%;">Title Tag</th>
+          <th style="width: 10%;">Speed</th>
+          <th style="width: 10%;">Issues</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${crawledPages.slice(0, 15).map(p => `
+          <tr>
+            <td>
+              <span class="badge ${p.status === 200 ? 'badge-notice' : (p.status >= 300 && p.status < 400 ? 'badge-warn' : 'badge-crit')}">
+                ${p.status || 0}
+              </span>
+            </td>
+            <td style="word-break: break-all; font-family: monospace; font-size: 11px; color: #0284c7;">
+              ${escapeHtml(p.url)}
+            </td>
+            <td style="font-size: 11.5px;">
+              ${p.title ? escapeHtml(p.title.slice(0, 65) + (p.title.length > 65 ? '...' : '')) : '<em style="color:#ef4444;">Missing</em>'}
+            </td>
+            <td style="font-family: monospace; font-size: 11px;">
+              ${p.load_time_ms ? p.load_time_ms + 'ms' : '-'}
+            </td>
+            <td style="font-size: 11px; font-weight: 700; color: ${p.issues && p.issues.length > 0 ? '#dc2626' : '#059669'};">
+              ${p.issues && p.issues.length > 0 ? p.issues.length + ' issue(s)' : 'Clean'}
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    ${crawledPages.length > 15 ? `
+      <div style="font-size: 11px; color: #64748b; margin-top: -20px; margin-bottom: 24px; text-align: right;">
+        * Displaying first 15 pages in executive summary. Full ${crawledPages.length} rows available in CSV Export.
+      </div>
+    ` : ''}
+
+    <!-- Call to Action -->
+    <div class="cta-box">
+      <div>
+        <div class="cta-h">Need Expert Implementation by Waqas Mehmood?</div>
+        <div class="cta-p">
+          Resolving broken links, canonical loops, Schema architecture, and Core Web Vitals requires precision engineering. Hire senior SEO specialist Waqas Mehmood for dedicated technical remediation and Google Page 1 ranking strategies.
+        </div>
+      </div>
+      <div>
+        <a href="https://waqasmehmood.com/contact" target="_blank" class="cta-contact-btn">
+          Book Consultation &rarr;
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Executive Report generated by Waqas Mehmood Website Crawler v2.0 • waqasmehmood.com • WhatsApp: +92 303 3111126
+    </div>
+
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        window.print();
+      }, 500);
+    });
+  </script>
+</body>
+</html>`;
+
+    try {
+      const printWindow = window.open('', '_blank');
+      if (printWindow) {
+        printWindow.document.open();
+        printWindow.document.write(reportHtml);
+        printWindow.document.close();
+      } else {
+        // Fallback for pop-up blocker: Open blob URL
+        const blob = new Blob([reportHtml], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    } catch (err) {
+      console.error('Error opening print window:', err);
+      window.print();
+    }
   };
+
+  const handlePrintPdf = handleDownloadPdf;
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -787,18 +1094,29 @@ export default function SiteAuditCrawler({ onHireClick }) {
             {/* Export & Print CTAs */}
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setPdfReportModalOpen(true)}
-                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs transition-all cursor-pointer flex items-center gap-2 shadow-md shadow-cyan-500/20 whitespace-nowrap"
-                title="Download or Print Executive Branded Audit Report"
+                onClick={handleDownloadPdf}
+                disabled={crawledPages.length === 0}
+                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-xs transition-all cursor-pointer flex items-center gap-2 shadow-md shadow-emerald-500/20 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Download or Save Executive PDF Audit Report"
               >
-                <Printer className="w-3.5 h-3.5" />
-                <span>Executive PDF Report</span>
+                <Download className="w-3.5 h-3.5" />
+                <span>Download PDF Report</span>
+              </button>
+
+              <button
+                onClick={() => setPdfReportModalOpen(true)}
+                disabled={crawledPages.length === 0}
+                className="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Preview Executive Report on Screen"
+              >
+                <FileText className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="hidden sm:inline">Preview Report</span>
               </button>
 
               <button
                 onClick={exportToCsv}
                 disabled={crawledPages.length === 0}
-                className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700/80 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-300 text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
+                className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700/80 hover:border-emerald-500/40 text-slate-300 hover:text-emerald-300 text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Download Raw Crawl Data in CSV spreadsheet"
               >
                 <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
@@ -1566,15 +1884,25 @@ export default function SiteAuditCrawler({ onHireClick }) {
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={handlePrintPdf}
-                  className="px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-lg transition-all"
+                  onClick={handleDownloadPdf}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-lg shadow-emerald-500/20 transition-all"
+                  title="Download or Save as PDF"
                 >
-                  <Printer className="w-4 h-4" />
-                  <span>Print / Save as PDF</span>
+                  <Download className="w-4 h-4" />
+                  <span>Download PDF</span>
+                </button>
+                <button
+                  onClick={handleDownloadPdf}
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs flex items-center gap-1.5 cursor-pointer transition-all"
+                  title="Direct Print"
+                >
+                  <Printer className="w-4 h-4 text-cyan-400" />
+                  <span>Print</span>
                 </button>
                 <button
                   onClick={() => setPdfReportModalOpen(false)}
                   className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center cursor-pointer"
+                  title="Close Modal"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1681,14 +2009,24 @@ export default function SiteAuditCrawler({ onHireClick }) {
                   <h4 className="text-sm font-bold text-white">Need an Expert to Fix These Technical Issues?</h4>
                   <p className="text-[11px] text-slate-300">Hire senior SEO specialist Waqas Mehmood for dedicated technical remediation, 301 redirect mapping, and Google Page 1 ranking strategies.</p>
                 </div>
-                <a
-                  href="https://waqasmehmood.com/contact"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-2.5 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs shrink-0 whitespace-nowrap transition-all"
-                >
-                  Contact Waqas Mehmood &rarr;
-                </a>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={handleDownloadPdf}
+                    className="px-4 py-2.5 rounded-xl font-bold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 text-xs flex items-center gap-1.5 transition-all shadow-md shadow-emerald-500/20 cursor-pointer"
+                    title="Download / Save PDF"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download PDF</span>
+                  </button>
+                  <a
+                    href="https://waqasmehmood.com/contact"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2.5 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs whitespace-nowrap transition-all"
+                  >
+                    Contact Waqas &rarr;
+                  </a>
+                </div>
               </div>
 
             </div>
