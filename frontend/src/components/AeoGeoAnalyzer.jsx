@@ -757,7 +757,7 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
               <span>Add to Chrome &mdash; Free</span>
             </a>
             <a 
-              href="https://ext.waqasmehmood.com/detailed-seo-ai" 
+              href="https://ext.waqasmehmood.com/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="px-4 py-2.5 rounded-xl bg-slate-800 text-cyan-300 font-semibold text-xs hover:bg-slate-700 transition-all border border-slate-700"

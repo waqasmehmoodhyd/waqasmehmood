@@ -177,7 +177,7 @@ export default function PrivacyView({ goToTab }) {
             Detailed SEO &amp; AI Engine Chrome Extension
           </h2>
           <p>
-            The official Chrome Extension (<a href="https://ext.waqasmehmood.com/detailed-seo-ai" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Detailed SEO &amp; AI Engine</a>) distributed via the Chrome Web Store operates under a strict Zero-Data-Collection manifest:
+            The official Chrome Extension (<a href="https://ext.waqasmehmood.com/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">Detailed SEO &amp; AI Engine</a>) distributed via the Chrome Web Store operates under a strict Zero-Data-Collection manifest:
           </p>
           <ul className="list-disc list-inside space-y-1 text-slate-400 pl-2">
             <li>Does NOT read or transmit personal browsing history.</li>
