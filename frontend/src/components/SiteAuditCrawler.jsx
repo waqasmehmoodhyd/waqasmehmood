@@ -468,7 +468,11 @@ export default function SiteAuditCrawler({ onHireClick }) {
       month: 'long',
       day: 'numeric'
     });
-    const hostname = targetUrl.replace(/^https?:\/\//i, '').replace(/[\/\?#].*$/, '') || 'website';
+    const rawHostname = targetUrl.replace(/^https?:\/\//i, '').replace(/[\/\?#].*$/, '') || 'website';
+    const hostname = rawHostname;
+    // Strip domain extensions like .com, .net, etc. so Chromium Print never treats it as an MS-DOS .com application!
+    // Ending the title explicitly with .pdf ensures Chrome saves it as a valid .pdf file with type "PDF Document".
+    const cleanHost = rawHostname.replace(/\.[a-z0-9_-]+$/i, '').replace(/[^a-zA-Z0-9_-]/g, '_');
     const allHighIssues = categorizedIssues.errors.concat(categorizedIssues.warnings);
 
     const escapeHtml = (str) => {
@@ -485,7 +489,7 @@ export default function SiteAuditCrawler({ onHireClick }) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Executive SEO Technical Audit Report - ${escapeHtml(hostname)}</title>
+  <title>Executive SEO Technical Audit Report - ${cleanHost}.pdf</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
     body { background: #f8fafc; color: #0f172a; padding: 24px; font-size: 13px; line-height: 1.5; }

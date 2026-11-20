@@ -287,13 +287,16 @@ export default function AeoGeoAnalyzer({ onHireClick }) {
     };
 
     const dateStr = new Date().toLocaleString();
+    const rawHost = (data.hostname || 'website').replace(/^https?:\/\//i, '').replace(/[\/\?#].*$/, '');
+    // Strip domain extensions like .com, .net, etc. so Chromium Print never saves as MS-DOS .com application
+    const cleanHost = rawHost.replace(/\.[a-z0-9_-]+$/i, '').replace(/[^a-zA-Z0-9_-]/g, '_');
 
     const reportHtml = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Waqas Mehmood - AI, AEO & GEO Audit & Resolution Plan - ${data.hostname}</title>
+  <title>Waqas Mehmood - AI, AEO & GEO Audit & Resolution Plan - ${cleanHost}.pdf</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background: #070a13; color: #e2e8f0; padding: 30px; font-size: 13px; line-height: 1.5; }
