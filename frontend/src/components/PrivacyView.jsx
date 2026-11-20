@@ -72,7 +72,7 @@ export default function PrivacyView({ goToTab }) {
             Identity &amp; Data Controller
           </h2>
           <p>
-            This website (<a href="https://waqasmehmood.com" className="text-cyan-400 hover:underline">waqasmehmood.com</a>) and the official subdomain extension (<a href="https://ext.waqasmehmood.com" className="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">ext.waqasmehmood.com</a>) are owned and operated by <strong>Waqas Mehmood</strong>, Senior SEO Specialist &amp; Growth Engineer located in Auto Bhan Road, Hyderabad, Sindh, Pakistan.
+            This website (<a href="https://waqasmehmood.com" className="text-cyan-400 hover:underline">waqasmehmood.com</a>) and the official subdomain extension (<a href="https://ext.waqasmehmood.com" className="text-cyan-400 hover:underline" target="_blank" rel="noopener noreferrer">ext.waqasmehmood.com</a>) are owned and operated by <strong>Waqas Mehmood</strong>, Senior SEO Specialist &amp; Growth Engineer located at Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad, Sindh, Pakistan.
           </p>
           <p>
             For any inquiries regarding data protection, privacy terms, or tool diagnostics, you can contact Waqas Mehmood directly at <a href="mailto:waqasmehmoodhyd@gmail.com" className="text-cyan-400 hover:underline font-mono">waqasmehmoodhyd@gmail.com</a>.
@@ -213,7 +213,7 @@ export default function PrivacyView({ goToTab }) {
           </p>
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2 font-mono text-xs text-slate-300">
             <div><strong>Controller:</strong> Waqas Mehmood (SEO &amp; Growth Architect)</div>
-            <div><strong>Location:</strong> Auto Bhan Road, Hyderabad, Sindh 71000, Pakistan</div>
+            <div><strong>Location:</strong> Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad, Sindh 71000, Pakistan</div>
             <div><strong>Direct Email:</strong> <a href="mailto:waqasmehmoodhyd@gmail.com" className="text-cyan-400 hover:underline">waqasmehmoodhyd@gmail.com</a></div>
             <div><strong>WhatsApp:</strong> <a href="https://wa.me/923033111126" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline">+92 303 3111126</a></div>
           </div>

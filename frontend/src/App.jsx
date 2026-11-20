@@ -4431,7 +4431,7 @@ export default function App() {
               "priceRange": "$$",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Auto Bhan Road",
+                "streetAddress": "Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad",
                 "addressLocality": "Hyderabad",
                 "addressRegion": "Sindh",
                 "postalCode": "71000",
@@ -4439,9 +4439,20 @@ export default function App() {
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": 25.3960,
-                "longitude": 68.3578
+                "latitude": 25.3509,
+                "longitude": 68.3445
               },
+              "openingHoursSpecification": [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                  "opens": "00:00",
+                  "closes": "23:59"
+                }
+              ],
+              "areaServed": [
+                "Latifabad", "Qasimabad", "Jamshoro", "Saddar", "Kotri", "Hussainabad", "Autobhan", "Heerabad", "Hyderabad", "Karachi", "Lahore", "Islamabad", "Worldwide"
+              ],
               "sameAs": [
                 "https://www.linkedin.com/in/waqas-mehmood-657b7a8b/",
                 "https://x.com/waqasmehmood89",
@@ -4519,7 +4530,7 @@ export default function App() {
                         <span>Waqas Mehmood (Google Maps Profile)</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
-                      <span className="text-[11px] text-slate-400 block mt-0.5">Hyderabad & Karachi, Sindh, Pakistan</span>
+                      <span className="text-[11px] text-slate-400 block mt-0.5">Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad, 71000</span>
                     </div>
                   </div>
                 </div>
@@ -4763,10 +4774,10 @@ export default function App() {
                   <span>Verified Google Business Profile • Google Maps 3-Pack</span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  Visit Our Office or Connect Locally in Hyderabad, Sindh
+                  Visit Our Office or Connect Locally in Latifabad, Hyderabad
                 </h2>
                 <p className="text-xs text-slate-400">
-                  Centrally located on Auto Bhan Road, Hyderabad. Providing in-person consultation across Sindh and remote organic growth services worldwide.
+                  Located at Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad. Providing in-person consultation across Sindh and 24/7 remote organic growth services worldwide.
                 </p>
               </div>
               
@@ -4795,8 +4806,8 @@ export default function App() {
             {/* Live Interactive Map Iframe */}
             <div className="rounded-2xl overflow-hidden border border-slate-700/80 shadow-inner bg-slate-950 relative w-full h-[360px] sm:h-[420px]">
               <iframe
-                title="Waqas Mehmood - Google Business Profile Map Location Auto Bhan Road Hyderabad"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14475.76867623548!2d68.3582498!3d25.35178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c70f0ec208573%3A0x633190ab7a2290f!2sAuto%20Bhan%20Rd%2C%20Hyderabad%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1710000000000!5m2!1sen!2s"
+                title="Waqas Mehmood - Google Business Profile Map Location Bismillah City Unit 10 Latifabad Hyderabad"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14476.32115682823!2d68.3444853!3d25.3508939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c70624d7764df%3A0xc47e33527dfa6003!2sBismillah%20City%2C%20Unit%2010%20Latifabad%2C%20Hyderabad%2C%20Sindh!5e0!3m2!1sen!2s!4v1710000000000!5m2!1sen!2s"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -4810,26 +4821,29 @@ export default function App() {
             {/* NAP & Local Service Details Strip */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs pt-1">
               <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Physical Address</span>
-                <strong className="text-white block font-semibold">Auto Bhan Road</strong>
-                <span className="text-slate-400 block text-[11px]">Hyderabad, Sindh 71000, Pakistan</span>
+                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Physical Address (GMB Verified)</span>
+                <strong className="text-white block font-semibold">Flat 53 3rd Floor, unit 10 5th Street</strong>
+                <span className="text-slate-400 block text-[11px]">Bismillah City Latifabad, Hyderabad, 71000</span>
               </div>
               
               <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Service Areas</span>
-                <strong className="text-white block font-semibold">Hyderabad &amp; Karachi</strong>
-                <span className="text-slate-400 block text-[11px]">Latifabad, Qasimabad, Jamshoro &amp; Worldwide</span>
+                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Service Areas Covered</span>
+                <strong className="text-white block font-semibold">Latifabad, Qasimabad, Autobhan</strong>
+                <span className="text-slate-400 block text-[11px]">Jamshoro, Saddar, Kotri, Hussainabad, Heerabad, Big Cities &amp; Worldwide</span>
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Consultation Hours</span>
-                <strong className="text-white block font-semibold">Mon – Sat: 09:00 AM – 08:00 PM</strong>
-                <span className="text-slate-400 block text-[11px]">PKT (UTC+5) • Fast WhatsApp Response</span>
+                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Business Hours</span>
+                <strong className="text-emerald-400 block font-semibold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Open 24 hours
+                </strong>
+                <span className="text-slate-400 block text-[11px]">24/7 Phone &amp; WhatsApp Support</span>
               </div>
 
               <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Direct Verification</span>
-                <strong className="text-white block font-semibold">+92 303 3111126</strong>
+                <span className="text-[10px] uppercase font-mono text-slate-500 font-bold block">Direct Phone</span>
+                <strong className="text-white block font-semibold">0303 3111126</strong>
                 <span className="text-cyan-400 block text-[11px] font-mono">waqasmehmoodhyd@gmail.com</span>
               </div>
             </div>
