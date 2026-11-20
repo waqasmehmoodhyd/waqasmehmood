@@ -773,6 +773,66 @@ const contactHtml = `
       </ul>
     </div>
   </div>
+
+  <!-- Official Google Business Profile Live Map Embed Section -->
+  <div class="mt-10 p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-2">
+          <span>✓ Verified Google Business Profile &bull; Google Maps 3-Pack</span>
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Visit Our Office or Connect Locally in Hyderabad, Sindh</h2>
+        <p class="text-xs text-slate-400 mt-1">Centrally located on Auto Bhan Road, Hyderabad. Serving clients across Sindh and worldwide.</p>
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="https://share.google/rwnMRpUr6G9OqHnhy" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-teal-500/20 transition-all whitespace-nowrap">
+          <span>Get Directions on Google Maps ↗</span>
+        </a>
+        <a href="https://share.google/rwnMRpUr6G9OqHnhy" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-semibold text-xs border border-slate-700 flex items-center gap-1 transition-all whitespace-nowrap">
+          <span>★ Write a Review</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Interactive Map Iframe -->
+    <div class="rounded-2xl overflow-hidden border border-slate-700/80 shadow-inner bg-slate-950 relative w-full h-[360px] sm:h-[420px]">
+      <iframe
+        title="Waqas Mehmood - Google Business Profile Map Location Auto Bhan Road Hyderabad"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14475.76867623548!2d68.3582498!3d25.35178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c70f0ec208573%3A0x633190ab7a2290f!2sAuto%20Bhan%20Rd%2C%20Hyderabad%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1710000000000!5m2!1sen!2s"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="w-full h-full grayscale-[10%] contrast-[105%] hover:grayscale-0 transition-all duration-300"
+      ></iframe>
+    </div>
+
+    <!-- NAP Details Strip -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs pt-1">
+      <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+        <span class="text-[10px] uppercase font-mono text-slate-500 font-bold block">Physical Address</span>
+        <strong class="text-white block font-semibold">Auto Bhan Road</strong>
+        <span class="text-slate-400 block text-[11px]">Hyderabad, Sindh 71000, Pakistan</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+        <span class="text-[10px] uppercase font-mono text-slate-500 font-bold block">Service Areas</span>
+        <strong class="text-white block font-semibold">Hyderabad &amp; Karachi</strong>
+        <span class="text-slate-400 block text-[11px]">Latifabad, Qasimabad, Jamshoro &amp; Global</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+        <span class="text-[10px] uppercase font-mono text-slate-500 font-bold block">Working Hours</span>
+        <strong class="text-white block font-semibold">Mon – Sat: 09:00 AM – 08:00 PM</strong>
+        <span class="text-slate-400 block text-[11px]">PKT (UTC+5) &bull; 24/7 WhatsApp Response</span>
+      </div>
+      <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+        <span class="text-[10px] uppercase font-mono text-slate-500 font-bold block">Direct Contact</span>
+        <strong class="text-white block font-semibold">+92 303 3111126</strong>
+        <span class="text-cyan-400 block text-[11px] font-mono">waqasmehmoodhyd@gmail.com</span>
+      </div>
+    </div>
+  </div>
 </section>
 `;
 
