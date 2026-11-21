@@ -2464,14 +2464,29 @@ export default function App() {
 
                   {/* Main Headline */}
                   <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
-                    Best SEO Expert & Full-Funnel <br className="hidden sm:inline" />
-                    <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">SEO Services</span>
+                    SEO &amp; Internet Marketing Expert in <br className="hidden sm:inline" />
+                    <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">Hyderabad, Sindh</span>
                   </h1>
 
                   {/* Subtitle / Value Prop */}
                   <p className="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
-                    Assalam-o-Alaikum! I'm <strong className="text-slate-900 font-bold">Waqas Mehmood</strong>, an established <strong className="seo-focus-keyword">Best SEO Expert</strong> and senior <strong className="seo-focus-keyword">SEO Specialist</strong>. I provide end-to-end <strong className="seo-focus-keyword">SEO Services</strong> and dedicated <strong className="seo-focus-keyword">SEO Management</strong> for high-growth brands — combining deep technical SEO architectures, <strong className="seo-focus-keyword">Local SEO</strong>, and high-ROAS Google Ads to dominate competitive search results.
+                    Waqas Mehmood is a premier internet marketing and SEO specialist based in Latifabad, Hyderabad, Sindh. Providing high-performance <strong className="seo-focus-keyword">SEO Services</strong>, dedicated <strong className="seo-focus-keyword">Local SEO</strong> Google Maps 3-Pack domination, technical audits, and high-ROAS Google Ads (PPC) for businesses in Hyderabad, Karachi, and nationwide.
                   </p>
+
+                  {/* Verified Google Profile Badge */}
+                  <div className="pt-1">
+                    <a
+                      href="https://maps.google.com/?cid=11016835510682739502"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 text-xs font-semibold hover:bg-emerald-100 transition-all shadow-sm"
+                      title="Google Business Profile Verified Listing (CID: 11016835510682739502)"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span>★ 5.0 Google Verified Profile • Latifabad, Hyderabad</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    </a>
+                  </div>
 
                   {/* Tangible In-House Achievements & Extension Promotion (Authentic & Verified) */}
                   <div className="flex flex-wrap items-center gap-4 pt-1 max-w-2xl">
@@ -4423,11 +4438,11 @@ export default function App() {
               "@context": "https://schema.org",
               "@type": ["LocalBusiness", "ProfessionalService"],
               "@id": "https://waqasmehmood.com/#localbusiness",
-              "name": "Waqas Mehmood - SEO Expert & Growth Consulting",
+              "name": "Waqas Mehmood - SEO & Internet Marketing Expert",
               "url": "https://waqasmehmood.com/contact",
               "telephone": "+923033111126",
               "image": "https://waqasmehmood.com/favicon.svg",
-              "hasMap": "https://share.google/rwnMRpUr6G9OqHnhy",
+              "hasMap": "https://maps.google.com/?cid=11016835510682739502",
               "priceRange": "$$",
               "address": {
                 "@type": "PostalAddress",
@@ -4439,8 +4454,8 @@ export default function App() {
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": 25.3509,
-                "longitude": 68.3445
+                "latitude": 25.357243,
+                "longitude": 68.341927
               },
               "openingHoursSpecification": [
                 {
@@ -4522,12 +4537,12 @@ export default function App() {
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-mono block">Google Business Profile / Maps</span>
                       <a 
-                        href="https://share.google/rwnMRpUr6G9OqHnhy" 
+                        href="https://maps.google.com/?cid=11016835510682739502" 
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors flex items-center gap-1.5"
                       >
-                        <span>Waqas Mehmood (Google Maps Profile)</span>
+                        <span>Waqas Mehmood (Google Maps Verified Profile)</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                       <span className="text-[11px] text-slate-400 block mt-0.5">Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad, 71000</span>
@@ -7271,11 +7286,11 @@ export default function App() {
                     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                   </a>
                   <a 
-                    href="https://share.google/rwnMRpUr6G9OqHnhy" 
+                    href="https://maps.google.com/?cid=11016835510682739502" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-400 text-slate-400 hover:text-amber-400 flex items-center justify-center transition-all hover:scale-105"
-                    title="Google Business Profile (GMB) - Waqas Mehmood"
+                    title="Google Business Profile Verified Listing (CID: 11016835510682739502)"
                   >
                     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
                   </a>
@@ -7294,6 +7309,24 @@ export default function App() {
                     title="Direct Email - waqasmehmoodhyd@gmail.com"
                   >
                     <Mail className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* NAP Text block for local AEO & citations */}
+              <div className="pt-2 text-[11px] text-slate-400 space-y-1">
+                <div><strong>Location:</strong> Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad, Sindh 71000</div>
+                <div><strong>Direct Phone:</strong> <a href="tel:+923033111126" className="text-white hover:text-cyan-400 font-semibold">0303 3111126</a> (<a href="https://wa.me/923033111126" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline">WhatsApp</a>)</div>
+                <div><strong>Hours:</strong> <span className="text-emerald-400 font-semibold">Open 24 hours (Monday to Sunday)</span></div>
+                <div className="pt-1">
+                  <a 
+                    href="https://maps.google.com/?cid=11016835510682739502" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-semibold underline"
+                  >
+                    <span>★ Google Verified Listing (CID: 11016835510682739502)</span>
+                    <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
               </div>

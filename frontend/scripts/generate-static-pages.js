@@ -62,18 +62,27 @@ const renderFooter = () => `
           <span class="block text-[10px] text-teal-700 font-mono tracking-wider uppercase font-bold">Best SEO Expert & Senior Specialist</span>
         </div>
       </div>
-      <p class="leading-relaxed mb-4 text-slate-600">Senior SEO Specialist, Growth Engineer & Full-Stack Developer providing high-impact SEO management, technical audits, and 32 free in-house digital marketing tools.</p>
+      <p class="leading-relaxed mb-3 text-slate-600">Senior SEO Specialist, Growth Engineer & Full-Stack Developer providing high-impact SEO management, technical audits, and 32 free in-house digital marketing tools.</p>
       
+      <div class="mb-3 text-xs text-slate-600 space-y-1">
+        <div><strong>Location:</strong> Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad, Sindh 71000</div>
+        <div><strong>Direct Phone:</strong> <a href="tel:+923033111126" class="text-teal-700 font-bold hover:underline">0303 3111126</a> (<a href="https://wa.me/923033111126" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline">WhatsApp: +92 303 3111126</a>)</div>
+        <div><strong>Hours:</strong> <span class="text-emerald-700 font-semibold">Open 24 hours (Monday to Sunday)</span></div>
+      </div>
+
       <div class="mb-4">
-        <span class="text-[11px] font-mono uppercase tracking-wider block mb-2 font-bold text-teal-700">Connect & Follow:</span>
+        <span class="text-[11px] font-mono uppercase tracking-wider block mb-2 font-bold text-teal-700">Verified Profiles:</span>
         <div class="flex items-center gap-3">
+          <a href="https://maps.google.com/?cid=11016835510682739502" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 font-bold text-teal-800 transition-colors flex items-center gap-1" title="Official Google Business Profile (CID: 11016835510682739502)">
+            <span>Google Maps Profile</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <span>•</span>
           <a href="https://www.linkedin.com/in/waqas-mehmood-657b7a8b/" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors" title="LinkedIn">LinkedIn</a>
           <span>•</span>
           <a href="https://wa.me/923033111126" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors" title="WhatsApp">WhatsApp</a>
           <span>•</span>
           <a href="https://x.com/waqasmehmood89" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors" title="X (Twitter)">X</a>
-          <span>•</span>
-          <a href="https://share.google/rwnMRpUr6G9OqHnhy" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors" title="Google Business Profile (GMB)">Google Profile</a>
           <span>•</span>
           <a href="https://www.facebook.com/waqas.duacomm" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors" title="Facebook">Facebook</a>
         </div>
@@ -262,19 +271,33 @@ const homeHtml = `
     <div class="lg:col-span-7 space-y-6 text-left">
       <div class="inline-flex items-center gap-2 text-teal-700 font-semibold text-xs sm:text-sm tracking-wide">
         <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-        <span>Best SEO Expert & Senior Specialist</span>
+        <span>SEO &amp; Internet Marketing Specialist</span>
         <span class="text-teal-500/60">•</span>
-        <span>Full-Funnel Growth Engineer</span>
+        <span>Hyderabad, Sindh</span>
       </div>
 
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
-        Best SEO Expert & Full-Funnel <br class="hidden sm:inline" />
-        <span class="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">SEO Services</span>
+        SEO &amp; Internet Marketing Expert in <br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">Hyderabad, Sindh</span>
       </h1>
 
       <p class="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
-        Assalam-o-Alaikum! I'm <strong class="text-slate-900 font-bold">Waqas Mehmood</strong>, an established <strong class="seo-focus-keyword">Best SEO Expert</strong> and senior <strong class="seo-focus-keyword">SEO Specialist</strong>. I provide end-to-end <strong class="seo-focus-keyword">SEO Services</strong> and dedicated <strong class="seo-focus-keyword">SEO Management</strong> for high-growth brands — combining deep technical SEO architectures, <strong class="seo-focus-keyword">Local SEO</strong>, and high-ROAS Google Ads to dominate competitive search results.
+        Waqas Mehmood is a premier internet marketing and SEO specialist based in Latifabad, Hyderabad, Sindh. Providing end-to-end <strong class="seo-focus-keyword">SEO Services</strong>, dedicated <strong class="seo-focus-keyword">Local SEO</strong> Google Maps 3-Pack domination, technical audits, and high-ROAS Google Ads (PPC) for businesses in Hyderabad, Karachi, and nationwide.
       </p>
+
+      <div class="pt-1">
+        <a 
+          href="https://maps.google.com/?cid=11016835510682739502" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold hover:bg-emerald-100 transition-all shadow-sm"
+          title="Google Business Profile Verified Listing (CID: 11016835510682739502)"
+        >
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>★ 5.0 Google Verified Profile • Latifabad, Hyderabad</span>
+          <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+        </a>
+      </div>
 
       <!-- Tangible In-House Achievements & Extension Promotion (Authentic & Verified) -->
       <div class="flex flex-wrap items-center gap-4 pt-1 max-w-2xl">
@@ -621,8 +644,8 @@ const homeHtml = `
 
 writeRouteFile('/', generatePageHtml({
   path: '/',
-  title: 'Best SEO Expert & SEO Specialist in 2026 | Waqas Mehmood',
-  description: "Hire Waqas Mehmood, Pakistan's top SEO expert & specialist providing proven enterprise SEO services, technical audits, and 32 free tools. Get a free proposal today!",
+  title: 'Waqas Mehmood - SEO & Internet Marketing Expert in Hyderabad',
+  description: 'Waqas Mehmood is a senior SEO specialist and internet marketing consultant based in Latifabad, Hyderabad. Dominating Google Maps 3-Pack, audits, and high-ROAS PPC.',
   contentHtml: homeHtml
 }));
 generatedRoutes.push('/');
@@ -1498,15 +1521,147 @@ for (const [slug, city] of Object.entries(CITIES_DATA)) {
   }));
   generatedRoutes.push(cityRoute);
 
-  // If hyderabad, also generate /seo-expert-in-hyderabad with its own unique title & description
+  // If hyderabad, also generate /seo-expert-in-hyderabad with its own unique title, H1 & deep playbook content
   if (slug === 'hyderabad') {
+    const hyderabadExpertHtml = `
+<nav aria-label="Breadcrumb" class="mb-6 text-xs text-slate-400">
+  <ol class="flex items-center gap-2">
+    <li><a href="/" class="hover:text-cyan-400">Home</a></li>
+    <li>/</li>
+    <li><a href="/local-seo" class="hover:text-cyan-400">Local SEO</a></li>
+    <li>/</li>
+    <li class="text-cyan-400 font-semibold">SEO Expert in Hyderabad</li>
+  </ol>
+</nav>
+
+<article class="mb-16 space-y-10">
+  <div>
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold mb-4">
+      <span>★ 5.0 Rated Local SEO Specialist • Bismillah City Latifabad, Hyderabad</span>
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4">
+      Best SEO Expert in Hyderabad, Sindh (2026 Framework)
+    </h1>
+    <p class="text-base text-slate-300 max-w-3xl leading-relaxed">
+      Assalam-o-Alaikum! I'm <strong>Waqas Mehmood</strong>, Senior SEO Specialist and Growth Engineer based at Flat 53 3rd Floor, unit 10 5th Street, Bismillah City Latifabad, Hyderabad. I help local clinics, law firms, e-commerce retailers, and service providers across Latifabad, Qasimabad, Autobhan, and interior Sindh achieve sustainable #1 rankings in Google Search and dominate the coveted Google Maps 3-Pack.
+    </p>
+  </div>
+
+  <!-- Verified Google Profile Callout -->
+  <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm mb-1">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Google Business Profile Verified (CID: 11016835510682739502)</span>
+      </div>
+      <p class="text-xs text-slate-400">
+        Centrally operating in Latifabad Unit 10. Direct physical verification with 100% NAP consistency.
+      </p>
+    </div>
+    <a 
+      href="https://maps.google.com/?cid=11016835510682739502" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="px-5 py-2.5 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs transition-all flex items-center gap-1.5"
+    >
+      <span>Open in Google Maps &rarr;</span>
+    </a>
+  </div>
+
+  <!-- 4-Pillar Local Domination Framework -->
+  <section class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-6">
+    <h2 class="text-2xl font-bold text-white">The 4-Pillar Hyderabad Local Search Framework</h2>
+    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      Most agencies in Sindh apply generic overseas templates that fail in Pakistani local search. Our proprietary 4-pillar methodology is built specifically for local search patterns:
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+        <strong class="text-cyan-400 block font-bold text-sm">Pillar 1: Hyper-Local Proximity &amp; GBP Category Optimization</strong>
+        <p class="text-slate-400 leading-relaxed">Primary category alignment (Internet Marketing Service), exact geo-coordinates, and precise service area tagging covering Latifabad, Qasimabad, Autobhan, Saddar, Jamshoro, and Kotri.</p>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+        <strong class="text-emerald-400 block font-bold text-sm">Pillar 2: 100% NAP Consistency &amp; Pakistani Citations</strong>
+        <p class="text-slate-400 leading-relaxed">Systematic auditing across Pakistani directories (PakPages, BusinessList, OLX, social channels) to ensure identical phone (0303 3111126) and address records.</p>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+        <strong class="text-amber-400 block font-bold text-sm">Pillar 3: LocalBusiness JSON-LD Schema &amp; Landmark Mentions</strong>
+        <p class="text-slate-400 leading-relaxed">Injecting semantic schema with exact latitude/longitude coordinates and incorporating local landmarks into service content to feed Google NLP algorithms.</p>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+        <strong class="text-purple-400 block font-bold text-sm">Pillar 4: Geo-Targeted Review Acquisition &amp; WhatsApp Velocity</strong>
+        <p class="text-slate-400 leading-relaxed">Systematizing 5-star customer reviews that naturally reference specific services and neighborhood names to expand ranking radius across the entire 5km grid.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Map & NAP Card -->
+  <section class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-6">
+    <h2 class="text-2xl font-bold text-white">Visit Our Office or Connect in Latifabad</h2>
+    <div class="rounded-2xl overflow-hidden border border-slate-800 w-full h-[360px]">
+      <iframe
+        title="Waqas Mehmood - Google Business Profile Map Location Latifabad Hyderabad"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14476.32115682823!2d68.3444853!3d25.3508939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x394c70624d7764df%3A0xc47e33527dfa6003!2sBismillah%20City%2C%20Unit%2010%20Latifabad%2C%20Hyderabad%2C%20Sindh!5e0!3m2!1sen!2s!4v1710000000000!5m2!1sen!2s"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+      ></iframe>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+        <div class="text-slate-500 font-mono text-[10px] uppercase font-bold mb-1">Physical Location</div>
+        <div class="text-white font-semibold">Flat 53 3rd Floor, unit 10 5th Street</div>
+        <div class="text-slate-400">Bismillah City Latifabad, Hyderabad, 71000</div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+        <div class="text-slate-500 font-mono text-[10px] uppercase font-bold mb-1">Direct Communication</div>
+        <div class="text-white font-semibold"><a href="tel:+923033111126" class="hover:text-cyan-400">0303 3111126</a></div>
+        <div class="text-slate-400">WhatsApp: <a href="https://wa.me/923033111126" target="_blank" class="text-emerald-400 hover:underline">+92 303 3111126</a></div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+        <div class="text-slate-500 font-mono text-[10px] uppercase font-bold mb-1">Working Hours</div>
+        <div class="text-emerald-400 font-semibold">Open 24 hours</div>
+        <div class="text-slate-400">Monday to Sunday (24/7 Response)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hyderabad FAQs -->
+  <section class="p-8 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-4">
+    <h2 class="text-2xl font-bold text-white mb-2">Frequently Asked Questions: Hyderabad SEO</h2>
+    <div class="space-y-4 text-xs">
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+        <strong class="text-white block text-sm">How long does it take for a local Hyderabad business to reach the Google Maps 3-Pack?</strong>
+        <p class="text-slate-400 leading-relaxed">For low-to-medium competition local queries in Latifabad and Qasimabad, noticeable ranking improvements occur within 30 to 45 days. Highly competitive medical clinics, jewelry stores, or real estate firms typically reach top positions in 60 to 90 days.</p>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+        <strong class="text-white block text-sm">Can Waqas Mehmood optimize both our website and Google Business Profile?</strong>
+        <p class="text-slate-400 leading-relaxed">Yes. Our framework integrates on-page LocalBusiness JSON-LD schema, local landing pages, Core Web Vitals speed optimization, and GBP citation alignment into a single cohesive strategy.</p>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+        <strong class="text-white block text-sm">Do you offer in-person consultations in Hyderabad?</strong>
+        <p class="text-slate-400 leading-relaxed">Yes. In-person strategy sessions can be scheduled at our Bismillah City Latifabad office or conducted online via Google Meet or WhatsApp video call.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="p-8 rounded-3xl bg-gradient-to-r from-cyan-950/40 to-indigo-950/40 border border-cyan-800/40 flex flex-wrap items-center justify-between gap-6">
+    <div>
+      <h3 class="text-xl font-bold text-white mb-1">Ready to dominate Google Maps 3-Pack in Hyderabad?</h3>
+      <p class="text-xs text-slate-300">Request a free 15-minute Local SEO diagnostic scan with Waqas Mehmood.</p>
+    </div>
+    <a href="/contact" class="px-6 py-3 rounded-xl font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs transition-all">Claim Free Local Audit</a>
+  </div>
+</article>
+`;
     writeRouteFile('/seo-expert-in-hyderabad', generatePageHtml({
       path: '/seo-expert-in-hyderabad',
-      title: 'Best SEO Expert in Hyderabad Sindh (2026) | Waqas Mehmood',
-      description: 'Looking for the top SEO expert in Hyderabad, Sindh? Waqas Mehmood helps businesses in Latifabad and Qasimabad dominate Google Page 1. Book a free audit!',
+      title: 'Best SEO Expert in Hyderabad Sindh: Organic Growth & Maps 3-Pack | Waqas Mehmood',
+      description: 'Looking for the top SEO expert in Hyderabad, Sindh? Waqas Mehmood helps local businesses in Latifabad and Qasimabad dominate Google Maps 3-Pack. Book a free audit!',
       canonicalPath: '/seo-expert-in-hyderabad',
       schemaJson: citySchema,
-      contentHtml: cityHtml
+      contentHtml: hyderabadExpertHtml
     }));
     generatedRoutes.push('/seo-expert-in-hyderabad');
   }
