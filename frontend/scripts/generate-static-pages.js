@@ -21,7 +21,7 @@ const baseTemplate = fs.readFileSync(templatePath, 'utf8');
 // Global navigation header for crawlable pre-rendered HTML (Crisp Mint & Ocean Teal)
 const renderHeader = (currentPath) => `
 <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white font-bold rounded-lg shadow-lg">Skip to main content</a>
-<header class="w-full border-b border-teal-500/20 bg-white/95 py-4 px-6 sticky top-0 z-50 backdrop-blur-xl">
+<header class="w-full border-b border-teal-500/20 bg-white/95 py-3.5 sm:py-4 px-4 sm:px-6 sticky top-0 z-50 backdrop-blur-xl">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
     <a href="/" class="flex items-center gap-2.5 text-slate-900 font-bold text-base hover:text-teal-600 transition-colors">
       <img src="/logo-mark.png" alt="Waqas Mehmood Logo" class="w-8 h-8 sm:w-9 sm:h-9 object-contain shrink-0" />
@@ -52,7 +52,7 @@ const renderHeader = (currentPath) => `
 
 // Global crawlable footer with extensive contextual internal links
 const renderFooter = () => `
-<footer class="w-full border-t border-slate-200 bg-[#f8fafc] py-12 px-6 text-slate-600 text-xs">
+<footer class="w-full border-t border-slate-200 bg-[#f8fafc] py-12 px-4 sm:px-6 text-slate-600 text-xs">
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
     <div>
       <div class="flex items-center gap-3 text-slate-900 font-bold text-base mb-3">
@@ -209,9 +209,9 @@ function generatePageHtml(options) {
 
   // 6. Inject crawlable semantic pre-rendered HTML into <div id="root">
   const rootContent = `
-<div id="root" class="pb-20 md:pb-0 bg-[#fafafa] text-slate-800">
+<div id="root" class="pb-28 md:pb-0 bg-[#fafafa] text-slate-800 overflow-x-clip w-full max-w-full">
   ${renderHeader(pagePath)}
-  <main class="w-full max-w-7xl mx-auto px-6 py-12 min-h-screen text-slate-700" id="main-content">
+  <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 min-h-screen text-slate-700" id="main-content">
     ${contentHtml}
   </main>
   ${renderFooter()}

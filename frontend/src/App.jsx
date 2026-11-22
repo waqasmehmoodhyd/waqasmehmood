@@ -136,6 +136,25 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeBlogPostSlug, setActiveBlogPostSlug] = useState('local-seo-hyderabad-sindh-google-maps');
 
+  // Smart Geo-Personalization State (Option A: Client-Side Personalized Geo-Banner)
+  const [detectedCity, setDetectedCity] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const cached = sessionStorage.getItem('wm_detected_city');
+        if (cached) return JSON.parse(cached);
+      } catch (e) {}
+    }
+    return null;
+  });
+  const [geoBannerDismissed, setGeoBannerDismissed] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        return sessionStorage.getItem('wm_geo_banner_dismissed') === 'true';
+      } catch (e) {}
+    }
+    return false;
+  });
+
   // Admin Owner Authorization State (Only Waqas can add/delete projects)
   const [isAdmin, setIsAdmin] = useState(() => {
     return localStorage.getItem('wm_admin_active') === 'true';
@@ -1387,6 +1406,84 @@ export default function App() {
     fetchPortfolio();
   }, []);
 
+  // Smart Geolocation Detection (Option A: Client-Side Personalized Geo-Banner)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // 1. Check URL query params for testing or ad links (?city=karachi or ?location=lahore)
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const queryCity = params.get('city') || params.get('location');
+      if (queryCity) {
+        const raw = queryCity.trim();
+        const norm = raw.toLowerCase();
+        let slug = 'karachi';
+        if (norm.includes('karachi')) slug = 'karachi';
+        else if (norm.includes('lahore')) slug = 'lahore';
+        else if (norm.includes('islamabad') || norm.includes('rawalpindi')) slug = 'islamabad';
+        else if (norm.includes('hyderabad') || norm.includes('latifabad')) slug = 'hyderabad';
+
+        const cityData = {
+          name: raw.charAt(0).toUpperCase() + raw.slice(1),
+          slug,
+          isManual: true
+        };
+        setDetectedCity(cityData);
+        sessionStorage.setItem('wm_detected_city', JSON.stringify(cityData));
+        return;
+      }
+    } catch (e) {}
+
+    // 2. Return early if already detected and cached in sessionStorage
+    try {
+      const cached = sessionStorage.getItem('wm_detected_city');
+      if (cached) {
+        setDetectedCity(JSON.parse(cached));
+        return;
+      }
+    } catch (e) {}
+
+    // 3. Fast non-blocking IP Lookup (1.5s timeout, silent graceful fallback)
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1500);
+
+    fetch('https://ipapi.co/json/', { signal: controller.signal })
+      .then(res => res.json())
+      .then(data => {
+        clearTimeout(timer);
+        if (data && data.city) {
+          const raw = data.city;
+          const norm = raw.toLowerCase();
+          let slug = 'karachi';
+          if (norm.includes('karachi')) slug = 'karachi';
+          else if (norm.includes('lahore')) slug = 'lahore';
+          else if (norm.includes('islamabad') || norm.includes('rawalpindi')) slug = 'islamabad';
+          else if (norm.includes('hyderabad') || norm.includes('latifabad')) slug = 'hyderabad';
+          else {
+            slug = 'karachi'; // default commercial hub
+          }
+
+          const cityData = {
+            name: raw,
+            slug,
+            country: data.country_name || 'Pakistan'
+          };
+          setDetectedCity(cityData);
+          try {
+            sessionStorage.setItem('wm_detected_city', JSON.stringify(cityData));
+          } catch (err) {}
+        }
+      })
+      .catch(() => {
+        // Silently handled: adblocker, timeout, or offline
+      });
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, []);
+
   // Admin Login handler (Password: waqas2026)
   const handleAdminLogin = async (e) => {
     e.preventDefault();
@@ -2077,7 +2174,7 @@ export default function App() {
   }, [projects, portfolioCategory]);
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-slate-900 font-sans selection:bg-teal-500 selection:text-white pb-20 md:pb-0">
+    <div className="min-h-screen bg-[#fafafa] text-slate-900 font-sans selection:bg-teal-500 selection:text-white pb-28 md:pb-0 overflow-x-clip w-full max-w-full">
       
       {/* ======================================================== */}
       {/* TOP NAVBAR (STICKY ON MOBILE & DESKTOP - CRISP MINT & OCEAN TEAL) */}
@@ -2445,31 +2542,85 @@ export default function App() {
       {activeTab === 'home' && (
         <main>
           {/* Hero Section (Bespoke Crisp Mint & Ocean Teal Mockup Layout) */}
-          <section className="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-20 px-6 lg:px-12 border-b border-teal-500/15 bg-gradient-to-b from-white via-[#f0fdfa]/40 to-[#fafafa]">
-            <div className="max-w-7xl mx-auto space-y-12">
+          <section className="relative overflow-hidden pt-8 pb-12 sm:pt-12 sm:pb-16 lg:pt-16 lg:pb-20 px-4 sm:px-6 lg:px-12 border-b border-teal-500/15 bg-gradient-to-b from-white via-[#f0fdfa]/40 to-[#fafafa] overflow-x-clip w-full">
+            <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
               
               {/* Asymmetric 2-Column Hero Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 
                 {/* Left Column: Eyebrow, Main Headline, Stat Badges & CTAs */}
-                <div className="lg:col-span-7 space-y-6 text-left">
+                <div className="lg:col-span-7 space-y-5 sm:space-y-6 text-left">
                   
+                  {/* Smart Geo-Personalization Banner (Option A - Client-Side Adaptive, Zero Cloaking) */}
+                  {!geoBannerDismissed && detectedCity && (
+                    <div className="relative group overflow-hidden rounded-2xl bg-gradient-to-r from-teal-500/10 via-emerald-500/10 to-teal-500/5 border border-teal-500/30 p-3 sm:p-3.5 shadow-xs backdrop-blur-xs transition-all hover:border-teal-500/50">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-8 h-8 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center text-teal-600 shrink-0">
+                            <MapPin className="w-4 h-4 text-teal-600 animate-bounce" />
+                          </div>
+                          <div className="text-xs text-slate-800 leading-snug">
+                            {detectedCity.slug === 'hyderabad' ? (
+                              <span>
+                                <strong className="font-extrabold text-teal-900">Based in Hyderabad? </strong>
+                                <span className="text-slate-600">Visit our Latifabad Unit 10 office or schedule an in-person audit consultation!</span>
+                              </span>
+                            ) : (
+                              <span>
+                                <strong className="font-extrabold text-teal-900">Visiting from {detectedCity.name}? </strong>
+                                <span className="text-slate-600">Explore dedicated SEO &amp; Google Ads management tailored for {detectedCity.name}.</span>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                          <Link
+                            to={detectedCity.slug === 'hyderabad' ? '/seo-expert-in-hyderabad' : `/locations/${detectedCity.slug}`}
+                            onClick={() => {
+                              if (detectedCity.slug === 'hyderabad') {
+                                goToTab('home', '/seo-expert-in-hyderabad');
+                              } else {
+                                handleSwitchCity(detectedCity.slug);
+                              }
+                            }}
+                            className="px-3 py-1.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs tracking-tight shadow-xs transition-all flex items-center gap-1 whitespace-nowrap cursor-pointer"
+                          >
+                            <span>{detectedCity.slug === 'hyderabad' ? 'Latifabad Office' : `Explore ${detectedCity.name} Hub`}</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setGeoBannerDismissed(true);
+                              try { sessionStorage.setItem('wm_geo_banner_dismissed', 'true'); } catch (e) {}
+                            }}
+                            aria-label="Dismiss location banner"
+                            className="w-7 h-7 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 flex items-center justify-center transition-colors cursor-pointer"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Eyebrow Tag */}
-                  <div className="inline-flex items-center gap-2 text-teal-700 font-semibold text-xs sm:text-sm tracking-wide">
+                  <div className="inline-flex flex-wrap items-center gap-2 text-teal-700 font-semibold text-xs sm:text-sm tracking-wide">
                     <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
                     <span>Best SEO Expert & Senior Specialist</span>
                     <span className="text-teal-500/60">•</span>
                     <span>Full-Funnel Growth Engineer</span>
                   </div>
 
-                  {/* Main Headline */}
-                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
+                  {/* Main Headline (Static Hyderabad H1 with Verified GMB Parity for Googlebot) */}
+                  <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.14] break-words">
                     SEO &amp; Internet Marketing Expert in <br className="hidden sm:inline" />
                     <span className="bg-gradient-to-r from-teal-600 via-teal-700 to-emerald-700 bg-clip-text text-transparent">Hyderabad, Sindh</span>
                   </h1>
 
                   {/* Subtitle / Value Prop */}
-                  <p className="text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
+                  <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-2xl leading-relaxed">
                     Waqas Mehmood is a premier internet marketing and SEO specialist based in Latifabad, Hyderabad, Sindh. Providing high-performance <strong className="seo-focus-keyword">SEO Services</strong>, dedicated <strong className="seo-focus-keyword">Local SEO</strong> Google Maps 3-Pack domination, technical audits, and high-ROAS Google Ads (PPC) for businesses in Hyderabad, Karachi, and nationwide.
                   </p>
 
@@ -2479,23 +2630,23 @@ export default function App() {
                       href="https://maps.google.com/?cid=11016835510682739502"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 text-xs font-semibold hover:bg-emerald-100 transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-emerald-800 dark:text-emerald-300 text-xs font-semibold hover:bg-emerald-100 transition-all shadow-xs max-w-full"
                       title="Google Business Profile Verified Listing (CID: 11016835510682739502)"
                     >
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <span>★ 5.0 Google Verified Profile • Latifabad, Hyderabad</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                      <span className="truncate">★ 5.0 Google Verified Profile • Latifabad, Hyderabad</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                     </a>
                   </div>
 
                   {/* Tangible In-House Achievements & Extension Promotion (Authentic & Verified) */}
-                  <div className="flex flex-wrap items-center gap-4 pt-1 max-w-2xl">
+                  <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pt-1 max-w-2xl">
                     {/* Card 1: Official Chrome Extension */}
                     <a
                       href="https://ext.waqasmehmood.com/detailed-seo-ai"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#eefcf8] dark:bg-slate-900/80 border border-teal-500/25 hover:border-teal-500/60 shadow-sm hover:shadow-md transition-all text-left cursor-pointer"
+                      className="group flex-1 min-w-[220px] flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#eefcf8] dark:bg-slate-900/80 border border-teal-500/25 hover:border-teal-500/60 shadow-xs hover:shadow-md transition-all text-left cursor-pointer"
                     >
                       <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700 dark:text-teal-400 shrink-0 group-hover:scale-105 transition-transform">
                         <svg className="w-5 h-5 text-teal-600 dark:text-teal-400" viewBox="0 0 24 24" fill="currentColor">
@@ -2504,7 +2655,7 @@ export default function App() {
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5 leading-tight">
-                          <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Detailed SEO &amp; AI</span>
+                          <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Detailed SEO &amp; AI</span>
                           <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">LIVE</span>
                         </div>
                         <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5">Chrome Web Store &bull; 100% Free</div>
@@ -2515,14 +2666,14 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('all-tools')}
-                      className="group flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#eefcf8] dark:bg-slate-900/80 border border-teal-500/25 hover:border-teal-500/60 shadow-sm hover:shadow-md transition-all text-left cursor-pointer"
+                      className="group flex-1 min-w-[220px] flex items-center gap-3.5 px-4 sm:px-5 py-3 rounded-2xl bg-[#eefcf8] dark:bg-slate-900/80 border border-teal-500/25 hover:border-teal-500/60 shadow-xs hover:shadow-md transition-all text-left cursor-pointer"
                     >
                       <div className="w-10 h-10 rounded-xl bg-teal-500/15 border border-teal-500/20 flex items-center justify-center text-teal-700 dark:text-teal-400 shrink-0 group-hover:scale-105 transition-transform">
                         <Terminal className="w-5 h-5 text-teal-600 dark:text-teal-400" />
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5 leading-tight">
-                          <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">32 In-House Tools</span>
+                          <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">32 In-House Tools</span>
                           <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300 border border-teal-300 dark:border-teal-700">FREE</span>
                         </div>
                         <div className="text-xs text-slate-600 dark:text-slate-400 font-medium mt-0.5">AEO, GEO &amp; Technical Suite</div>
@@ -2531,17 +2682,17 @@ export default function App() {
                   </div>
 
                   {/* Action CTA Row */}
-                  <div className="flex flex-wrap items-center gap-6 pt-3">
+                  <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-6 pt-3">
                     <button
                       onClick={() => { setHireService('Enterprise SEO Audit'); setHireModalOpen(true); }}
-                      className="px-8 py-3.5 rounded-full font-bold text-sm bg-teal-600 hover:bg-teal-500 text-white shadow-[0_4px_25px_rgba(13,148,136,0.35)] transition-all cursor-pointer flex items-center gap-2 transform hover:-translate-y-0.5"
+                      className="px-8 py-3.5 rounded-full font-bold text-sm bg-teal-600 hover:bg-teal-500 text-white shadow-[0_4px_25px_rgba(13,148,136,0.35)] transition-all cursor-pointer flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
                     >
                       <span>See Free Audit</span>
                     </button>
 
                     <a
                       href="#portfolio-section"
-                      className="text-teal-700 hover:text-teal-800 font-bold text-sm flex items-center gap-1.5 transition-colors cursor-pointer group"
+                      className="text-teal-700 hover:text-teal-800 font-bold text-sm flex items-center justify-center sm:justify-start gap-1.5 transition-colors cursor-pointer group py-2"
                     >
                       <span>Free Audit Scan</span>
                       <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -2552,12 +2703,12 @@ export default function App() {
 
                 {/* Right Column: Executive Portrait with Crisp Circular Mint Aura Glow & Frame */}
                 <div className="lg:col-span-5 relative flex items-center justify-center mt-6 lg:mt-0">
-                  <div className="absolute w-72 h-72 sm:w-88 sm:h-88 rounded-full bg-gradient-to-tr from-teal-400/25 via-emerald-300/20 to-teal-500/10 blur-2xl pointer-events-none"></div>
+                  <div className="absolute w-56 h-56 xs:w-72 xs:h-72 sm:w-88 sm:h-88 rounded-full bg-gradient-to-tr from-teal-400/25 via-emerald-300/20 to-teal-500/10 blur-2xl pointer-events-none"></div>
                   <div className="relative z-10 portrait-hero-frame">
                     <img 
                       src="/waqas-portrait.png" 
                       alt="Waqas Mehmood - Best SEO Expert & Senior SEO Specialist" 
-                      className="w-64 h-64 sm:w-80 sm:h-80 lg:w-92 lg:h-92 rounded-full object-cover shadow-sm"
+                      className="w-52 h-52 xs:w-64 xs:h-64 sm:w-80 sm:h-80 lg:w-92 lg:h-92 rounded-full object-cover shadow-sm"
                       loading="eager"
                     />
                   </div>
@@ -2625,7 +2776,7 @@ export default function App() {
                 {/* Right 5 Cols: Partner Logos + 5-Star Testimonial */}
                 <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
                   {/* Partner Logos Strip */}
-                  <div className="p-4 rounded-2xl bg-white border border-slate-200 flex items-center justify-around gap-4 shadow-sm">
+                  <div className="p-3 sm:p-4 rounded-2xl bg-white border border-slate-200 flex flex-wrap sm:flex-nowrap items-center justify-around gap-2 sm:gap-4 shadow-xs">
                     <div className="flex items-center gap-2 text-slate-700 font-bold tracking-wider text-xs">
                       <div className="w-5 h-5 rounded-full bg-teal-600 flex items-center justify-center text-white font-black text-[9px]">S</div>
                       <span>SEMRUSH</span>
@@ -2640,10 +2791,10 @@ export default function App() {
                   </div>
 
                   {/* Client Review Card */}
-                  <div className="p-5 rounded-2xl bg-[#eefcf8] border border-teal-500/25 shadow-sm space-y-3">
+                  <div className="p-4 sm:p-5 rounded-2xl bg-[#eefcf8] border border-teal-500/25 shadow-xs space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full border border-teal-300 overflow-hidden shrink-0 shadow-sm">
+                        <div className="w-10 h-10 rounded-full border border-teal-300 overflow-hidden shrink-0 shadow-xs">
                           <img src="/waqas-portrait.png" alt="Waqas Mehmood" className="w-full h-full object-cover" />
                         </div>
                         <div>
@@ -2670,13 +2821,13 @@ export default function App() {
 
               {/* Subdomain Chrome Extension Promo Banner */}
               <div className="pt-2">
-                <div className="p-4 rounded-2xl bg-white border border-teal-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-left shadow-sm">
+                <div className="p-4 rounded-2xl bg-white border border-teal-500/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 text-left shadow-xs">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-600 flex items-center justify-center font-black text-white shrink-0 text-sm shadow-md shadow-teal-500/20">
                       WM
                     </div>
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="font-bold text-sm text-slate-900">Detailed SEO & AI Engine 2026 (Chrome Extension)</span>
                         <span className="px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200 text-[10px] font-bold">Approved & 100% Free</span>
                       </div>
@@ -2689,7 +2840,7 @@ export default function App() {
                     href="https://ext.waqasmehmood.com/detailed-seo-ai" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-500 text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm cursor-pointer"
+                    className="shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold bg-teal-600 hover:bg-teal-500 text-white transition-all flex items-center justify-center gap-1.5 whitespace-nowrap shadow-xs cursor-pointer w-full sm:w-auto text-center"
                   >
                     <span>Get Extension on ext.waqasmehmood.com &rarr;</span>
                   </a>
@@ -2722,7 +2873,7 @@ export default function App() {
           {/* ======================================================== */}
           {/* 5 CORE SERVICES ON-PAGE SEO OVERVIEW SECTION             */}
           {/* ======================================================== */}
-          <section className="py-20 px-6 border-b border-slate-800/80 bg-[#060912]">
+          <section className="py-16 sm:py-20 px-4 sm:px-6 border-b border-slate-800/80 bg-[#060912]">
             <div className="max-w-6xl mx-auto space-y-12">
               
               <div className="text-center space-y-3 max-w-3xl mx-auto">
@@ -2918,7 +3069,7 @@ export default function App() {
           {/* ======================================================== */}
           {/* 4 PILLARS & 25 SEO TOOLS HUB (DIRECT LANDING LINKS)      */}
           {/* ======================================================== */}
-          <section className="py-20 px-6 border-b border-slate-800/80 bg-gradient-to-b from-[#070b15] to-[#050811]">
+          <section className="py-16 sm:py-20 px-4 sm:px-6 border-b border-slate-800/80 bg-gradient-to-b from-[#070b15] to-[#050811]">
             <div className="max-w-6xl mx-auto space-y-12">
               
               <div className="text-center space-y-3 max-w-3xl mx-auto">
@@ -3108,7 +3259,7 @@ export default function App() {
           {/* ======================================================== */}
           {/* CATEGORY-WISE PORTFOLIO SECTION (WITH ADD PROJECT)       */}
           {/* ======================================================== */}
-          <section id="portfolio-section" className="py-20 px-6 max-w-6xl mx-auto space-y-10">
+          <section id="portfolio-section" className="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto space-y-10">
             
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-slate-800">
               <div>
@@ -3295,7 +3446,7 @@ export default function App() {
           {/* ======================================================== */}
           {/* WHY WAQAS MEHMOOD? (THE FULL-STACK ADVANTAGE)             */}
           {/* ======================================================== */}
-          <section className="py-20 px-6 border-b border-slate-800/80 bg-[#060912]">
+          <section className="py-16 sm:py-20 px-4 sm:px-6 border-b border-slate-800/80 bg-[#060912]">
             <div className="max-w-6xl mx-auto space-y-12">
               
               <div className="text-center space-y-3 max-w-3xl mx-auto">
@@ -3358,7 +3509,7 @@ export default function App() {
           {/* ======================================================== */}
           {/* AEO DIRECT ANSWER SECTIONS & KNOWLEDGE CARDS             */}
           {/* ======================================================== */}
-          <section className="py-16 px-6 border-b border-slate-800/80 bg-[#060912]">
+          <section className="py-12 sm:py-16 px-4 sm:px-6 border-b border-slate-800/80 bg-[#060912]">
             <div className="max-w-6xl mx-auto space-y-12">
 
               {/* Card 1: What SEO Services */}
