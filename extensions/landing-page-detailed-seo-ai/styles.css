@@ -4,8 +4,8 @@
    ========================================================================= */
 
 :root {
-  --bg-body: #ffffff;
-  --bg-subtle: #f8fafc;
+  --bg-body: #fafafa;
+  --bg-subtle: #f0fdfa;
   --bg-card: #ffffff;
   --bg-muted: #f1f5f9;
   
@@ -14,19 +14,19 @@
   --text-muted: #64748b;
   --text-light: #94a3b8;
   
-  --primary-blue: #2563eb;
-  --primary-blue-hover: #1d4ed8;
-  --accent-cyan: #0891b2;
-  --accent-emerald: #059669;
-  --accent-indigo: #4f46e5;
+  --primary-blue: #0d9488;
+  --primary-blue-hover: #0f766e;
+  --accent-cyan: #0d9488;
+  --accent-emerald: #10b981;
+  --accent-indigo: #0f766e;
   --accent-rose: #e11d48;
-  --accent-amber: #d97706;
+  --accent-amber: #f59e0b;
 
   --border-color: #e2e8f0;
-  --border-focus: #3b82f6;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --border-focus: #0d9488;
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(13, 148, 136, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(13, 148, 136, 0.05);
   --shadow-xl: 0 20px 35px -10px rgba(15, 23, 42, 0.12);
 
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -92,7 +92,7 @@ a:hover {
 
 .section-tag {
   display: inline-block;
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(13, 148, 136, 0.08);
   color: var(--primary-blue);
   font-size: 11px;
   font-weight: 800;
@@ -149,14 +149,14 @@ a:hover {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+  background: linear-gradient(135deg, #0f766e 0%, #047857 100%);
+  box-shadow: 0 6px 18px rgba(13, 148, 136, 0.45);
   transform: translateY(-1px);
 }
 
@@ -169,8 +169,8 @@ a:hover {
 
 .btn-outline:hover {
   background: var(--bg-muted);
-  border-color: var(--text-light);
-  color: var(--text-heading);
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
 }
 
 .btn-block {
@@ -179,11 +179,11 @@ a:hover {
 
 /* ================= ANNOUNCEMENT BAR ================= */
 .announcement-bar {
-  background: linear-gradient(90deg, #eff6ff 0%, #f0fdf4 100%);
-  border-bottom: 1px solid #dbeafe;
+  background: linear-gradient(90deg, #f0fdfa 0%, #ecfdf5 100%);
+  border-bottom: 1px solid #ccfbf1;
   padding: 8px 16px;
   font-size: 13px;
-  color: #1e3a8a;
+  color: #0f766e;
   text-align: center;
 }
 
@@ -196,7 +196,7 @@ a:hover {
 }
 
 .badge-pill {
-  background: #2563eb;
+  background: #0d9488;
   color: #fff;
   font-size: 10px;
   font-weight: 800;
@@ -206,7 +206,7 @@ a:hover {
 }
 
 .announcement-link {
-  color: #2563eb;
+  color: #0d9488;
   font-weight: 700;
 }
 
@@ -238,7 +238,7 @@ a:hover {
   width: 38px;
   height: 38px;
   border-radius: 9px;
-  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #047857 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -246,7 +246,7 @@ a:hover {
   font-weight: 900;
   font-size: 15px;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 4px 10px rgba(13, 148, 136, 0.25);
 }
 
 .brand-title {
@@ -305,13 +305,13 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
+  background: #f0fdfa;
+  border: 1px solid rgba(13, 148, 136, 0.25);
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--text-heading);
+  color: #0f766e;
   margin-bottom: 22px;
 }
 
@@ -338,7 +338,7 @@ a:hover {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #047857 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -444,7 +444,7 @@ a:hover {
 }
 
 .ext-badge-active {
-  background: #2563eb;
+  background: #0d9488;
   color: #ffffff;
   font-size: 10px;
   font-weight: 800;
@@ -534,7 +534,7 @@ a:hover {
 }
 
 .chip-primary {
-  background: #0284c7;
+  background: #0f766e;
   color: #fff;
 }
 
@@ -740,7 +740,7 @@ a:hover {
   font-size: 9px;
   font-weight: 800;
 }
-.tag-h1 { background: #dbeafe; color: #1d4ed8; }
+.tag-h1 { background: rgba(13, 148, 136, 0.12); color: #0d9488; }
 .tag-h2 { background: #e0e7ff; color: #4338ca; }
 .tag-h3 { background: #f1f5f9; color: #64748b; }
 
@@ -972,20 +972,20 @@ a:hover {
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: #2563eb;
+  background: #0d9488;
   color: #fff;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 10px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 0 0 10px rgba(13, 148, 136, 0.3);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .play-btn-circle:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 0 16px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 0 0 16px rgba(13, 148, 136, 0.4);
 }
 
 .video-title-overlay {
@@ -1120,7 +1120,7 @@ a:hover {
   margin-bottom: 18px;
 }
 
-.feature-icon-box.bg-blue { background: #dbeafe; color: #1d4ed8; }
+.feature-icon-box.bg-blue { background: rgba(13, 148, 136, 0.12); color: #0d9488; }
 .feature-icon-box.bg-indigo { background: #e0e7ff; color: #4338ca; }
 .feature-icon-box.bg-cyan { background: #cffafe; color: #0891b2; }
 .feature-icon-box.bg-emerald { background: #d1fae5; color: #047857; }
@@ -1192,10 +1192,10 @@ a:hover {
 }
 
 .comparison-table th.highlight-col {
-  background: #eff6ff;
-  border-left: 2px solid #2563eb;
-  border-right: 2px solid #2563eb;
-  border-top: 4px solid #2563eb;
+  background: rgba(13, 148, 136, 0.08);
+  border-left: 2px solid #0d9488;
+  border-right: 2px solid #0d9488;
+  border-top: 4px solid #0d9488;
 }
 
 .col-head-title {
@@ -1205,7 +1205,7 @@ a:hover {
 }
 
 .col-head-badge {
-  background: #2563eb;
+  background: #0d9488;
   color: #fff;
   font-size: 9px;
   font-weight: 800;
@@ -1231,9 +1231,9 @@ a:hover {
 }
 
 .comparison-table td.highlight-col {
-  background: #f8faff !important;
-  border-left: 2px solid #2563eb;
-  border-right: 2px solid #2563eb;
+  background: rgba(13, 148, 136, 0.03) !important;
+  border-left: 2px solid #0d9488;
+  border-right: 2px solid #0d9488;
   font-weight: 600;
 }
 
@@ -1408,7 +1408,7 @@ a:hover {
 .form-input:focus, .form-textarea:focus {
   outline: none;
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
 }
 
 .star-rating-select {
@@ -1669,7 +1669,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(37, 99, 235, 0.08);
+  background: rgba(13, 148, 136, 0.08);
   color: var(--primary-blue);
   font-size: 11px;
   font-weight: 800;
@@ -1791,3 +1791,333 @@ a:hover {
   .spotlight-row.reverse .spotlight-text { order: 1; }
   .spotlight-title { font-size: 26px; }
 }
+
+/* ======================================================== */
+/* WAQAS MEHMOOD BRAND ENGINE & ON-PAGE FOCUS KEYWORDS      */
+/* Crisp Mint & Ocean Teal Harmony (Matching Main Domain)    */
+/* ======================================================== */
+
+.seo-focus-keyword {
+  font-weight: 700 !important;
+  color: #0f766e !important;
+  display: inline;
+  transition: color 0.15s ease;
+}
+
+.seo-focus-keyword:hover {
+  color: #0d9488 !important;
+}
+
+.portrait-hero-frame {
+  position: relative;
+  padding: 8px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1.5px solid rgba(13, 148, 136, 0.28);
+  box-shadow: 0 10px 30px -5px rgba(13, 148, 136, 0.2), 0 0 20px -3px rgba(13, 148, 136, 0.12);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portrait-hero-frame:hover {
+  border-color: rgba(13, 148, 136, 0.5);
+  box-shadow: 0 15px 40px -5px rgba(13, 148, 136, 0.3), 0 0 25px -2px rgba(13, 148, 136, 0.2);
+  transform: translateY(-2px);
+}
+
+.footer-logo-box {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 50%, #047857 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3) !important;
+}
+
+.author-spotlight-card {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1.5px solid rgba(13, 148, 136, 0.22);
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: 0 15px 40px -10px rgba(13, 148, 136, 0.12);
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .author-spotlight-card {
+    flex-direction: column;
+    padding: 24px;
+    text-align: center;
+  }
+}
+
+/* ===================================================
+   SMART MOBILE DEVICE BRIDGE STYLING
+   =================================================== */
+.mobile-device-bridge-box {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  margin-top: 16px;
+  text-align: left;
+}
+
+.mobile-bridge-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mobile-phone-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.mobile-badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-badge-text strong {
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.mobile-badge-text span {
+  color: #64748b;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.mobile-bridge-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-bridge-whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #25D366;
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 13px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-bridge-whatsapp:hover, .btn-bridge-whatsapp:active {
+  background: #20bd5a;
+  transform: translateY(-1px);
+}
+
+.btn-bridge-email {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-bridge-email:hover, .btn-bridge-email:active {
+  background: #1e293b;
+  transform: translateY(-1px);
+}
+
+.mobile-bridge-secondary {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.btn-copy-ext-pill {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-copy-ext-pill:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Modal Overlay & Styling */
+.mobile-email-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.mobile-email-modal.open {
+  display: flex;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.modal-dialog-box {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+  z-index: 2;
+  text-align: center;
+  animation: modalPopIn 0.25s ease-out;
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(0.92) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.modal-icon-badge {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.modal-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.form-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-email-input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 15px;
+  color: #0f172a;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-email-input:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.btn-submit-email {
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 12px;
+  background: #0d9488;
+  color: #ffffff;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-submit-email:hover {
+  background: #0f766e;
+}
+
+.email-success-message {
+  margin-top: 12px;
+  padding: 12px;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #15803d;
+  font-size: 13.5px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.modal-footer-draft {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.link-open-mail-app {
+  color: #0d9488;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+

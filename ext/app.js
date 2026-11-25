@@ -227,4 +227,116 @@ document.addEventListener('DOMContentLoaded', () => {
     div.textContent = str;
     return div.innerHTML;
   }
+
+  // =========================================================
+  // 5. SMART MOBILE DEVICE DETECTION & DESKTOP INSTALL BRIDGE
+  // =========================================================
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+  if (isMobile) {
+    const heroMobileBridge = document.getElementById('hero-mobile-bridge');
+    const heroDesktopCta = document.getElementById('hero-desktop-cta');
+    const footerMobileBridge = document.getElementById('footer-mobile-bridge');
+    const headerCta = document.getElementById('header-webstore-cta');
+
+    if (heroMobileBridge) heroMobileBridge.style.display = 'block';
+    if (footerMobileBridge) footerMobileBridge.style.display = 'block';
+    if (headerCta) {
+      headerCta.innerHTML = '📱 Send Link';
+      headerCta.href = '#hero-mobile-bridge';
+      headerCta.removeAttribute('target');
+    }
+  }
+
+  // Copy Chrome Web Store Link to Clipboard
+  function copyExtensionLink(btn) {
+    const extUrl = 'https://chromewebstore.google.com/detail/detailed-seo-ai-engine-wa/nfijchmapfphajphbbmlegmdkpbpdnbo';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(extUrl).then(() => {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<span class="copy-icon">✓</span> <span class="copy-label">Copied to Clipboard!</span>';
+        btn.style.background = '#dcfce7';
+        btn.style.color = '#15803d';
+        btn.style.borderColor = '#86efac';
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 2500);
+      }).catch(() => {
+        prompt('Copy this extension URL:', extUrl);
+      });
+    } else {
+      prompt('Copy this extension URL:', extUrl);
+    }
+  }
+
+  const btnCopyHero = document.getElementById('btn-copy-link-hero');
+  if (btnCopyHero) {
+    btnCopyHero.addEventListener('click', () => copyExtensionLink(btnCopyHero));
+  }
+
+  // Email Modal & Form Controllers
+  const emailModal = document.getElementById('mobile-email-modal');
+  const btnTriggerEmail = document.getElementById('btn-trigger-email-modal');
+  const btnTriggerEmailFooter = document.getElementById('btn-trigger-email-modal-footer');
+  const btnCloseEmailModal = document.getElementById('btn-close-email-modal');
+  const emailModalBackdrop = document.getElementById('email-modal-backdrop');
+  const formMobileEmail = document.getElementById('form-mobile-email-link');
+  const emailSuccess = document.getElementById('email-modal-success');
+
+  function openEmailModal() {
+    if (emailModal) {
+      emailModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      const input = document.getElementById('input-pc-email');
+      if (input) setTimeout(() => input.focus(), 150);
+    }
+  }
+
+  function closeEmailModal() {
+    if (emailModal) {
+      emailModal.classList.remove('open');
+      document.body.style.overflow = '';
+      if (emailSuccess) emailSuccess.style.display = 'none';
+    }
+  }
+
+  if (btnTriggerEmail) btnTriggerEmail.addEventListener('click', openEmailModal);
+  if (btnTriggerEmailFooter) btnTriggerEmailFooter.addEventListener('click', openEmailModal);
+  if (btnCloseEmailModal) btnCloseEmailModal.addEventListener('click', closeEmailModal);
+  if (emailModalBackdrop) emailModalBackdrop.addEventListener('click', closeEmailModal);
+
+  // Close modal on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && emailModal && emailModal.classList.contains('open')) {
+      closeEmailModal();
+    }
+  });
+
+  if (formMobileEmail) {
+    formMobileEmail.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('input-pc-email');
+      const email = input ? input.value.trim() : '';
+      if (!email) return;
+
+      // Save lead locally
+      try {
+        const stored = JSON.parse(localStorage.getItem('wm_extension_leads') || '[]');
+        stored.push({ email, timestamp: new Date().toISOString() });
+        localStorage.setItem('wm_extension_leads', JSON.stringify(stored));
+      } catch(err) {}
+
+      // Trigger pre-filled mailto draft so user gets the link directly into their inbox
+      const mailtoUrl = `mailto:${encodeURIComponent(email)}?subject=Detailed%20SEO%20%26%20AI%20Engine%20Chrome%20Extension%20Link&body=Hi%2C%0A%0AHere%20is%20the%20direct%20link%20to%20install%20the%20Detailed%20SEO%20%26%20AI%20Engine%20Chrome%20Extension%20on%20your%20computer%3A%0Ahttps%3A%2F%2Fchromewebstore.google.com%2Fdetail%2Fdetailed-seo-ai-engine-wa%2Fnfijchmapfphajphbbmlegmdkpbpdnbo%0A%0AEnjoy%20faster%20audits%2C%20Schema%20checks%2C%20and%20AI%20citability%20scoring!`;
+      window.location.href = mailtoUrl;
+
+      if (emailSuccess) {
+        emailSuccess.style.display = 'block';
+        if (input) input.value = '';
+      }
+    });
+  }
 });
